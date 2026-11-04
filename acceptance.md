@@ -1,0 +1,79 @@
+# Acceptance
+
+What "done" looks like, one check per line. Each id below is cited by the
+invariants in [ir.html](ir.html) that realize it; coverage is a lint, not a hope.
+
+- Coming in takes one gesture — a passkey tap or a guest click — and início opens on the reader's own card; a passkey holder is named in the strip beside sign out, and a guest is offered a passkey there. {#accept-signin-home}
+- Início shows people of the network to meet, each leading to their profile. {#accept-people}
+- A fresh yogurt already holds a living network: fifteen people who are friends, members, scrappers and fans of one another, with communities and forum threads to walk into. {#accept-demo-network}
+- A person's profile shows their picture, name, handle, where they live, relationship, about and interests, and their friends. {#accept-profile-page}
+- A profile address nobody carries says so plainly rather than drawing a blank card. {#accept-profile-unknown}
+- Início shows the network's latest scraps, newest first, each naming who wrote it and whose page it is on. {#accept-network-scraps}
+- Início lists the oldest twelve communities with their category and how many members each has. {#accept-communities-rail}
+- A fresh guest's own friends and communities panels say they are empty and where to start, never a blank box. {#accept-fresh-guest-panels}
+- A person with a picture shows it wherever they appear, at the size they are shown; a person without one wears their letter, never a broken image. {#accept-photos}
+- The door is yogurt's: the question, a line on what the place is and who is already inside, and one tap in — as a passkey or a guest. {#accept-door}
+- On another person's profile one tap asks to be their friend; the control then reads "request sent" with a way to cancel, and reads so on a fresh visit. {#accept-add-friend}
+- A request from someone shows on their profile as "wants to be your friend" with accept and decline; accepting makes you friends at once, declining removes it. {#accept-answer-request}
+- Friends see "you are friends" on each other's profile with a way to undo it, and the friends counts move on the spot. {#accept-friends-state}
+- One tap makes you a fan of a person and their fan count moves; the control then offers to stop; a person cannot be a fan of themselves. {#accept-be-fan}
+- Your own profile offers none of these controls and says it is yours. {#accept-own-page}
+- A person's scrapbook shows every scrap left on their page, newest first, each with its writer's face, name and time. {#accept-scrapbook}
+- Anyone signed in can leave a scrap on a person's page from the scrapbook, and it appears at the top at once; an empty scrap is refused and says so. {#accept-leave-scrap}
+- The writer of a scrap and the owner of the page it is on can delete it, and nobody else sees a way to. {#accept-delete-scrap}
+- A person's profile shows their newest scraps as a teaser with the count and a way to the scrapbook and to leave one. {#accept-scrap-teaser}
+- When someone accepts your request, or you accept theirs, both of you see "you are friends" and the counts move, with no reload on either side; when they decline, your control returns to "add as friend" the same way, and nothing says why. {#accept-live-accept}
+- Início lists the requests waiting for your answer, each with accept and decline; answering removes the row on the spot, a request withdrawn while you look leaves on its own, and the panel says so when there are none. {#accept-pending-home}
+- A person's full friends list is one tap from their profile's amigos panel, which shows the newest twelve and the count. {#accept-friends-screen}
+- The comunidades page lists every community under its category, with its picture and member count, in one fixed order of categories; a category with no community is not shown. {#accept-communities-browse}
+- Searching part of a community's name lists the communities whose names contain it, whatever the case, and says so when none does. {#accept-community-search}
+- Anyone signed in can create a community with a name, a category and a description, and it appears under its category at once; a blank name or an unknown category is refused and says so. {#accept-create-community}
+- A community's page shows its picture, name, category, description, owner and member count, its newest twelve members with the full count, and its forum's topics newest first with who opened each and how many replies it has; a community name anywhere leads here. {#accept-community-page}
+- A community address nobody carries says so plainly, with a way back to the directory. {#accept-community-unknown}
+- One tap joins a community and the member count moves; the control then offers to leave, in one tap, since rejoining is free; a member sees the page as a member on a fresh visit. {#accept-join-leave}
+- A member can open a topic with a title and a message, and it appears first in the forum at once; a non-member sees no form and is told to join; a blank title or message is refused and says so. {#accept-forum-topics}
+- A topic's page shows its title, who opened it and when, its community, its message, and every reply oldest first with the writer's face, name and time; a topic title anywhere leads here. {#accept-topic-page}
+- A topic address nobody carries says so plainly, with a way back to the community. {#accept-topic-unknown}
+- A member can reply with a message and it appears last at once, the count moving with it; a blank reply is refused and says so, and what was typed stays. {#accept-reply}
+- A non-member sees no reply box and is told to join; a reply forced past the box is refused and saves nothing. {#accept-reply-outsider}
+- The writer of a reply can delete it in two taps, and nobody else sees a way to. {#accept-delete-reply}
+- A person's depoimentos page shows every approved testimonial about them newest first with the writer's face, name and time, and how many there are. {#accept-testimonials-page}
+- The profile's depoimentos panel teases the newest three approved with the count in its link to the page. {#accept-testimonials-teaser}
+- A friend of the person who has none about them yet can write one; it goes to the person for approval, shows to its writer alone under "esperando aprovação", and never on the profile before approval. {#accept-write-testimonial}
+- The writer can withdraw a waiting one in two taps, and the box returns. {#accept-withdraw-testimonial}
+- A non-friend, and a friend whose one is already on the page, see no box and are told why; a blank one is refused and says so; a write forced past the box is refused and saves nothing. {#accept-write-refused}
+- On their own page the person sees what awaits their approval, arriving without a reload, and approves each with one tap; the approved one appears on the page at once for both of them and the writer's waiting row leaves. {#accept-approve-testimonial}
+- The person can discard a waiting one in two taps; it leaves both pages and nothing is published. {#accept-discard-testimonial}
+- The writer or the subject of an approved testimonial can delete it in two taps, and nobody else sees a way to. {#accept-delete-testimonial}
+- A profile shows the person's communities newest first, each a link to its page, with the count. {#accept-profile-communities}
+- Início counts the testimonials awaiting the reader's approval beside a link to their own depoimentos page, and the line is absent when none waits. {#accept-pending-count}
+- The reader reaches their own edit form from início's card and from their own profile; it holds name, photo link, who I am, relationship, city, country, birthday and the four interests, each filled with what is there; saving keeps the form filled with what was saved, and the profile and the strip show it the next time they are read. {#accept-edit-profile}
+- A photo link that is not https, or a name over sixty characters, is refused and says so beside the button; a write forced at anyone else's row is refused. {#accept-edit-refused}
+- A community's owner sees "editar comunidade" on its page, description and photo link filled from the row, and saving shows on the page the next time it is read. {#accept-edit-community}
+- Nobody but the owner sees the community's edit form, and a non-owner's hand-made update is refused. {#accept-edit-community-refused}
+- A community's member count and its members band lead to a page with every member, newest first, each a link to their profile. {#accept-members-page}
+- A members address nobody carries says so plainly, with a way back to the directory. {#accept-members-unknown}
+- The strip offers "buscar": one box finds people whose name or username contains what was typed, each a tile linking to their profile. {#accept-search-people}
+- The same search finds communities whose name contains what was typed, each a row with its member count linking to its page. {#accept-search-communities}
+- Matching ignores case; the first 24 of each list show, by name, and the hint says so. {#accept-search-case}
+- A blank search draws no results and shows the hint. {#accept-search-blank}
+- A search that matches nothing says so in each panel. {#accept-search-none}
+- A community's creator is its first member: the new page already says "você é membro" and counts one. {#accept-creator-member}
+- The opener of a topic nobody has replied to can delete it in two taps and is told the topic is gone, under the way back; one reply, their own included, and the control is gone, and a forced delete is refused, even one racing the reply. {#accept-delete-topic}
+- A count of one reads in the singular — "1 amigo", "1 membro" — and zero keeps the plural. {#accept-plural-counts}
+- After a save, the form says "salvo" under its button, where the button took focus. {#accept-saved-line}
+- At phone width a guest's strip is one line that scrolls, never two. {#accept-guest-strip-phone}
+- A person's fan count, on their profile and on início's card, leads to a page with every fan, newest first, as the friends page is. {#accept-fans-screen}
+- "ser fã" sits under every person tile — people to meet, search, a friends list, a fan list, a community's members, the members page — except the reader's own and the two panels of their own circle on início; one tap makes the reader a fan, "você é fã" shows under the tile for a breath where the button took focus, and the count moves where one is shown, a second tap is refused with a line in the tile, and the profile's control offers to stop. {#accept-fan-tile}
+- Início shows the reader's own fans, newest first, with the way to the full list. {#accept-my-fans}
+- A profile, and the reader's own card on início, show the smileys everyone sees — confiável, legal, sexy, each zero to three — with how many rated, from three raters up, or say there are too few yet; they are the rounded mean of every rater's private row, kept by the cluster. {#accept-smileys}
+- On a friend's profile the reader rates them trustworthy, cool and sexy, zero to three each, choosing all three; the form then shows their own rating to change, or to undo in one tap; the smileys move at once; only a friend's rating is accepted, it leaves with the friendship, and nobody sees who rated. {#accept-rate-friend}
+- Início shows what the reader's friends did lately — a scrap left, a testimonial written, a community joined — newest by the day it was done, twenty at most (a testimonial approved late sits by the day it was written), each naming who, what and for whom or which, with the scrap's or testimonial's first words; nothing leads past the twenty; a reader with no friends sees the empty line, and nobody sees a stranger's doing. {#accept-news}
+- "ver mais" on início's novidades leads to a page of the hundred newest, the same rows; a reader with no friends finds the empty line there too. {#accept-news-page}
+- A doing about the reader says "para você", never the reader's own name. {#accept-news-you}
+- Under a row of person tiles the "ser fã" arms sit level whether a name takes one line or two, and each is the control height. {#accept-tile-arms}
+- Every picture the demo network ships is served by yogurt itself, content-addressed, on the local stack, the docker release and the edge alike, and every one that is not a free portrait carries its author, license and source in the manifest; a picture a reader pastes is still a link. The fifteenth person has friends, scraps and a topic of her own. {#accept-faces-shipped}
+- The directory's foot leads to the pictures' credits: every community picture named with its author and license and linked to its page, the portraits' source above them. {#accept-credits}
+- On a friend's profile each smiley is a row of four levels to tap; the first rating takes all three and "avaliar", and once rated a tap on a level is the save, the smileys moving with it. {#accept-karma-rows}
+- The clauses of this ledger no walk reaches — a stranger's or a non-owner's forged write, an outsider's reply, a replied topic's delete and its race with the reply, the friend rule on testimonials and ratings, the three-rater mean and its drop on an unfriend — are decided at every integrate by a driver with several sessions against the runner's own stack, one test step a clause; the plural counts, the search cap, the saved stamp and the shape of the karma rows by screen tests over posed rows and the shells; and the guest strip at phone width, the saved word and a rating tapped through the chips by the browser journeys every release is verified with. {#accept-driver}
+- Every screen reads correctly in both the device's light and dark appearance. {#accept-dual-appearance}

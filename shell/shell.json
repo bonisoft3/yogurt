@@ -1,0 +1,2079 @@
+{
+  "access": {
+    "app_user": {
+      "scope": "public"
+    },
+    "me": {
+      "owner": "id",
+      "scope": "private"
+    },
+    "friend_request_sent": {
+      "owner": "from_id",
+      "scope": "private"
+    },
+    "friend_request": {
+      "owner": "to_id",
+      "scope": "private"
+    },
+    "friendship": {
+      "scope": "public"
+    },
+    "scrap": {
+      "scope": "public"
+    },
+    "testimonial_draft": {
+      "owner": "author_id",
+      "scope": "private"
+    },
+    "testimonial_pending": {
+      "owner": "subject_id",
+      "scope": "private"
+    },
+    "testimonial": {
+      "scope": "public"
+    },
+    "fan": {
+      "scope": "public"
+    },
+    "karma": {
+      "owner": "rater_id",
+      "scope": "private"
+    },
+    "karma_smiley": {
+      "scope": "public"
+    },
+    "feed_item": {
+      "owner": "reader_id",
+      "scope": "private"
+    },
+    "community": {
+      "scope": "public"
+    },
+    "membership": {
+      "scope": "public"
+    },
+    "topic": {
+      "scope": "public"
+    },
+    "post": {
+      "scope": "public"
+    }
+  },
+  "app": "yogurt",
+  "auth": {
+    "required": true,
+    "service": "/auth",
+    "self": {
+      "route": "profile",
+      "name": {
+        "table": "app_user",
+        "column": "display_name"
+      }
+    },
+    "promote": true,
+    "mode": "passkey"
+  },
+  "floors": {
+    "touch": 24
+  },
+  "i18n": {
+    "default": "pt-BR",
+    "locales": {
+      "pt-BR": {
+        "path": "pt-br"
+      },
+      "en": {
+        "path": "en"
+      }
+    }
+  },
+  "local": {
+    "community_search": "tab",
+    "search": "tab"
+  },
+  "read": {
+    "friendship": "lazy",
+    "scrap": "lazy",
+    "testimonial": "lazy",
+    "fan": "lazy",
+    "karma_smiley": "lazy",
+    "community": "lazy",
+    "membership": "lazy",
+    "topic": "lazy",
+    "post": "lazy"
+  },
+  "server": true,
+  "routes": [
+    {
+      "path": "/",
+      "screen": "home",
+      "nav": {
+        "key": "nav_home",
+        "label": "início"
+      },
+      "files": {
+        "html": "shell/screens/home.html",
+        "css": "shell/screens/home.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "fresh",
+        "populated",
+        "validation-error",
+        "populated-dark"
+      ]
+    },
+    {
+      "keep": 2,
+      "path": "/perfil/:handle",
+      "screen": "profile",
+      "nav": {
+        "label": "perfil"
+      },
+      "files": {
+        "html": "shell/screens/profile.html",
+        "css": "shell/screens/profile.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_profile",
+      "paths": {
+        "pt-BR": "/perfil/:handle",
+        "en": "/profile/:handle"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "requested",
+        "pending",
+        "friends",
+        "rated",
+        "own-profile",
+        "validation-error",
+        "empty",
+        "populated-dark"
+      ]
+    },
+    {
+      "path": "/recados/:handle",
+      "screen": "scrapbook",
+      "nav": {
+        "label": "recados"
+      },
+      "files": {
+        "html": "shell/screens/scrapbook.html",
+        "css": "shell/screens/scrapbook.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_scrapbook",
+      "paths": {
+        "pt-BR": "/recados/:handle",
+        "en": "/scraps/:handle"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "blank",
+        "empty",
+        "validation-error",
+        "populated-dark"
+      ]
+    },
+    {
+      "path": "/comunidades",
+      "screen": "communities",
+      "nav": {
+        "key": "nav_communities",
+        "label": "comunidades"
+      },
+      "files": {
+        "html": "shell/screens/communities.html",
+        "css": "shell/screens/communities.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_communities",
+      "paths": {
+        "pt-BR": "/comunidades",
+        "en": "/communities"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "searching",
+        "search-none",
+        "validation-error",
+        "populated-dark"
+      ]
+    },
+    {
+      "keep": 2,
+      "path": "/comunidade/:id",
+      "screen": "community",
+      "nav": {
+        "label": "comunidade"
+      },
+      "files": {
+        "html": "shell/screens/community.html",
+        "css": "shell/screens/community.css",
+        "handlers": [],
+        "adapters": [
+          "shell/handlers/editing-text.js"
+        ],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_community",
+      "paths": {
+        "pt-BR": "/comunidade/:id",
+        "en": "/community/:id"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "member",
+        "owner",
+        "validation-error",
+        "empty",
+        "populated-dark"
+      ]
+    },
+    {
+      "keep": 2,
+      "path": "/comunidade/:community/topico/:id",
+      "screen": "topic",
+      "nav": {
+        "label": "tópico"
+      },
+      "files": {
+        "html": "shell/screens/topic.html",
+        "css": "shell/screens/topic.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_community",
+      "paths": {
+        "pt-BR": "/comunidade/:community/topico/:id",
+        "en": "/community/:community/topico/:id"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "member",
+        "opener",
+        "deleting",
+        "validation-error",
+        "empty",
+        "populated-dark"
+      ]
+    },
+    {
+      "keep": 2,
+      "path": "/depoimentos/:handle",
+      "screen": "testimonials",
+      "nav": {
+        "label": "depoimentos"
+      },
+      "files": {
+        "html": "shell/screens/testimonials.html",
+        "css": "shell/screens/testimonials.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_testimonials",
+      "paths": {
+        "pt-BR": "/depoimentos/:handle",
+        "en": "/testimonials/:handle"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "friend",
+        "awaiting",
+        "own-page",
+        "validation-error",
+        "empty",
+        "populated-dark"
+      ]
+    },
+    {
+      "path": "/editar-perfil",
+      "screen": "edit",
+      "nav": {
+        "label": "editar perfil",
+        "strip": false
+      },
+      "files": {
+        "html": "shell/screens/edit.html",
+        "css": "shell/screens/edit.css",
+        "handlers": [],
+        "adapters": [
+          "shell/handlers/editing-text.js"
+        ],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_edit",
+      "paths": {
+        "pt-BR": "/editar-perfil",
+        "en": "/edit-profile"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "validation-error",
+        "populated-dark"
+      ]
+    },
+    {
+      "path": "/membros/:id",
+      "screen": "members",
+      "nav": {
+        "label": "membros"
+      },
+      "files": {
+        "html": "shell/screens/members.html",
+        "css": "shell/screens/members.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_members",
+      "paths": {
+        "pt-BR": "/membros/:id",
+        "en": "/members/:id"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "validation-error",
+        "empty",
+        "populated-dark"
+      ]
+    },
+    {
+      "path": "/buscar",
+      "screen": "search",
+      "nav": {
+        "key": "nav_search",
+        "label": "buscar"
+      },
+      "files": {
+        "html": "shell/screens/search.html",
+        "css": "shell/screens/search.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_search",
+      "paths": {
+        "pt-BR": "/buscar",
+        "en": "/search"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "searching",
+        "search-none",
+        "validation-error",
+        "populated-dark"
+      ]
+    },
+    {
+      "path": "/amigos/:handle",
+      "screen": "friends",
+      "nav": {
+        "label": "amigos"
+      },
+      "files": {
+        "html": "shell/screens/friends.html",
+        "css": "shell/screens/friends.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_friends",
+      "paths": {
+        "pt-BR": "/amigos/:handle",
+        "en": "/friends/:handle"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "validation-error",
+        "empty",
+        "populated-dark"
+      ]
+    },
+    {
+      "path": "/creditos",
+      "screen": "credits",
+      "nav": {
+        "label": "créditos",
+        "strip": false
+      },
+      "files": {
+        "html": "shell/screens/credits.html",
+        "css": "shell/screens/credits.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_credits",
+      "paths": {
+        "pt-BR": "/creditos",
+        "en": "/credits"
+      },
+      "ssr": "spa",
+      "states": [
+        "populated",
+        "populated-dark"
+      ]
+    },
+    {
+      "path": "/novidades",
+      "screen": "news",
+      "nav": {
+        "label": "novidades",
+        "strip": false
+      },
+      "files": {
+        "html": "shell/screens/news.html",
+        "css": "shell/screens/news.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_news",
+      "paths": {
+        "pt-BR": "/novidades",
+        "en": "/news"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "empty",
+        "populated-dark"
+      ]
+    },
+    {
+      "path": "/fas/:handle",
+      "screen": "fans",
+      "nav": {
+        "label": "fãs",
+        "strip": false
+      },
+      "files": {
+        "html": "shell/screens/fans.html",
+        "css": "shell/screens/fans.css",
+        "handlers": [],
+        "adapters": [],
+        "shared": [
+          "shell/shared/chrome.css",
+          "shell/shared/yogurt.css"
+        ]
+      },
+      "slug": "slug_fans",
+      "paths": {
+        "pt-BR": "/fas/:handle",
+        "en": "/fans/:handle"
+      },
+      "ssr": "spa",
+      "states": [
+        "loading",
+        "populated",
+        "validation-error",
+        "empty",
+        "populated-dark"
+      ]
+    }
+  ],
+  "tables": [
+    "app_user",
+    "community",
+    "fan",
+    "feed_item",
+    "friend_request",
+    "friend_request_sent",
+    "friendship",
+    "karma",
+    "karma_smiley",
+    "me",
+    "membership",
+    "post",
+    "scrap",
+    "testimonial",
+    "testimonial_draft",
+    "testimonial_pending",
+    "topic"
+  ],
+  "schema": {
+    "app_user": {
+      "durability": "server",
+      "fields": [
+        {
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1
+          },
+          "name": "handle",
+          "type": "string",
+          "required": true,
+          "unique": true
+        },
+        {
+          "bounds": {
+            "sizeMax": 60
+          },
+          "name": "display_name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "bounds": {
+            "sizeMax": 2048,
+            "regex": "^(https://|/pictures/[0-9a-f]{64}\\.(jpg|png|webp)$)"
+          },
+          "name": "photo_url",
+          "type": "string",
+          "required": false
+        },
+        {
+          "bounds": {
+            "sizeMax": 1000
+          },
+          "name": "about",
+          "type": "string",
+          "required": false
+        },
+        {
+          "default": "rel_unsaid",
+          "defaulted": true,
+          "enum": [
+            "rel_unsaid",
+            "rel_single",
+            "rel_dating",
+            "rel_married",
+            "rel_open",
+            "rel_complicated"
+          ],
+          "name": "relationship",
+          "type": "string",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMax": 80
+          },
+          "name": "city",
+          "type": "string",
+          "required": false
+        },
+        {
+          "bounds": {
+            "sizeMax": 60
+          },
+          "name": "country",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "birthday",
+          "type": "date",
+          "required": false
+        },
+        {
+          "bounds": {
+            "sizeMax": 300
+          },
+          "name": "passions",
+          "type": "string",
+          "required": false
+        },
+        {
+          "bounds": {
+            "sizeMax": 300
+          },
+          "name": "music",
+          "type": "string",
+          "required": false
+        },
+        {
+          "bounds": {
+            "sizeMax": 300
+          },
+          "name": "movies",
+          "type": "string",
+          "required": false
+        },
+        {
+          "bounds": {
+            "sizeMax": 300
+          },
+          "name": "books",
+          "type": "string",
+          "required": false
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        },
+        {
+          "name": "search_text",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    "me": {
+      "durability": "live",
+      "fields": [
+        {
+          "name": "id",
+          "pk": true,
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1
+          },
+          "name": "handle",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    "friend_request_sent": {
+      "durability": "live",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "from_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "to_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_friend_request_sent_pair",
+          "cols": [
+            "from_id",
+            "to_id"
+          ]
+        }
+      ]
+    },
+    "friend_request": {
+      "durability": "live",
+      "fields": [
+        {
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "from_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "to_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "default": false,
+          "defaulted": true,
+          "name": "accepted",
+          "type": "bool",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_friend_request_pair",
+          "cols": [
+            "from_id",
+            "to_id"
+          ]
+        }
+      ]
+    },
+    "friendship": {
+      "durability": "live",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "user_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "friend_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_friendship_pair",
+          "cols": [
+            "user_id",
+            "friend_id"
+          ]
+        }
+      ]
+    },
+    "scrap": {
+      "durability": "server",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "owner_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "author_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1,
+            "sizeMax": 1000
+          },
+          "name": "body",
+          "type": "string",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ]
+    },
+    "testimonial_draft": {
+      "durability": "live",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "subject_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "author_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1,
+            "sizeMax": 1500
+          },
+          "name": "body",
+          "type": "string",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_testimonial_draft_pair",
+          "cols": [
+            "author_id",
+            "subject_id"
+          ]
+        }
+      ]
+    },
+    "testimonial_pending": {
+      "durability": "live",
+      "fields": [
+        {
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "subject_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "author_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1,
+            "sizeMax": 1500
+          },
+          "name": "body",
+          "type": "string",
+          "required": true
+        },
+        {
+          "default": false,
+          "defaulted": true,
+          "name": "approved",
+          "type": "bool",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ]
+    },
+    "testimonial": {
+      "durability": "live",
+      "fields": [
+        {
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "subject_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "author_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1,
+            "sizeMax": 1500
+          },
+          "name": "body",
+          "type": "string",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_testimonial_pair",
+          "cols": [
+            "author_id",
+            "subject_id"
+          ]
+        }
+      ]
+    },
+    "fan": {
+      "durability": "server",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "fan_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "idol_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_fan_pair",
+          "cols": [
+            "fan_id",
+            "idol_id"
+          ]
+        }
+      ]
+    },
+    "karma": {
+      "durability": "server",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "rater_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "rated_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "name": "trust",
+          "type": "int32",
+          "required": true
+        },
+        {
+          "bounds": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "name": "cool",
+          "type": "int32",
+          "required": true
+        },
+        {
+          "bounds": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "name": "sexy",
+          "type": "int32",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_karma_pair",
+          "cols": [
+            "rater_id",
+            "rated_id"
+          ]
+        }
+      ]
+    },
+    "karma_smiley": {
+      "durability": "live",
+      "fields": [
+        {
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "rated_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "name": "trust",
+          "type": "int32",
+          "required": true
+        },
+        {
+          "bounds": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "name": "cool",
+          "type": "int32",
+          "required": true
+        },
+        {
+          "bounds": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "name": "sexy",
+          "type": "int32",
+          "required": true
+        },
+        {
+          "bounds": {
+            "intMin": 3
+          },
+          "name": "raters",
+          "type": "int32",
+          "required": true
+        },
+        {
+          "name": "trust_key",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "cool_key",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "sexy_key",
+          "type": "string",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "updated_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_karma_smiley_rated",
+          "cols": [
+            "rated_id"
+          ]
+        }
+      ]
+    },
+    "feed_item": {
+      "durability": "server",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "reader_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "at",
+          "type": "timestamp",
+          "required": true
+        },
+        {
+          "name": "actor_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "enum": [
+            "scrap",
+            "testimonial",
+            "membership"
+          ],
+          "name": "kind",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "kind_key",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "about_user_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": false
+        },
+        {
+          "name": "about_community_id",
+          "ref": "community",
+          "type": "uuid",
+          "required": false
+        },
+        {
+          "name": "excerpt",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "source_id",
+          "type": "uuid",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_feed_item",
+          "cols": [
+            "reader_id",
+            "kind",
+            "source_id"
+          ]
+        }
+      ]
+    },
+    "community": {
+      "durability": "server",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1,
+            "sizeMax": 80
+          },
+          "name": "name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMax": 1000
+          },
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "enum": [
+            "cat_humor",
+            "cat_music",
+            "cat_movies",
+            "cat_food",
+            "cat_tech",
+            "cat_sports",
+            "cat_travel",
+            "cat_cities",
+            "cat_school",
+            "cat_other"
+          ],
+          "name": "category",
+          "type": "string",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "owner_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMax": 2048,
+            "regex": "^(https://|/pictures/[0-9a-f]{64}\\.(jpg|png|webp)$)"
+          },
+          "name": "photo_url",
+          "type": "string",
+          "required": false
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ]
+    },
+    "membership": {
+      "durability": "server",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "community_id",
+          "ref": "community",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "user_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ],
+      "uniques": [
+        {
+          "name": "uq_membership_pair",
+          "cols": [
+            "community_id",
+            "user_id"
+          ]
+        }
+      ]
+    },
+    "search": {
+      "durability": "tab",
+      "fields": [
+        {
+          "bounds": {
+            "sizeMax": 12
+          },
+          "name": "id",
+          "pk": true,
+          "type": "string",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMax": 80
+          },
+          "name": "q",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    "community_search": {
+      "durability": "tab",
+      "fields": [
+        {
+          "bounds": {
+            "sizeMax": 12
+          },
+          "name": "id",
+          "pk": true,
+          "type": "string",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMax": 80
+          },
+          "name": "q",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    "topic": {
+      "durability": "server",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "community_id",
+          "ref": "community",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "author_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1,
+            "sizeMax": 120
+          },
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1,
+            "sizeMax": 4000
+          },
+          "name": "body",
+          "type": "string",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ]
+    },
+    "post": {
+      "durability": "server",
+      "fields": [
+        {
+          "defaulted": true,
+          "name": "id",
+          "pk": true,
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "topic_id",
+          "ref": "topic",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "author_id",
+          "ref": "app_user",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "bounds": {
+            "sizeMin": 1,
+            "sizeMax": 4000
+          },
+          "name": "body",
+          "type": "string",
+          "required": true
+        },
+        {
+          "defaulted": true,
+          "name": "created_at",
+          "type": "timestamp",
+          "required": true
+        }
+      ]
+    }
+  },
+  "types": {
+    "types": {
+      "string": {
+        "pg": "text",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "text",
+          "varchar",
+          "bpchar",
+          "tsvector"
+        ],
+        "json": "string",
+        "refuse": "\\x00",
+        "order": "text",
+        "beyond": [
+          "scalar-values"
+        ]
+      },
+      "bool": {
+        "pg": "boolean",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "bool",
+          "boolean"
+        ],
+        "json": "boolean",
+        "order": "boolean",
+        "beyond": []
+      },
+      "int32": {
+        "pg": "integer",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "int2",
+          "int4",
+          "integer",
+          "smallint"
+        ],
+        "json": "number",
+        "min": -2147483648,
+        "max": 2147483647,
+        "order": "number",
+        "beyond": []
+      },
+      "int64": {
+        "pg": "bigint",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_int64",
+        "base": [
+          "int8",
+          "bigint"
+        ],
+        "json": "string",
+        "pattern": "^(0|-?[1-9][0-9]*)$",
+        "order": "integer",
+        "beyond": [
+          "int64-range"
+        ]
+      },
+      "double": {
+        "pg": "double precision",
+        "column": "checked",
+        "subset": true,
+        "base": [
+          "float4",
+          "float8",
+          "double precision",
+          "real"
+        ],
+        "json": "number",
+        "order": "number",
+        "beyond": []
+      },
+      "bytes": {
+        "pg": "bytea",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_bytes",
+        "base": [
+          "bytea"
+        ],
+        "json": "string",
+        "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+        "order": "none",
+        "beyond": []
+      },
+      "uuid": {
+        "pg": "uuid",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "uuid"
+        ],
+        "json": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+        "order": "text",
+        "beyond": []
+      },
+      "timestamp": {
+        "pg": "timestamptz",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_timestamp",
+        "base": [
+          "timestamptz",
+          "timestamp with time zone"
+        ],
+        "json": "string",
+        "pattern": "^(000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|[1-9][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{6}Z$",
+        "order": "text",
+        "beyond": [
+          "calendar"
+        ]
+      },
+      "duration": {
+        "pg": "interval",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_duration",
+        "base": [
+          "interval"
+        ],
+        "json": "string",
+        "pattern": "^PT(0|[1-9][0-9]*)(\\.[0-9]{0,5}[1-9])?S$",
+        "order": "duration",
+        "beyond": [
+          "duration-range"
+        ]
+      },
+      "decimal": {
+        "pg": "numeric",
+        "column": "domain",
+        "subset": false,
+        "base": [
+          "numeric",
+          "decimal"
+        ],
+        "json": "string",
+        "pattern": "^(0|-?[1-9][0-9]*|-?(0|[1-9][0-9]*)\\.[0-9]*[1-9])$",
+        "order": "decimal",
+        "beyond": [
+          "decimal-profile"
+        ]
+      },
+      "date": {
+        "pg": "date",
+        "column": "checked",
+        "subset": true,
+        "base": [
+          "date"
+        ],
+        "json": "string",
+        "pattern": "^(000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|[1-9][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+        "order": "text",
+        "beyond": [
+          "calendar"
+        ]
+      },
+      "time": {
+        "pg": "time(6)",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_time",
+        "base": [
+          "time",
+          "time without time zone"
+        ],
+        "json": "string",
+        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{6}$",
+        "order": "text",
+        "beyond": []
+      },
+      "timezone": {
+        "pg": "text",
+        "column": "checked",
+        "subset": true,
+        "base": [
+          "text"
+        ],
+        "json": "string",
+        "pattern": "^[A-Za-z0-9+_/-]+$",
+        "order": "none",
+        "beyond": [
+          "tzdb"
+        ]
+      },
+      "json": {
+        "pg": "json",
+        "column": "checked",
+        "subset": false,
+        "base": [
+          "json",
+          "jsonb"
+        ],
+        "json": "value",
+        "order": "none",
+        "beyond": [
+          "scalar-values",
+          "finite-numbers"
+        ]
+      },
+      "geojson": {
+        "pg": "json",
+        "column": "checked",
+        "subset": false,
+        "base": [
+          "json",
+          "jsonb",
+          "geometry",
+          "geography"
+        ],
+        "json": "value",
+        "order": "none",
+        "beyond": [
+          "scalar-values",
+          "finite-numbers",
+          "ring-closure"
+        ]
+      }
+    },
+    "aliases": {
+      "text": "string",
+      "int": "int32",
+      "bigint": "int64",
+      "timestamptz": "timestamp",
+      "tsvector": "string"
+    }
+  },
+  "carriers": {
+    "types": {
+      "string": {
+        "pg": "text",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "text",
+          "varchar",
+          "bpchar",
+          "tsvector"
+        ],
+        "json": "string",
+        "refuse": "\\x00",
+        "order": "text",
+        "beyond": [
+          "scalar-values"
+        ]
+      },
+      "bool": {
+        "pg": "boolean",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "bool",
+          "boolean"
+        ],
+        "json": "boolean",
+        "order": "boolean",
+        "beyond": []
+      },
+      "int32": {
+        "pg": "integer",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "int2",
+          "int4",
+          "integer",
+          "smallint"
+        ],
+        "json": "number",
+        "min": -2147483648,
+        "max": 2147483647,
+        "order": "number",
+        "beyond": []
+      },
+      "int64": {
+        "pg": "bigint",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_int64",
+        "base": [
+          "int8",
+          "bigint"
+        ],
+        "json": "string",
+        "pattern": "^(0|-?[1-9][0-9]*)$",
+        "order": "integer",
+        "beyond": [
+          "int64-range"
+        ]
+      },
+      "double": {
+        "pg": "double precision",
+        "column": "checked",
+        "subset": true,
+        "base": [
+          "float4",
+          "float8",
+          "double precision",
+          "real"
+        ],
+        "json": "number",
+        "order": "number",
+        "beyond": []
+      },
+      "bytes": {
+        "pg": "bytea",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_bytes",
+        "base": [
+          "bytea"
+        ],
+        "json": "string",
+        "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+        "order": "none",
+        "beyond": []
+      },
+      "uuid": {
+        "pg": "uuid",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "uuid"
+        ],
+        "json": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+        "order": "text",
+        "beyond": []
+      },
+      "timestamp": {
+        "pg": "timestamptz",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_timestamp",
+        "base": [
+          "timestamptz",
+          "timestamp with time zone"
+        ],
+        "json": "string",
+        "pattern": "^(000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|[1-9][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{6}Z$",
+        "order": "text",
+        "beyond": [
+          "calendar"
+        ]
+      },
+      "duration": {
+        "pg": "interval",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_duration",
+        "base": [
+          "interval"
+        ],
+        "json": "string",
+        "pattern": "^PT(0|[1-9][0-9]*)(\\.[0-9]{0,5}[1-9])?S$",
+        "order": "duration",
+        "beyond": [
+          "duration-range"
+        ]
+      },
+      "decimal": {
+        "pg": "numeric",
+        "column": "domain",
+        "subset": false,
+        "base": [
+          "numeric",
+          "decimal"
+        ],
+        "json": "string",
+        "pattern": "^(0|-?[1-9][0-9]*|-?(0|[1-9][0-9]*)\\.[0-9]*[1-9])$",
+        "order": "decimal",
+        "beyond": [
+          "decimal-profile"
+        ]
+      },
+      "date": {
+        "pg": "date",
+        "column": "checked",
+        "subset": true,
+        "base": [
+          "date"
+        ],
+        "json": "string",
+        "pattern": "^(000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|[1-9][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+        "order": "text",
+        "beyond": [
+          "calendar"
+        ]
+      },
+      "time": {
+        "pg": "time(6)",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_time",
+        "base": [
+          "time",
+          "time without time zone"
+        ],
+        "json": "string",
+        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{6}$",
+        "order": "text",
+        "beyond": []
+      },
+      "timezone": {
+        "pg": "text",
+        "column": "checked",
+        "subset": true,
+        "base": [
+          "text"
+        ],
+        "json": "string",
+        "pattern": "^[A-Za-z0-9+_/-]+$",
+        "order": "none",
+        "beyond": [
+          "tzdb"
+        ]
+      },
+      "json": {
+        "pg": "json",
+        "column": "checked",
+        "subset": false,
+        "base": [
+          "json",
+          "jsonb"
+        ],
+        "json": "value",
+        "order": "none",
+        "beyond": [
+          "scalar-values",
+          "finite-numbers"
+        ]
+      },
+      "geojson": {
+        "pg": "json",
+        "column": "checked",
+        "subset": false,
+        "base": [
+          "json",
+          "jsonb",
+          "geometry",
+          "geography"
+        ],
+        "json": "value",
+        "order": "none",
+        "beyond": [
+          "scalar-values",
+          "finite-numbers",
+          "ring-closure"
+        ]
+      }
+    },
+    "aliases": {
+      "text": "string",
+      "int": "int32",
+      "bigint": "int64",
+      "timestamptz": "timestamp",
+      "tsvector": "string"
+    }
+  },
+  "migrations": [
+    "services/database/migrations/000_extensions.sql",
+    "services/database/migrations/001_roles.sql",
+    "services/database/migrations/002_grants.sql",
+    "services/database/migrations/004_types.sql",
+    "services/database/migrations/005_create_tables.sql",
+    "services/database/migrations/006_policies.sql",
+    "services/database/migrations/007_txid.sql",
+    "services/database/migrations/008_publication.sql",
+    "services/database/migrations/011_owner_writes.sql",
+    "services/database/migrations/012_me_readonly.sql",
+    "services/database/migrations/013_me_provision.sql",
+    "services/database/migrations/014_default_privileges.sql",
+    "services/database/migrations/015_mirrors.sql",
+    "services/database/migrations/017_forum_guards.sql",
+    "services/database/migrations/020_demo_network.sql",
+    "services/database/migrations/021_testimonial_guard.sql",
+    "services/database/migrations/022_forum_ownership.sql",
+    "services/database/migrations/023_karma_smiley.sql",
+    "services/database/migrations/024_feed.sql",
+    "services/database/migrations/025_feed_inbox.sql"
+  ],
+  "pipelines": [],
+  "uniques": {
+    "friend_request_sent": [
+      [
+        "from_id",
+        "to_id"
+      ]
+    ],
+    "friend_request": [
+      [
+        "from_id",
+        "to_id"
+      ]
+    ],
+    "friendship": [
+      [
+        "user_id",
+        "friend_id"
+      ]
+    ],
+    "testimonial_draft": [
+      [
+        "author_id",
+        "subject_id"
+      ]
+    ],
+    "testimonial": [
+      [
+        "author_id",
+        "subject_id"
+      ]
+    ],
+    "fan": [
+      [
+        "fan_id",
+        "idol_id"
+      ]
+    ],
+    "karma": [
+      [
+        "rater_id",
+        "rated_id"
+      ]
+    ],
+    "karma_smiley": [
+      [
+        "rated_id"
+      ]
+    ],
+    "feed": [
+      [
+        "kind",
+        "source_id"
+      ]
+    ],
+    "feed_item": [
+      [
+        "reader_id",
+        "kind",
+        "source_id"
+      ]
+    ],
+    "membership": [
+      [
+        "community_id",
+        "user_id"
+      ]
+    ]
+  }
+}

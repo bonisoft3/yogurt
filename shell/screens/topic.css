@@ -1,0 +1,74 @@
+@import "./shared/yogurt.css";
+
+/* topic — ir: #topic. One column: the opening, the replies, the box at the foot. */
+[data-screen="topic"] { container-type: inline-size; }
+[data-screen="topic"] .topline { padding-bottom: var(--sp-sm); margin-bottom: var(--sp-md); }
+[data-screen="topic"] .back { color: var(--secondary); text-decoration: none; display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+[data-screen="topic"] .back:hover { color: var(--primary); }
+[data-screen="topic"] .thread { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="topic"] .opening { display: grid; gap: var(--sp-sm); }
+[data-screen="topic"] .opening > * { margin: 0; }
+[data-screen="topic"] .topic-title { color: var(--primary); overflow-wrap: anywhere; }
+[data-screen="topic"] .opened { color: var(--secondary); display: flex; flex-wrap: wrap; align-items: center; gap: var(--size-1) var(--sp-sm); }
+[data-screen="topic"] .community-link { min-height: var(--control-h-sm); display: inline-flex; align-items: center; }
+[data-screen="topic"] .opening-body { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+[data-screen="topic"] .mine, [data-screen="topic"] .relation, [data-screen="topic"] .member-probe { display: contents; }
+[data-screen="topic"] .tally i { font-style: normal; }
+[data-screen="topic"] .tally i:not(:first-of-type) { display: none; }
+[data-screen="topic"] .tally .empty { display: inline; color: var(--primary); }
+[data-screen="topic"] .band .count b { font-weight: inherit; }
+
+/* apagar… is drawn for the writer alone: the stamped child of the Me probe. */
+[data-screen="topic"] .may { display: none; }
+[data-screen="topic"] .row.reply .erase { display: none; }
+[data-screen="topic"] .row.reply:has(.may > i) .erase { display: block; }
+[data-screen="topic"] .erase summary { list-style: none; cursor: pointer; color: var(--danger); text-decoration: underline; }
+[data-screen="topic"] .erase summary::-webkit-details-marker { display: none; }
+[data-screen="topic"] .erase[open] summary { display: none; }
+[data-screen="topic"] .erase form { display: flex; align-items: center; gap: var(--sp-sm); margin: 0; }
+[data-screen="topic"] .erase button { padding-block: var(--size-1); min-height: var(--control-h-sm); }
+[data-screen="topic"] .row.reply .scrap-foot { margin: 0; }
+[data-screen="topic"] .row.reply .erase { margin-top: var(--size-1); }
+[data-screen="topic"] .erase .invalid, [data-screen="topic"] .erase .store-error { margin: 0; }
+/* The armed arm as the storybook draws it: a closed details cannot show its form. */
+[data-screen="topic"] .deleting-standin { display: none; color: var(--surface); background: var(--danger); border-radius: var(--r-sm); padding: var(--size-1) var(--sp-md); font-weight: 600; }
+
+/* The box at the foot, for members; the note for everyone else; neither until the probe resolves. */
+[data-screen="topic"] .reply-foot { border-top: var(--border-size-1) solid var(--border); }
+[data-screen="topic"] .thread:has(.mine > template, .member-probe > template) .reply-foot { visibility: hidden; }
+[data-screen="topic"] .reply-form { display: none; gap: var(--sp-sm); margin: 0; }
+[data-screen="topic"] .reply-form textarea { width: 100%; resize: vertical; min-height: var(--control-h-lg); }
+[data-screen="topic"] .reply-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm) var(--sp-md); }
+[data-screen="topic"] .reply-actions .invalid, [data-screen="topic"] .reply-actions .store-error { margin: 0; }
+[data-screen="topic"] .reply-actions:has(.invalid:not([hidden])) .store-error { display: none; }
+[data-screen="topic"] .members-only { margin: 0; color: var(--secondary); }
+[data-screen="topic"]:has(.member-probe > i) .reply-form { display: grid; }
+[data-screen="topic"]:has(.member-probe > i) .members-only { display: none; }
+
+/* Loading: skeletons where the title, the message and the replies will be. */
+[data-screen="topic"][data-state="loading"] .skeleton { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="topic"][data-state="loading"] .one { display: none; }
+[data-screen="topic"] .title-skel { height: var(--sp-lg); width: min(100%, calc(var(--measure-column) / 2)); }
+[data-screen="topic"] .body-skel { height: calc(var(--control-h-lg) * 2); }
+[data-screen="topic"] .list-skel { height: calc(var(--control-h-lg) * 6); }
+[data-screen="topic"] .one > .empty { background: var(--surface); border: var(--border-size-1) solid var(--border);
+  border-radius: var(--r-sm); padding: var(--sp-md); margin: 0; color: var(--secondary); max-width: var(--measure-column); }
+
+/* Storybook frames: the fixture fills every probe, so each frame names what it shows. */
+.storybook .frame [data-screen="topic"][data-state] .row.reply .erase { display: none; }
+.storybook .frame [data-screen="topic"]:is([data-state="populated"], [data-state="populated-dark"]) .reply-form { display: none; }
+.storybook .frame [data-screen="topic"]:is([data-state="populated"], [data-state="populated-dark"]) .members-only { display: block; }
+.storybook .frame [data-screen="topic"]:is([data-state="member"], [data-state="deleting"], [data-state="validation-error"]) .reply-form { display: grid; }
+.storybook .frame [data-screen="topic"]:is([data-state="member"], [data-state="deleting"], [data-state="validation-error"]) .members-only { display: none; }
+.storybook .frame [data-screen="topic"]:is([data-state="member"], [data-state="deleting"], [data-state="validation-error"]) .row.reply:last-child .erase { display: block; }
+.storybook .frame [data-screen="topic"][data-state="deleting"] .row.reply:last-child .erase { display: none; }
+.storybook .frame [data-screen="topic"][data-state="deleting"] .row.reply:last-child .deleting-standin { display: inline-block; }
+.storybook .frame [data-screen="topic"][data-state="validation-error"] .reply-form .store-error { display: block; }
+
+/* The opener's erase: drawn by the me probe on author_id, and only once the
+   count region has stamped its zero (the .empty cell), never while it loads. */
+[data-screen="topic"] .topic-foot { display: flex; align-items: center; gap: var(--sp-sm); margin-top: var(--sp-sm); }
+[data-screen="topic"] .topic-erase { display: none; }
+[data-screen="topic"] .thread:has(.opener-probe > i):has(.replies .tally > .empty) .topic-erase { display: block; }
+[data-screen="topic"] .topic-erase-standin { display: none; color: var(--surface); background: var(--danger); border-radius: var(--r-sm); padding: var(--size-1) var(--sp-md); font-weight: 600; }
+.storybook .frame [data-screen="topic"][data-state="opener"] .topic-erase { display: block; }

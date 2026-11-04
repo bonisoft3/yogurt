@@ -1,0 +1,94 @@
+<!-- topic — ir: #topic. One thread. The header is a one-row LIST region over
+     topic by the route's id; the reply box is drawn through the reader's me
+     row and the route's community, as the community page draws its form. -->
+<section class="screen" data-screen="topic">
+  <header class="topline">
+    <a class="back role-meta" data-route="community" data-param-id="{param.community}" data-text="{msg.back_community}">← comunidade</a>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel title-skel"></div>
+    <div class="skel body-skel"></div>
+    <div class="skel list-skel"></div>
+  </div>
+
+  <div class="one" data-live="topic" data-filter="id=eq.{param.id}"
+       data-select="*,author:app_user!author_id(handle,display_name,photo_url),community:community!community_id(name,photo_url)"
+       data-empty="{msg.topic_not_found}">
+    <template data-item>
+      <article class="thread">
+        <header class="opening">
+          <h1 class="topic-title role-title" dir="auto" data-text="{title}"></h1>
+          <p class="opened role-meta">
+            <span class="face small"><img class="photo" src="{author.photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{author.handle}"></span></span>
+            <span data-text="{msg.opened_by}">aberto por</span>
+            <a class="who-link" data-route="profile" data-param-handle="{author.handle}" data-text="{author.display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{author.handle}" data-text="{author.handle}"></a>
+            <time class="when" datetime="{created_at}" data-text="{created_at}" data-text-format="datetime"></time>
+            <span class="in">· <a class="community-link" data-route="community" data-param-id="{community_id}" data-text="{community.name}"></a></span>
+          </p>
+          <div class="panel"><p class="panel-body opening-body role-body" data-text="{body}"></p></div>
+          <!-- The opener's own topic (ir decision-debts): a Me probe on author_id
+               draws the two-tap erase while the thread has no replies; the 022
+               guard is the rule, the reply count only hides the control. -->
+          <span class="opener-probe" data-live="me" data-filter="id=eq.{author_id}" data-empty=""><template data-item><i></i></template></span>
+          <div class="topic-foot role-meta">
+            <details class="erase topic-erase">
+              <summary class="role-meta" data-text="{msg.delete_topic_button}">apagar tópico…</summary>
+              <form data-form="delete-topic" data-entity="topic" data-action="delete">
+                <button type="submit" class="danger role-meta" data-text="{msg.delete_topic_confirm}">sim, apagar o tópico</button>
+                <p class="store-error role-meta" hidden data-text="{msg.delete_topic_failed}">Não deu pra apagar o tópico.</p>
+              </form>
+            </details>
+            <span class="topic-erase-standin role-meta" data-text="{msg.delete_topic_confirm}">sim, apagar o tópico</span>
+          </div>
+        </header>
+
+        <!-- Am I a member of this topic's community: read through my me row on
+             the route's community (ir decision-topic-page). No whitespace in
+             the regions and probes. -->
+        <span class="mine" data-live="me"><template data-item><span class="relation"><span class="member-probe" data-live="membership" data-filter="user_id=eq.{id}&community_id=eq.{param.community}" data-empty=""><template data-item><i></i></template></span></span></template></span>
+
+        <section class="panel replies">
+          <h2 class="band role-band"><span data-text="{msg.replies_title}">respostas</span> <span class="count role-meta"><b class="tally" data-live="post" data-filter="topic_id=eq.{id}" data-project='{"n":"count"}' data-empty="0"><template data-item><i data-text="{n}"></i></template></b></span></h2>
+          <ul class="rows" data-live="post" data-filter="topic_id=eq.{id}"
+              data-select="*,author:app_user!author_id(handle,display_name,photo_url)"
+              data-order="created_at.asc,id.asc" data-empty="{msg.replies_empty}"><template data-item>
+              <li class="row reply">
+                <span class="face small"><img class="photo" src="{author.photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{author.handle}"></span></span>
+                <p class="scrap-line role-meta">
+                  <a class="who-link" data-route="profile" data-param-handle="{author.handle}" data-text="{author.display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{author.handle}" data-text="{author.handle}"></a>
+                  <time class="when" datetime="{created_at}" data-text="{created_at}" data-text-format="datetime"></time>
+                </p>
+                <p class="scrap-body role-body" data-text="{body}"></p>
+                <span class="may" data-live="me" data-filter="id=eq.{author_id}" data-empty=""><template data-item><i></i></template></span>
+                <div class="scrap-foot role-meta">
+                  <details class="erase">
+                    <summary class="role-meta" data-text="{msg.delete_reply_button}">apagar…</summary>
+                    <form data-form="delete-reply" data-entity="post" data-action="delete">
+                      <button type="submit" class="danger role-meta" data-text="{msg.delete_reply_confirm}">sim, apagar</button>
+                      <p class="store-error role-meta" hidden data-text="{msg.delete_reply_failed}">Não deu pra apagar.</p>
+                    </form>
+                  </details>
+                  <span class="deleting-standin role-meta" data-text="{msg.delete_reply_confirm}">sim, apagar</span>
+                </div>
+              </li>
+            </template></ul>
+          <div class="panel-body reply-foot">
+            <form class="reply-form" data-form="reply" data-entity="post" data-action="create">
+              <input type="hidden" name="topic_id" data-value="{id}">
+              <textarea name="body" required maxlength="4000" rows="3" placeholder="{msg.reply_placeholder}" aria-label="{msg.reply_label}"></textarea>
+              <div class="reply-actions">
+                <button type="submit" class="role-meta" data-text="{msg.post_reply_button}">responder</button>
+                <p class="invalid role-meta" hidden data-text="{msg.reply_blank}">Escreva uma resposta.</p>
+                <p class="store-error role-meta" hidden data-text="{msg.reply_failed}">Não deu pra responder.</p>
+              </div>
+            </form>
+            <p class="members-only role-meta" data-text="{msg.members_only_reply}">Entre na comunidade para responder.</p>
+          </div>
+        </section>
+      </article>
+    </template>
+  </div>
+</section>

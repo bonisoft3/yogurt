@@ -1,0 +1,54 @@
+<!-- fans — ir: #fans. A person's full fan list, as friends is. The header is the
+     same one-row LIST region over app_user as the profile, so an unknown
+     handle is the same sentence. -->
+<section class="screen" data-screen="fans">
+  <header class="topline">
+    <a class="back to-profile role-meta" data-route="profile" data-param-handle="{param.handle}" data-text="{msg.back_profile}">← perfil</a>
+    <a class="back to-home role-meta" data-route="home" data-text="{msg.back_home}">← início</a>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel name-skel"></div>
+    <div class="skel list-skel"></div>
+  </div>
+
+  <div class="person" data-live="app_user" data-filter="handle=eq.{param.handle}"
+       data-empty="{msg.profile_not_found}">
+    <template data-item>
+      <div class="page">
+        <header class="whose">
+          <h1 class="person-name role-title" dir="auto" data-text="{display_name}"></h1>
+          <p class="person-handle role-title" data-text="{handle}"></p>
+          <p class="count-line role-meta"><b class="tally" data-live="fan" data-filter="idol_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.fans_zero}"><template data-item><i data-text="{msg.fans_count}"></i></template></b></p>
+        </header>
+
+        <!-- Every fan: one filter on idol_id, the fan as an embed on fan_id. -->
+        <section class="panel">
+          <h2 class="band role-band"><span data-text="{msg.fans_title}">fãs</span></h2>
+          <ul class="tiles" data-live="fan" data-filter="idol_id=eq.{id}"
+              data-select="*,fan:app_user!fan_id(handle,display_name,photo_url)"
+              data-order="created_at.desc,id.asc" data-empty="{msg.fans_empty}">
+            <template data-item>
+              <li class="tile">
+                <span class="me-probe" data-live="me" data-filter="id=eq.{fan_id}"><template data-item><i></i></template></span>
+                <a data-route="profile" data-param-handle="{fan.handle}">
+                  <span class="face"><img class="photo" src="{fan.photo_url}" alt="" width="72" height="72"><span class="initial" aria-hidden="true" data-text="{fan.handle}"></span></span>
+                  <span class="name role-meta" data-text="{fan.display_name}"></span>
+                  <span class="handle role-label" data-text="{fan.handle}"></span>
+                </a>
+                <form class="fan-form" data-form="be-fan-fans" data-entity="fan" data-action="create">
+                  <input type="hidden" name="idol_id" data-value="{fan_id}">
+                  <button type="submit" class="role-meta" aria-label="{msg.be_fan_button}: {fan.handle}" data-text="{msg.be_fan_button}">ser fã</button>
+                  <p class="saved role-meta" role="status"><a data-route="profile" data-param-handle="{fan.handle}" data-text="{msg.fan_state_label}">você é fã</a></p>
+                  <p class="store-error role-meta" role="status" hidden data-text="{msg.fan_tile_failed}">Não deu. Talvez você já seja fã.</p>
+                </form>
+              </li>
+            </template>
+          </ul>
+        </section>
+      </div>
+    </template>
+  </div>
+</section>

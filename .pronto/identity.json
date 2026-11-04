@@ -1,0 +1,687 @@
+{
+  "0x92e9617a3499ddef": {
+    "name": "app_user",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "handle",
+        "type": "string",
+        "retired": false
+      },
+      "3": {
+        "name": "display_name",
+        "type": "string",
+        "retired": false
+      },
+      "4": {
+        "name": "photo_url",
+        "type": "string",
+        "retired": false
+      },
+      "5": {
+        "name": "about",
+        "type": "string",
+        "retired": false
+      },
+      "6": {
+        "name": "relationship",
+        "type": "string",
+        "retired": false
+      },
+      "7": {
+        "name": "city",
+        "type": "string",
+        "retired": false
+      },
+      "8": {
+        "name": "country",
+        "type": "string",
+        "retired": false
+      },
+      "9": {
+        "name": "birthday",
+        "type": "date",
+        "retired": false
+      },
+      "10": {
+        "name": "passions",
+        "type": "string",
+        "retired": false
+      },
+      "11": {
+        "name": "music",
+        "type": "string",
+        "retired": false
+      },
+      "12": {
+        "name": "movies",
+        "type": "string",
+        "retired": false
+      },
+      "13": {
+        "name": "books",
+        "type": "string",
+        "retired": false
+      },
+      "14": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      },
+      "15": {
+        "name": "search_text",
+        "type": "string",
+        "retired": false
+      }
+    }
+  },
+  "0xc9deaa990cf202e7": {
+    "name": "me",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "handle",
+        "type": "string",
+        "retired": false
+      }
+    }
+  },
+  "0xaaa2f719850c2eec": {
+    "name": "friend_request_sent",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "from_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "to_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0xbd0cefd7711f6892": {
+    "name": "friend_request",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "from_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "to_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "accepted",
+        "type": "bool",
+        "retired": false
+      },
+      "5": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0xb39adcf3dbce73fd": {
+    "name": "friendship",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "user_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "friend_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0x86e0ef84144f0a17": {
+    "name": "scrap",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "owner_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "author_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "body",
+        "type": "string",
+        "retired": false
+      },
+      "5": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0xe64974d71dfe174c": {
+    "name": "testimonial_draft",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "subject_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "author_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "body",
+        "type": "string",
+        "retired": false
+      },
+      "5": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0x9682bb96df74eb95": {
+    "name": "testimonial_pending",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "subject_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "author_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "body",
+        "type": "string",
+        "retired": false
+      },
+      "5": {
+        "name": "approved",
+        "type": "bool",
+        "retired": false
+      },
+      "6": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0xa8502ee901bda55c": {
+    "name": "testimonial",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "subject_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "author_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "body",
+        "type": "string",
+        "retired": false
+      },
+      "5": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0x839fe523fab878af": {
+    "name": "fan",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "fan_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "idol_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0xc854cd2195559e5b": {
+    "name": "karma",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "rater_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "rated_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "trust",
+        "type": "int32",
+        "retired": false
+      },
+      "5": {
+        "name": "cool",
+        "type": "int32",
+        "retired": false
+      },
+      "6": {
+        "name": "sexy",
+        "type": "int32",
+        "retired": false
+      },
+      "7": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0xa609e50ebc12a3a8": {
+    "name": "karma_smiley",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "rated_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "trust",
+        "type": "int32",
+        "retired": false
+      },
+      "4": {
+        "name": "cool",
+        "type": "int32",
+        "retired": false
+      },
+      "5": {
+        "name": "sexy",
+        "type": "int32",
+        "retired": false
+      },
+      "6": {
+        "name": "raters",
+        "type": "int32",
+        "retired": false
+      },
+      "7": {
+        "name": "trust_key",
+        "type": "string",
+        "retired": false
+      },
+      "8": {
+        "name": "cool_key",
+        "type": "string",
+        "retired": false
+      },
+      "9": {
+        "name": "sexy_key",
+        "type": "string",
+        "retired": false
+      },
+      "10": {
+        "name": "updated_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0x8641a6706a08c29e": {
+    "name": "feed",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "at",
+        "type": "timestamp",
+        "retired": false
+      },
+      "3": {
+        "name": "actor_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "kind",
+        "type": "string",
+        "retired": false
+      },
+      "5": {
+        "name": "kind_key",
+        "type": "string",
+        "retired": false
+      },
+      "6": {
+        "name": "about_user_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "7": {
+        "name": "about_community_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "8": {
+        "name": "excerpt",
+        "type": "string",
+        "retired": false
+      },
+      "9": {
+        "name": "source_id",
+        "type": "uuid",
+        "retired": false
+      }
+    }
+  },
+  "0xdfb645e37c351c71": {
+    "name": "feed_item",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "reader_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "at",
+        "type": "timestamp",
+        "retired": false
+      },
+      "4": {
+        "name": "actor_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "5": {
+        "name": "kind",
+        "type": "string",
+        "retired": false
+      },
+      "6": {
+        "name": "kind_key",
+        "type": "string",
+        "retired": false
+      },
+      "7": {
+        "name": "about_user_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "8": {
+        "name": "about_community_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "9": {
+        "name": "excerpt",
+        "type": "string",
+        "retired": false
+      },
+      "10": {
+        "name": "source_id",
+        "type": "uuid",
+        "retired": false
+      }
+    }
+  },
+  "0xbba29239871da5e8": {
+    "name": "community",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "name",
+        "type": "string",
+        "retired": false
+      },
+      "3": {
+        "name": "description",
+        "type": "string",
+        "retired": false
+      },
+      "4": {
+        "name": "category",
+        "type": "string",
+        "retired": false
+      },
+      "5": {
+        "name": "owner_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "6": {
+        "name": "photo_url",
+        "type": "string",
+        "retired": false
+      },
+      "7": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0xcabe3837ceaa14d4": {
+    "name": "membership",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "community_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "user_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0x9a29e939361b5a78": {
+    "name": "search",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "string",
+        "retired": false
+      },
+      "2": {
+        "name": "q",
+        "type": "string",
+        "retired": false
+      }
+    }
+  },
+  "0x92992c6283823258": {
+    "name": "community_search",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "string",
+        "retired": false
+      },
+      "2": {
+        "name": "q",
+        "type": "string",
+        "retired": false
+      }
+    }
+  },
+  "0xb6b6625bfd193b5a": {
+    "name": "topic",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "community_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "author_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "title",
+        "type": "string",
+        "retired": false
+      },
+      "5": {
+        "name": "body",
+        "type": "string",
+        "retired": false
+      },
+      "6": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  },
+  "0x8027cea7fd8ad2b1": {
+    "name": "post",
+    "fields": {
+      "1": {
+        "name": "id",
+        "type": "uuid",
+        "retired": false
+      },
+      "2": {
+        "name": "topic_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "3": {
+        "name": "author_id",
+        "type": "uuid",
+        "retired": false
+      },
+      "4": {
+        "name": "body",
+        "type": "string",
+        "retired": false
+      },
+      "5": {
+        "name": "created_at",
+        "type": "timestamp",
+        "retired": false
+      }
+    }
+  }
+}

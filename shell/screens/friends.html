@@ -1,0 +1,54 @@
+<!-- friends — ir: #friends. A person's full friends list. The header is the
+     same one-row LIST region over app_user as the profile, so an unknown
+     handle is the same sentence. -->
+<section class="screen" data-screen="friends">
+  <header class="topline">
+    <a class="back to-profile role-meta" data-route="profile" data-param-handle="{param.handle}" data-text="{msg.back_profile}">← perfil</a>
+    <a class="back to-home role-meta" data-route="home" data-text="{msg.back_home}">← início</a>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel name-skel"></div>
+    <div class="skel list-skel"></div>
+  </div>
+
+  <div class="person" data-live="app_user" data-filter="handle=eq.{param.handle}"
+       data-empty="{msg.profile_not_found}">
+    <template data-item>
+      <div class="page">
+        <header class="whose">
+          <h1 class="person-name role-title" dir="auto" data-text="{display_name}"></h1>
+          <p class="person-handle role-title" data-text="{handle}"></p>
+          <p class="count-line role-meta"><span data-text="{msg.friends_title}">amigos</span> · <b class="tally" data-live="friendship" data-filter="user_id=eq.{id}" data-project='{"n":"count"}' data-empty="0"><template data-item><i data-text="{n}"></i></template></b></p>
+        </header>
+
+        <!-- Every friend: one filter on user_id (ir decision-friendship-mirror). -->
+        <section class="panel">
+          <h2 class="band role-band"><span data-text="{msg.friends_title}">amigos</span></h2>
+          <ul class="tiles" data-live="friendship" data-filter="user_id=eq.{id}"
+              data-select="*,friend:app_user!friend_id(handle,display_name,photo_url)"
+              data-order="created_at.desc,id.asc" data-empty="{msg.friends_empty}">
+            <template data-item>
+              <li class="tile">
+                <span class="me-probe" data-live="me" data-filter="id=eq.{friend_id}"><template data-item><i></i></template></span>
+                <a data-route="profile" data-param-handle="{friend.handle}">
+                  <span class="face"><img class="photo" src="{friend.photo_url}" alt="" width="72" height="72"><span class="initial" aria-hidden="true" data-text="{friend.handle}"></span></span>
+                  <span class="name role-meta" data-text="{friend.display_name}"></span>
+                  <span class="handle role-label" data-text="{friend.handle}"></span>
+                </a>
+                <form class="fan-form" data-form="be-fan-friends" data-entity="fan" data-action="create">
+                  <input type="hidden" name="idol_id" data-value="{friend_id}">
+                  <button type="submit" class="role-meta" aria-label="{msg.be_fan_button}: {friend.handle}" data-text="{msg.be_fan_button}">ser fã</button>
+                  <p class="saved role-meta" role="status"><a data-route="profile" data-param-handle="{friend.handle}" data-text="{msg.fan_state_label}">você é fã</a></p>
+                  <p class="store-error role-meta" role="status" hidden data-text="{msg.fan_tile_failed}">Não deu. Talvez você já seja fã.</p>
+                </form>
+              </li>
+            </template>
+          </ul>
+        </section>
+      </div>
+    </template>
+  </div>
+</section>

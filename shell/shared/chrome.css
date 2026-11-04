@@ -1,0 +1,80 @@
+/* The terminal's strip, dressed by the app: the one blue bar yogurt had across
+   the top. The terminal owns the markup and its stable classes (nav, .shell-me,
+   .shell-who, .shell-signout, .shell-signin, .shell-register) and stamps
+   aria-current; this file only says what they look like here. Every value is
+   a token from shell/design.css. */
+body > nav { background: var(--header); color: var(--strip-ink);
+  padding: var(--sp-sm) var(--sp-lg); gap: var(--sp-md); }
+body > nav > a { color: var(--strip-ink); font-weight: 600; }
+body > nav > a[aria-current="page"] { text-decoration: underline;
+  text-underline-offset: var(--size-1); }
+body > nav .shell-me { color: var(--strip-ink); }
+body > nav .shell-who { color: var(--strip-ink); }
+body > nav .shell-who .handle { opacity: .8; }
+/* The guest's two buttons keep their words on one line: the identity end of
+   the strip is the part that shrinks, and at phone width it shrank them into
+   five-line towers. They are not shrunk; the strip scrolls, as the terminal's
+   rule says it does. */
+body > nav .shell-signout, body > nav .shell-signin, body > nav .shell-register {
+  background: transparent; color: var(--strip-ink); border: var(--border-size-1) solid var(--strip-ink);
+  padding: 2px var(--sp-sm); font-weight: 400; white-space: nowrap; flex: none; }
+
+/* The door (DESIGN.md, The door): the terminal's gate markup — an intro
+   header (the letter mark, the app's name, a hint) and the form — split the
+   way roda's is: a header-blue panel beside the form on the pale ground. The
+   panel's question and its line are the page's own, by language, since no
+   catalogue reaches the gate; the form's small title is the same. Every
+   colour is a token and every length a rung or a role; one custom property
+   is the split, read by the gradient and the grid alike. The split follows
+   the viewport, not a container: the gate is a whole page, never a frame. */
+body:has(.shell-login) { margin: 0; padding: 0; background: var(--neutral); }
+.shell-login { --gate-split: 55%; --gate-form: calc(var(--size-14) + var(--size-9)); --gate-gutter: calc(var(--sp-xl) + var(--sp-md));
+  box-sizing: border-box; min-height: 100svh; display: grid;
+  grid-template-columns: var(--gate-split) minmax(0, 1fr); grid-template-rows: auto auto 1fr;
+  align-items: start; gap: 0; max-width: none; margin: 0; padding: 0;
+  background: linear-gradient(90deg, var(--header) var(--gate-split), var(--neutral) var(--gate-split)); }
+.shell-login .login-intro { grid-column: 1; grid-row: 1; display: flex; align-items: center;
+  gap: var(--sp-md); padding: var(--sp-xl) var(--gate-gutter) 0; color: var(--strip-ink); }
+.shell-login .login-mark { width: var(--control-h-lg); height: var(--control-h-lg); line-height: var(--control-h-lg);
+  margin: 0; text-align: center; border-radius: var(--r-md); background: var(--accent); color: var(--strip-ink);
+  font-weight: 700; font-size: var(--type-subtitle); text-transform: lowercase; }
+.shell-login .login-intro h1 { font-size: var(--type-title); letter-spacing: -.03em; line-height: 1;
+  margin: 0; color: var(--strip-ink); font-weight: 700; }
+.shell-login .login-intro .login-hint { display: none; }
+.shell-login::before { grid-column: 1; grid-row: 2; margin: var(--sp-xl) var(--gate-gutter) 0; max-width: 14ch;
+  font-size: clamp(var(--size-7), 3.4vw, var(--size-8)); font-weight: 600; line-height: 1.1; letter-spacing: -.02em;
+  color: var(--strip-ink); white-space: pre-line; content: "quem você conhece?"; }
+.shell-login::after { grid-column: 1; grid-row: 3; align-self: start; margin: var(--sp-lg) var(--gate-gutter) var(--sp-xl);
+  max-width: 38ch; font-size: var(--type-body); line-height: var(--type-leading-body); color: var(--strip-ink);
+  opacity: .85; white-space: pre-line;
+  content: "Recados, depoimentos, amigos, fãs e comunidades, do jeito que 2004 lembra. Tem gente aqui esperando você, com cadernos cheios e fóruns abertos."; }
+html[lang="en"] .shell-login::before { content: "who do you know?"; }
+html[lang="en"] .shell-login::after { content: "Scraps, testimonials, friends, fans and communities, the way 2004 remembers them. People are already here, scrapbooks full and forums open."; }
+.shell-login form { grid-column: 2; grid-row: 1 / -1; align-self: center; justify-self: center;
+  width: min(var(--gate-form), 100%); box-sizing: border-box; margin: 0; padding: var(--sp-xl) var(--sp-lg);
+  border: 0; display: flex; flex-direction: column; gap: 0; }
+.shell-login form::before { order: 0; font-size: var(--type-label); font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--secondary); content: "entrar"; }
+html[lang="en"] .shell-login form::before { content: "sign in"; }
+.shell-login form::after { order: 1; margin-top: var(--sp-sm); padding-bottom: var(--sp-md);
+  border-bottom: var(--border-size-1) solid var(--border); color: var(--primary);
+  font-size: var(--type-subtitle); font-weight: 700; line-height: var(--type-leading-title);
+  content: "Entre com a chave do seu aparelho, ou como visitante."; }
+html[lang="en"] .shell-login form::after { content: "Sign in with your device's key, or as a guest."; }
+.shell-login .login-error { order: 2; margin: var(--sp-md) 0 0; color: var(--danger); }
+.shell-login .login-actions { order: 3; width: 100%; margin-top: var(--sp-lg); display: grid; gap: var(--sp-sm); }
+.shell-login .login-passkey, .shell-login .login-provider { min-height: var(--size-8); border-radius: var(--r-full);
+  font-size: var(--type-body); font-weight: 700; background: var(--accent); color: var(--strip-ink); border-color: transparent; }
+.shell-login .login-provider { background: var(--primary); }
+.shell-login .login-guest { min-height: var(--control-h-lg); border-radius: var(--r-full); background: transparent;
+  border-color: transparent; color: var(--secondary); font-weight: 600; font-size: var(--type-body); }
+.shell-login .login-guest:hover { color: var(--primary); background: var(--surface-muted); }
+.shell-login :is(button, a):focus-visible { outline: var(--border-size-2) solid var(--accent); outline-offset: var(--size-1); }
+@media (max-width: 767px) {
+  .shell-login { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto 1fr; background: var(--header); }
+  .shell-login .login-intro { grid-row: 1; padding: var(--sp-lg) var(--sp-lg) 0; }
+  .shell-login::before { grid-row: 2; margin: 0; padding: var(--sp-lg) var(--sp-lg) 0; font-size: var(--size-6); }
+  .shell-login::after { grid-row: 3; margin: 0; padding: var(--sp-md) var(--sp-lg) var(--sp-xl); max-width: none; }
+  .shell-login form { grid-column: 1; grid-row: 4; align-self: stretch; justify-self: stretch; width: 100%;
+    padding: var(--sp-xl) var(--sp-lg); background: var(--neutral); }
+}

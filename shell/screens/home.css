@@ -1,0 +1,123 @@
+@import "./shared/yogurt.css";
+
+/* home — ir: #home. The storybook renders this screen in a 360px frame on a
+   wide viewport, so every responsive rule reads the container. */
+[data-screen="home"] { container-type: inline-size; }
+[data-screen="home"] .masthead { display: flex; align-items: baseline; gap: var(--sp-md);
+  padding-bottom: var(--sp-sm); margin-bottom: var(--sp-md); }
+/* The wordmark is the one place the pink is not a commitment: it is the name. */
+[data-screen="home"] .wordmark { margin: 0; color: var(--accent); letter-spacing: -.02em; }
+[data-screen="home"] .tagline { margin: 0; color: var(--secondary); }
+
+[data-screen="home"] .columns { display: grid; grid-template-columns: 300px minmax(0, 1fr);
+  gap: var(--sp-md); align-items: start; }
+[data-screen="home"] .mine, [data-screen="home"] .rail { display: grid; gap: var(--sp-md); }
+@container (max-width: 640px) {
+  [data-screen="home"] .columns { grid-template-columns: minmax(0, 1fr); }
+}
+
+[data-screen="home"] .who { display: flex; gap: var(--sp-md); align-items: center; }
+[data-screen="home"] .ident { min-width: 0; overflow-wrap: anywhere; }
+[data-screen="home"] .ident p { margin: 0; }
+[data-screen="home"] .person-name { color: var(--primary); }
+/* A person who chose no name yet reads as their handle alone: the empty name
+   element hides itself and the handle below takes its weight. */
+[data-screen="home"] .person-name:empty { display: none; }
+[data-screen="home"] .person-name:empty + .person-handle { color: var(--primary); font-weight: 700; }
+[data-screen="home"] .person-handle, [data-screen="home"] .person-city { color: var(--secondary); }
+[data-screen="home"] .person-city:empty { display: none; }
+[data-screen="home"] .counts { list-style: none; display: flex; flex-wrap: wrap; gap: var(--sp-md);
+  padding: 0; margin: var(--sp-md) 0; color: var(--secondary); }
+[data-screen="home"] .counts b { color: var(--primary); }
+/* The line draws only while a pending copy waits: a zero count is an empty region, which renders nothing. */
+[data-screen="home"] .awaiting-line { margin: 0 0 var(--sp-sm); }
+[data-screen="home"] .awaiting-line { display: none; }
+[data-screen="home"] .awaiting-line:has(.tally > i) { display: block; }
+[data-screen="home"] .awaiting-line b { color: var(--primary); }
+[data-screen="home"] .awaiting-line i { font-style: normal; }
+.storybook .frame [data-screen="home"] .awaiting-line { display: none; }
+/* A count is a region whose rows all carry the same answer; one is shown. */
+[data-screen="home"] .tally i { font-style: normal; }
+[data-screen="home"] .tally i:not(:first-of-type) { display: none; }
+[data-screen="home"] .tally .empty { display: inline; color: var(--primary); }
+
+/* The reader's own tile is not an offer: the probe fills on their row alone. */
+[data-screen="home"] .me-probe { display: none; }
+[data-screen="home"] .person:has(.me-probe > i) { display: none; }
+
+/* Name and category on the first line, the count under them, on every row
+   alike — a grid, so a long category word cannot reflow one row differently. */
+[data-screen="home"] .row.community { display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline; column-gap: var(--sp-md); row-gap: var(--size-1); }
+[data-screen="home"] .row.community .row-name { color: var(--link); font-weight: 600; overflow-wrap: anywhere; text-decoration: none; }
+[data-screen="home"] .row.community .row-name:hover { text-decoration: underline; }
+[data-screen="home"] .row.community .chip { white-space: nowrap; }
+[data-screen="home"] .row.community .face.small { grid-row: 1 / 3; align-self: start; }
+[data-screen="home"] .row.community .members { grid-column: 2 / -1; color: var(--secondary); }
+[data-screen="home"] .row.community .members b { color: var(--primary); }
+[data-screen="home"] .mine .row { display: flex; align-items: baseline; gap: var(--sp-sm); flex-wrap: wrap; }
+[data-screen="home"] .mine .row-name { color: var(--link); font-weight: 600; text-decoration: none; }
+
+[data-screen="home"] .mine .row .cat { display: inline; }
+/* A request: who asked, in secondary, and the two answers under it; accept is
+   the one accent control in the panel. */
+[data-screen="home"] .row.request { display: grid; gap: var(--size-1); }
+[data-screen="home"] .asker, [data-screen="home"] .asker-row { display: contents; }
+[data-screen="home"] .asker-row .face.small { float: inline-start; margin-inline-end: var(--sp-sm); }
+[data-screen="home"] .request-line { margin: 0; color: var(--secondary); display: flex; flex-wrap: wrap; gap: var(--size-1) var(--sp-sm); align-items: baseline; }
+[data-screen="home"] .answer { display: flex; flex-wrap: wrap; gap: var(--sp-sm); margin-top: var(--size-1); }
+[data-screen="home"] .answer form { margin: 0; display: flex; align-items: center; gap: var(--sp-sm); }
+[data-screen="home"] .answer button { padding-block: var(--size-1); min-height: var(--control-h); }
+[data-screen="home"] .answer .invalid, [data-screen="home"] .answer .store-error { margin: 0; }
+
+/* States — data-state is shell-owned; the screen only styles it. A fresh
+   guest's screen is populated: the emptiness belongs to their own regions,
+   which draw their sentences, and the storybook's `fresh` frame shows it. */
+[data-screen="home"][data-state="loading"] .skeleton { display: grid;
+  grid-template-columns: 300px minmax(0, 1fr); gap: var(--sp-md); }
+[data-screen="home"][data-state="loading"] .columns { display: none; }
+[data-screen="home"] .card-skel { height: 160px; }
+[data-screen="home"] .rail-skel { height: 260px; }
+@container (max-width: 640px) {
+  [data-screen="home"][data-state="loading"] .skeleton { grid-template-columns: minmax(0, 1fr); }
+}
+[data-screen="home"] .fresh-note { display: none; margin: 0; padding: var(--sp-md); color: var(--secondary); }
+.storybook .frame [data-screen="home"][data-state="fresh"] .mine .tiles,
+.storybook .frame [data-screen="home"][data-state="fresh"] .mine .rows { display: none; }
+.storybook .frame [data-screen="home"][data-state="fresh"] .fresh-note { display: block; }
+.storybook .frame [data-screen="home"][data-state="fresh"] .counts .tally i { display: none; }
+.storybook .frame [data-screen="home"][data-state="fresh"] .counts .tally::after { content: "0"; }
+
+/* The reader's panels fill after the me row lands: reserve their usual height
+   so the rail below does not move when the rows arrive (the visual check
+   measures layout shift after first paint). */
+[data-screen="home"] .mine .panel.card { min-height: calc(var(--control-h-lg) * 5); }
+[data-screen="home"] .mine .panel.requests { min-height: calc(var(--control-h-lg) * 2); }
+[data-screen="home"] .mine .panel:not(.card):not(.requests) { min-height: calc(var(--control-h-lg) * 4); }
+[data-screen="home"] .card-body .panel-body > a { display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+[data-screen="home"] .card-links { margin: 0; display: flex; flex-wrap: wrap; gap: var(--sp-sm) var(--sp-md); }
+[data-screen="home"] .card-links a { display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+/* The refusal under a tile, posed: the first tile's line shows in the frame. */
+.storybook .frame [data-screen="home"][data-state="validation-error"] .people .tile:first-child .fan-form .store-error { display: block; }
+/* The reader's own smileys under the card's counts, as the profile shows them. */
+[data-screen="home"] .card .karma { margin: var(--size-1) 0 0; }
+[data-screen="home"] .smiley-row { display: inline-flex; flex-wrap: wrap; gap: var(--sp-sm); align-items: baseline; }
+[data-screen="home"] .smiley-row .k b { font-weight: 400; letter-spacing: .05em; font-size: var(--type-body); }
+[data-screen="home"] .smiley-row .raters { color: var(--secondary); }
+/* Novidades: a scrap row's shape; the kind the row carries picks which
+   link stands after the sentence, and whether an excerpt follows. */
+[data-screen="home"] .row.news { display: grid; grid-template-columns: 36px 1fr; column-gap: var(--sp-sm); align-items: start; }
+[data-screen="home"] .row.news .face.small { grid-row: 1 / 3; }
+[data-screen="home"] .row.news .news-line { margin: 0; display: flex; flex-wrap: wrap; gap: 0 var(--size-1); align-items: baseline; }
+[data-screen="home"] .row.news .news-body { margin: var(--size-1) 0 0; }
+[data-screen="home"] .row.news .about-user, [data-screen="home"] .row.news .about-community { display: none; }
+[data-screen="home"] .row.news:is([data-kind="scrap"], [data-kind="testimonial"]) .about-user { display: inline; }
+[data-screen="home"] .row.news[data-kind="membership"] .about-community { display: inline; }
+[data-screen="home"] .row.news[data-kind="membership"] .news-body { display: none; }
+[data-screen="home"] .row.news .when { color: var(--secondary); margin-inline-start: auto; }
+/* "para você": the probe on the doing's subject stamps when it is me; its
+   stamped child is the one element more that outranks the kind rules at a tie. */
+[data-screen="home"] .row.news .about-you { display: none; }
+[data-screen="home"] .row.news:has(.you-probe > i) .about-you { display: inline; }
+[data-screen="home"] .row.news:has(.you-probe > i) .about-user { display: none; }
+[data-screen="home"] .you-probe { display: none; }

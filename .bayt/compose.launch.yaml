@@ -1,0 +1,65 @@
+# generated from bayt.cue — do not edit
+services:
+  yogurt-launch:
+    build:
+      additional_contexts:
+        yogurt-caddy: service:yogurt-caddy
+        yogurt-database: service:yogurt-database
+        yogurt-crud: service:yogurt-crud
+        yogurt-electric: service:yogurt-electric
+        yogurt-auth: service:yogurt-auth
+      context: ..
+      dockerfile: .bayt/Dockerfile.launch
+      target: launch
+      tags:
+      - bayt-yogurt-launch:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+      - bayt-yogurt-launch:latest
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    depends_on:
+      yogurt-caddy:
+        condition: service_healthy
+        restart: true
+      yogurt-database:
+        condition: service_healthy
+        restart: true
+      yogurt-crud:
+        condition: service_healthy
+        restart: true
+      yogurt-electric:
+        condition: service_healthy
+        restart: true
+      yogurt-auth:
+        condition: service_started
+    healthcheck:
+      test:
+      - CMD
+      - echo
+      - yogurt is healthy
+      interval: 5s
+      timeout: 2s
+      retries: 3
+    image: bayt-yogurt-launch:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+    networks:
+      default:
+        aliases:
+        - launch
+  yogurt-launch_bayt:
+    build:
+      additional_contexts:
+        yogurt-caddy_bayt: service:yogurt-caddy_bayt
+        yogurt-database_bayt: service:yogurt-database_bayt
+        yogurt-crud_bayt: service:yogurt-crud_bayt
+        yogurt-electric_bayt: service:yogurt-electric_bayt
+        yogurt-auth_bayt: service:yogurt-auth_bayt
+      context: ..
+      dockerfile: .bayt/Dockerfile.launch
+      target: launch_bayt
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-launch_bayt:latest
+    scale: 0

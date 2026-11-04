@@ -1,0 +1,41 @@
+@import "./shared/yogurt.css";
+
+/* search — ir: #search. One column: the box, the hint, two result panels. */
+[data-screen="search"] { container-type: inline-size; }
+[data-screen="search"] .page { max-width: var(--measure-column); }
+[data-screen="search"] .search-slot { display: grid; gap: var(--sp-md); }
+[data-screen="search"] .search { display: flex; gap: var(--sp-sm); margin: 0; }
+[data-screen="search"] .search input { flex: 1 1 auto; min-width: 0; }
+[data-screen="search"] .hint { margin: 0; color: var(--secondary); }
+/* A blank search draws no panel and keeps the hint; a search hides the hint. */
+[data-screen="search"] .search-slot[data-q=""] .results { display: none; }
+[data-screen="search"] .search-slot:not([data-q=""]) .hint { display: none; }
+[data-screen="search"] .none-note { display: none; margin: 0; padding: var(--sp-md); color: var(--secondary); }
+[data-screen="search"] .tiles { padding: var(--sp-md); }
+[data-screen="search"] .row.community { display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline; column-gap: var(--sp-md); row-gap: var(--size-1); }
+[data-screen="search"] .row.community .face.small { grid-row: 1 / 3; align-self: start; }
+[data-screen="search"] .row.community .row-name { color: var(--link); font-weight: 600; overflow-wrap: anywhere; text-decoration: none; display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+[data-screen="search"] .row.community .row-name:hover { text-decoration: underline; }
+[data-screen="search"] .row.community .members { color: var(--secondary); white-space: nowrap; }
+[data-screen="search"] .row.community .members b { color: var(--primary); }
+[data-screen="search"] .row.community .row-desc { grid-column: 2 / -1; margin: 0; color: var(--secondary); overflow-wrap: anywhere; }
+[data-screen="search"] .row.community .row-desc:empty { display: none; }
+[data-screen="search"] .tally i { font-style: normal; }
+[data-screen="search"] .tally i:not(:first-of-type) { display: none; }
+[data-screen="search"] .tally .empty { display: inline; color: var(--primary); }
+
+/* Loading: a skeleton where the box will be. */
+[data-screen="search"][data-state="loading"] .skeleton { display: grid; max-width: var(--measure-column); }
+[data-screen="search"][data-state="loading"] .page { display: none; }
+[data-screen="search"] .box-skel { height: var(--control-h); }
+
+/* Storybook frames: the fixture fills every list, so searching shows both
+   panels and search-none swaps each list for its sentence. */
+.storybook .frame [data-screen="search"]:not([data-state="searching"]):not([data-state="search-none"]) .results { display: none; }
+.storybook .frame [data-screen="search"]:is([data-state="searching"], [data-state="search-none"]) .results { display: block; }
+.storybook .frame [data-screen="search"]:is([data-state="searching"], [data-state="search-none"]) .hint { display: none; }
+.storybook .frame [data-screen="search"][data-state="search-none"] .results :is(.tiles, .rows) { display: none; }
+.storybook .frame [data-screen="search"][data-state="search-none"] .none-note { display: block; }
+/* The refusal under a tile, posed: the first tile's line shows in the frame. */
+.storybook .frame [data-screen="search"][data-state="validation-error"] .people .tile:first-child .fan-form .store-error { display: block; }

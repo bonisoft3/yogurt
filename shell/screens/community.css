@@ -1,0 +1,114 @@
+@import "./shared/yogurt.css";
+
+/* community — ir: #community. The left column is the community, the right
+   column its panels, as the profile is laid out. */
+[data-screen="community"] { container-type: inline-size; }
+[data-screen="community"] .topline { padding-bottom: var(--sp-sm); margin-bottom: var(--sp-md); }
+[data-screen="community"] .back { color: var(--secondary); text-decoration: none; display: inline-block; padding-block: var(--size-1); }
+[data-screen="community"] .back:hover { color: var(--primary); }
+[data-screen="community"] .columns { display: grid; grid-template-columns: var(--measure-portrait) minmax(0, 1fr); gap: var(--sp-md); align-items: start; }
+[data-screen="community"] .right { display: grid; gap: var(--sp-md); }
+@container (max-width: 640px) {
+  [data-screen="community"] .columns { grid-template-columns: minmax(0, 1fr); }
+}
+[data-screen="community"] .portrait { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--size-1); }
+[data-screen="community"] .initial.big { width: 160px; height: 160px; line-height: 160px; }
+[data-screen="community"] .face.big { margin: 0 auto; }
+[data-screen="community"] .initial.big::first-letter { font-size: var(--type-display); }
+[data-screen="community"] .community-name { margin: var(--sp-sm) 0 0; color: var(--primary); overflow-wrap: anywhere; }
+[data-screen="community"] .rel { margin: var(--sp-sm) 0 0; }
+[data-screen="community"] .counts { list-style: none; display: flex; flex-direction: column; gap: var(--size-1); padding: 0; margin: var(--sp-md) 0 0; color: var(--secondary); }
+[data-screen="community"] .counts b { color: var(--primary); }
+[data-screen="community"] .tally i { font-style: normal; }
+[data-screen="community"] .tally i:not(:first-of-type) { display: none; }
+[data-screen="community"] .tally .empty { display: inline; color: var(--primary); }
+[data-screen="community"] .owner-name, [data-screen="community"] .owner-row { display: inline; }
+[data-screen="community"] .owner-name .who-link, [data-screen="community"] .owner-name .who-handle { min-height: 0; display: inline; }
+[data-screen="community"] .owner-name .who-link:empty { display: none; }
+[data-screen="community"] .owner-name .who-link:empty + .who-handle { display: inline; }
+[data-screen="community"] .owner-name .who-link:not(:empty) + .who-handle { display: none; }
+
+/* The arm: my membership probe decides; every control starts hidden at one
+   specificity and is shown by a more specific rule. */
+[data-screen="community"] .arms { display: flex; flex-direction: column; align-items: center; gap: var(--sp-sm); margin-top: var(--sp-md); width: 100%; }
+[data-screen="community"] .arms form { margin: 0; flex-direction: column; align-items: center; gap: var(--size-1); }
+[data-screen="community"] .mine, [data-screen="community"] .relation, [data-screen="community"] .member-probe { display: contents; }
+[data-screen="community"] .member-arm { display: flex; flex-direction: column; align-items: center; gap: var(--size-1); }
+[data-screen="community"] .member-arm button { color: var(--danger); }
+[data-screen="community"] .member-arm button:hover { color: var(--primary); }
+[data-screen="community"] .members-link { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: var(--size-1); min-height: var(--control-h-sm); }
+[data-screen="community"] .members-link:hover { text-decoration: underline; }
+[data-screen="community"] .state-label { color: var(--secondary); }
+[data-screen="community"] .arms form, [data-screen="community"] .arms .member-arm { display: none; }
+[data-screen="community"] .arms .join-arm { display: flex; }
+[data-screen="community"] .arms:has(.mine > template, .member-probe > template) { visibility: hidden; }
+[data-screen="community"] .arms .member-probe > .member-arm, [data-screen="community"] .arms .member-probe > .member-arm form { display: flex; }
+[data-screen="community"] .arms.arms:has(.member-probe > .member-arm) .join-arm { display: none; }
+
+/* The forum's head: the form for members, the note for everyone else. */
+[data-screen="community"] .forum-head { border-bottom: var(--border-size-1) solid var(--border); }
+[data-screen="community"] .new-topic { display: none; gap: var(--sp-sm); margin: 0; }
+[data-screen="community"] .members-only { margin: 0; color: var(--secondary); }
+[data-screen="community"] .field { display: grid; gap: var(--size-1); }
+[data-screen="community"] .field input, [data-screen="community"] .field textarea { width: 100%; }
+[data-screen="community"] .topic-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm) var(--sp-md); }
+[data-screen="community"] .topic-foot .invalid, [data-screen="community"] .topic-foot .store-error { margin: 0; }
+[data-screen="community"]:has(.arms .member-probe > .member-arm) .new-topic { display: grid; }
+[data-screen="community"]:has(.arms .member-probe > .member-arm) .members-only { display: none; }
+[data-screen="community"] .about { margin: 0; white-space: pre-line; }
+[data-screen="community"] .about-empty { margin: 0; color: var(--secondary); display: none; }
+[data-screen="community"] .about:empty { display: none; }
+[data-screen="community"] .about:empty + .about-empty { display: block; }
+
+/* A topic row: the title a link to its thread, who and when under it. */
+[data-screen="community"] .row.topic { display: grid; gap: var(--size-1); }
+[data-screen="community"] .topic-title { font-weight: 600; overflow-wrap: anywhere; color: var(--link); text-decoration: none; }
+[data-screen="community"] .topic-title:hover { text-decoration: underline; }
+[data-screen="community"] .topic-line { margin: 0; color: var(--secondary); display: flex; flex-wrap: wrap; gap: var(--size-1) var(--sp-sm); align-items: baseline; }
+[data-screen="community"] .topic-line .who-link, [data-screen="community"] .topic-line .who-handle { min-height: 0; }
+[data-screen="community"] .replies b { color: var(--primary); }
+[data-screen="community"] .topic-line .when { margin-inline-start: auto; }
+
+/* Storybook frames: the fixture fills every probe, so each frame names its arm. */
+.storybook .frame [data-screen="community"][data-state] .arms :is(form, .member-arm) { display: none; }
+.storybook .frame [data-screen="community"][data-state] .arms { visibility: visible; }
+.storybook .frame [data-screen="community"]:is([data-state="populated"], [data-state="populated-dark"]) .arms .join-arm { display: flex; }
+.storybook .frame [data-screen="community"]:is([data-state="populated"], [data-state="populated-dark"]) .new-topic { display: none; }
+.storybook .frame [data-screen="community"]:is([data-state="populated"], [data-state="populated-dark"]) .members-only { display: block; }
+.storybook .frame [data-screen="community"]:is([data-state="member"], [data-state="owner"], [data-state="validation-error"]) .arms .member-probe:first-child .member-arm,
+.storybook .frame [data-screen="community"]:is([data-state="member"], [data-state="owner"], [data-state="validation-error"]) .arms .member-probe:first-child .member-arm form { display: flex; }
+.storybook .frame [data-screen="community"]:is([data-state="member"], [data-state="owner"], [data-state="validation-error"]) .new-topic { display: grid; }
+.storybook .frame [data-screen="community"]:is([data-state="member"], [data-state="owner"], [data-state="validation-error"]) .members-only { display: none; }
+.storybook .frame [data-screen="community"]:not([data-state="owner"]) .edit-community { display: none; }
+.storybook .frame [data-screen="community"][data-state="owner"] .edit-community { display: block; }
+.storybook .frame [data-screen="community"][data-state="validation-error"] .new-topic .store-error { display: block; }
+
+/* The owner's form: drawn by the stamped child of the owner probe alone. */
+[data-screen="community"] .owner-probe { display: none; }
+[data-screen="community"] .edit-community { display: none; }
+[data-screen="community"]:has(.owner-probe > i) .edit-community { display: block; }
+[data-screen="community"] .edit-form { display: grid; gap: var(--sp-md); margin: 0; }
+[data-screen="community"] .field { display: grid; gap: var(--size-1); }
+[data-screen="community"] .field span { color: var(--secondary); }
+[data-screen="community"] .field input, [data-screen="community"] .field textarea { width: 100%; }
+[data-screen="community"] .field textarea { resize: vertical; min-height: var(--control-h-lg); }
+[data-screen="community"] .edit-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm) var(--sp-md); }
+[data-screen="community"] .edit-foot .invalid, [data-screen="community"] .edit-foot .store-error { margin: 0; }
+/* The saved line sits under the button, where the ledger says it does: the foot is a row, the line takes the next one. */
+[data-screen="community"] .edit-foot .saved { flex-basis: 100%; }
+[data-screen="community"] .edit-foot:has(.invalid:not([hidden])) .store-error { display: none; }
+.storybook .frame [data-screen="community"][data-state="validation-error"] .edit-community { display: block; }
+.storybook .frame [data-screen="community"][data-state="validation-error"] .edit-form .store-error { display: block; }
+
+/* States. */
+[data-screen="community"][data-state="loading"] .skeleton { display: grid; grid-template-columns: var(--measure-portrait) minmax(0, 1fr); gap: var(--sp-md); }
+[data-screen="community"][data-state="loading"] .one { display: none; }
+[data-screen="community"] .left-skel { height: 300px; }
+[data-screen="community"] .right-skel { height: 420px; }
+@container (max-width: 640px) {
+  [data-screen="community"][data-state="loading"] .skeleton { grid-template-columns: minmax(0, 1fr); }
+}
+[data-screen="community"] .one > .empty { background: var(--surface); border: var(--border-size-1) solid var(--border);
+  border-radius: var(--r-sm); padding: var(--sp-md); margin: 0; color: var(--secondary); }
+/* The refusal under a tile, posed: the first tile's line shows in the frame. */
+.storybook .frame [data-screen="community"][data-state="validation-error"] .tiles .tile:first-child .fan-form .store-error { display: block; }

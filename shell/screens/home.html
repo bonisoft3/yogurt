@@ -1,0 +1,237 @@
+<!-- home — ir: #home. The terminal owns the strip, the "<name> · sair" row and
+     the back stack; this fragment draws only the screen. Two columns: the
+     reader's own panels on the left, the network on the right. -->
+<section class="screen" data-screen="home">
+  <header class="masthead">
+    <h1 class="wordmark role-title" data-text="{msg.brand_name}">yogurt</h1>
+    <p class="tagline role-meta" data-text="{msg.tagline}">quem você conhece?</p>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel card-skel"></div>
+    <div class="skel rail-skel"></div>
+  </div>
+
+  <div class="columns">
+    <!-- The reader's own panels. Me is RLS-scoped to one row, so the region
+         holds exactly the signed-in person and every region nested in its
+         item reads that person's rows (ir decision-me-row). -->
+    <div class="me" data-live="me">
+      <template data-item>
+        <div class="mine">
+          <section class="panel card" data-live="app_user" data-filter="id=eq.{id}">
+            <template data-item>
+              <div class="card-body">
+                <h2 class="band role-band"><span data-text="{msg.my_card_label}">meu perfil</span></h2>
+                <div class="panel-body">
+                  <div class="who">
+                    <span class="face"><img class="photo" src="{photo_url}" alt="" width="72" height="72"><span class="initial" aria-hidden="true" data-text="{handle}"></span></span>
+                    <div class="ident">
+                      <p class="person-name role-band" data-text="{display_name}"></p>
+                      <p class="person-handle role-meta" data-text="{handle}"></p>
+                      <p class="person-city role-meta" data-text="{city}"></p>
+                    </div>
+                  </div>
+                  <ul class="counts role-meta">
+                    <li><b class="tally" data-live="friendship" data-filter="user_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.friends_zero}"><template data-item><i data-text="{msg.friends_count}"></i></template></b></li>
+                    <li><a class="fans-link" data-route="fans" data-param-handle="{handle}"><b class="tally" data-live="fan" data-filter="idol_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.fans_zero}"><template data-item><i data-text="{msg.fans_count}"></i></template></b></a></li>
+                    <li><b class="tally" data-live="membership" data-filter="user_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.communities_zero}"><template data-item><i data-text="{msg.communities_count}"></i></template></b></li>
+                  </ul>
+                  <p class="karma role-meta"><span class="smileys" data-live="karma_smiley" data-filter="rated_id=eq.{id}" data-empty="{msg.karma_unrated}"><template data-item><span class="smiley-row"><span class="k"><span data-text="{msg.trust_label}">confiável</span> <b aria-hidden="true" data-text="{msg[trust_key]}"></b><span class="sr-only" data-text="{msg.trust_of_three}"></span></span> <span class="k"><span data-text="{msg.cool_label}">legal</span> <b aria-hidden="true" data-text="{msg[cool_key]}"></b><span class="sr-only" data-text="{msg.cool_of_three}"></span></span> <span class="k"><span data-text="{msg.sexy_label}">sexy</span> <b aria-hidden="true" data-text="{msg[sexy_key]}"></b><span class="sr-only" data-text="{msg.sexy_of_three}"></span></span> <span class="raters" data-text="{msg.karma_raters}"></span></span></template></span></p>
+                  <p class="awaiting-line role-meta"><a data-route="testimonials" data-param-handle="{handle}"><span data-text="{msg.pending_testimonials_line}">depoimentos esperando sua aprovação</span>: <b class="tally" data-live="testimonial_pending" data-project='{"n":"count"}' data-empty=""><template data-item><i data-text="{n}"></i></template></b></a></p>
+                  <p class="card-links role-meta"><a data-route="profile" data-param-handle="{handle}" data-text="{msg.view_profile_cta}">ver meu perfil →</a> <a data-route="edit" title="{msg.edit_profile_cta}" data-text="{msg.edit_profile_cta}">editar perfil →</a></p>
+                </div>
+              </div>
+            </template>
+          </section>
+
+          <!-- Requests waiting for my answer: the private inbox half, mine alone
+               and live, each row with accept and decline, row-scoped. No embed
+               here: a region read with an embed comes through PostgREST, and a
+               live table's row that arrived that way is not in the collection a
+               row-scoped write resolves against (ir decision-live-relations).
+               The asker is a nested one-row region on their own key. -->
+          <section class="panel requests">
+            <h2 class="band role-band"><span data-text="{msg.pending_requests_label}">pedidos de amizade</span></h2>
+            <ul class="rows" data-live="friend_request"
+                data-order="created_at.desc,id.asc" data-empty="{msg.pending_requests_empty}">
+              <template data-item>
+                <li class="row request">
+                  <span class="asker" data-live="app_user" data-filter="id=eq.{from_id}" data-empty=""><template data-item><span class="asker-row"><span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{handle}"></span></span><p class="request-line role-meta"><a class="who-link" data-route="profile" data-param-handle="{handle}" data-text="{display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{handle}" data-text="{handle}"></a> <span data-text="{msg.wants_friend_label}">quer ser seu amigo</span></p></span></template></span>
+                  <div class="answer">
+                    <form data-form="accept-request-home" data-entity="friend_request" data-action="update">
+                      <input type="checkbox" name="accepted" checked hidden aria-hidden="true">
+                      <button type="submit" class="role-meta" data-text="{msg.accept_button}">aceitar</button>
+                      <p class="invalid role-meta" hidden data-text="{msg.answer_failed}">Não deu pra responder.</p>
+                      <p class="store-error role-meta" hidden data-text="{msg.answer_failed}">Não deu pra responder.</p>
+                    </form>
+                    <form data-form="decline-request-home" data-entity="friend_request" data-action="delete">
+                      <button type="submit" class="outline role-meta" data-text="{msg.decline_button}">recusar</button>
+                      <p class="invalid role-meta" hidden data-text="{msg.answer_failed}">Não deu pra responder.</p>
+                      <p class="store-error role-meta" hidden data-text="{msg.answer_failed}">Não deu pra responder.</p>
+                    </form>
+                  </div>
+                </li>
+              </template>
+            </ul>
+            <p class="fresh-note role-meta" data-text="{msg.pending_requests_empty}">Nenhum pedido esperando sua resposta.</p>
+          </section>
+
+          <!-- My friends: one filter on user_id (ir decision-friendship-mirror).
+               The empty copy says where to start. -->
+          <section class="panel">
+            <h2 class="band role-band"><span data-text="{msg.my_friends_label}">meus amigos</span> <a class="count role-meta" data-route="friends" data-param-handle="{handle}" data-text="{msg.see_all_friends}">ver todos os amigos</a></h2>
+            <ul class="tiles" data-live="friendship" data-filter="user_id=eq.{id}&limit=9"
+                data-select="*,friend:app_user!friend_id(handle,display_name,photo_url)"
+                data-order="created_at.desc,id.asc" data-empty="{msg.my_friends_empty}">
+              <template data-item>
+                <li class="tile">
+                  <a data-route="profile" data-param-handle="{friend.handle}">
+                    <span class="face"><img class="photo" src="{friend.photo_url}" alt="" width="72" height="72"><span class="initial" aria-hidden="true" data-text="{friend.handle}"></span></span>
+                    <span class="name role-meta" data-text="{friend.display_name}"></span>
+                    <span class="handle role-label" data-text="{friend.handle}"></span>
+                  </a>
+                </li>
+              </template>
+            </ul>
+            <p class="fresh-note role-meta" data-text="{msg.my_friends_empty}">Você ainda não tem amigos.</p>
+          </section>
+
+          <!-- My fans, newest first: the fan is an embed on fan_id, as a friend is. -->
+          <section class="panel my-fans">
+            <h2 class="band role-band"><span data-text="{msg.my_fans_label}">meus fãs</span> <a class="count role-meta" data-route="fans" data-param-handle="{handle}" data-text="{msg.see_all_fans}">ver todos os fãs</a></h2>
+            <ul class="tiles" data-live="fan" data-filter="idol_id=eq.{id}&limit=9"
+                data-select="*,fan:app_user!fan_id(handle,display_name,photo_url)"
+                data-order="created_at.desc,id.asc" data-empty="{msg.my_fans_empty}">
+              <template data-item>
+                <li class="tile">
+                  <a data-route="profile" data-param-handle="{fan.handle}">
+                    <span class="face"><img class="photo" src="{fan.photo_url}" alt="" width="72" height="72"><span class="initial" aria-hidden="true" data-text="{fan.handle}"></span></span>
+                    <span class="name role-meta" data-text="{fan.display_name}"></span>
+                    <span class="handle role-label" data-text="{fan.handle}"></span>
+                  </a>
+                </li>
+              </template>
+            </ul>
+          </section>
+
+          <section class="panel">
+            <h2 class="band role-band"><span data-text="{msg.my_communities_label}">minhas comunidades</span></h2>
+            <ul class="rows" data-live="membership" data-filter="user_id=eq.{id}"
+                data-select="*,community:community!community_id(name,photo_url)"
+                data-order="created_at.desc,id.asc" data-empty="{msg.my_communities_empty}">
+              <template data-item>
+                <li class="row">
+                  <a class="row-name role-body" data-route="community" data-param-id="{community_id}" data-text="{community.name}"></a>
+                  <!-- A row message reads a column of the bound row, never of an
+                       embed, so the category word comes from the community's own
+                       row, nested on its key. -->
+                  <span class="cat" data-live="community" data-filter="id=eq.{community_id}" data-empty=""><template data-item><span class="chip role-label" data-text="{msg[category]}"></span></template></span>
+                </li>
+              </template>
+            </ul>
+            <!-- Storybook stand-in for the sentence the region appends at runtime:
+                 the fixture tier hands every list three rows, so the fresh frame
+                 has no other way to show its own copy. Revealed only there. -->
+            <p class="fresh-note role-meta" data-text="{msg.my_communities_empty}">Você ainda não entrou em nenhuma comunidade.</p>
+          </section>
+        </div>
+      </template>
+    </div>
+
+    <div class="rail">
+      <!-- Everyone, oldest member first: the demo network's founders lead, and
+           the Me probe inside each tile hides the reader's own face. -->
+      <section class="panel people">
+        <h2 class="band role-band"><span data-text="{msg.people_title}">pessoas para conhecer</span></h2>
+        <ul class="tiles" data-live="app_user" data-order="created_at.asc,id.asc" data-filter="limit=14"
+            data-empty="{msg.people_empty}">
+          <template data-item>
+            <li class="tile person">
+              <span class="me-probe" data-live="me" data-filter="id=eq.{id}"><template data-item><i></i></template></span>
+              <a data-route="profile" data-param-handle="{handle}">
+                <span class="face"><img class="photo" src="{photo_url}" alt="" width="72" height="72"><span class="initial" aria-hidden="true" data-text="{handle}"></span></span>
+                <span class="name role-meta" data-text="{display_name}"></span>
+                <span class="handle role-label" data-text="{handle}"></span>
+              </a>
+              <!-- "ser fã" wherever a person appears (ir decision-fans): a stateless
+                   create, hidden on my own tile by the me probe; the toggle with its
+                   state lives on the profile. -->
+              <form class="fan-form" data-form="be-fan-home" data-entity="fan" data-action="create">
+                <input type="hidden" name="idol_id" data-value="{id}">
+                <button type="submit" class="role-meta" aria-label="{msg.be_fan_button}: {handle}" data-text="{msg.be_fan_button}">ser fã</button>
+                <p class="saved role-meta" role="status"><a data-route="profile" data-param-handle="{handle}" data-text="{msg.fan_state_label}">você é fã</a></p>
+                <p class="store-error role-meta" role="status" hidden data-text="{msg.fan_tile_failed}">Não deu. Talvez você já seja fã.</p>
+              </form>
+            </li>
+          </template>
+        </ul>
+      </section>
+
+      <!-- Novidades (ir decision-news): what my friends did lately, as the
+           cluster wrote it, newest first; the policy keeps it to my friends,
+           and the kind names the sentence through the row's own key. -->
+      <section class="panel news">
+        <h2 class="band role-band"><span data-text="{msg.news_title}">novidades dos amigos</span> <a class="count role-meta" data-route="news" data-text="{msg.see_all_news}">ver mais</a></h2>
+        <ul class="rows" data-live="feed_item" data-filter="limit=20"
+            data-select="*,actor:app_user!actor_id(handle,display_name,photo_url),about_user:app_user!about_user_id(handle,display_name),about_community:community!about_community_id(name)"
+            data-order="at.desc,id.desc" data-empty="{msg.news_empty}">
+          <template data-item>
+            <li class="row news" data-kind="{kind}">
+              <span class="face small"><img class="photo" src="{actor.photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{actor.handle}"></span></span>
+              <span class="you-probe" data-live="me" data-filter="id=eq.{about_user_id}" data-empty=""><template data-item><i></i></template></span>
+              <p class="news-line role-meta">
+                <a class="who-link" data-route="profile" data-param-handle="{actor.handle}" data-text="{actor.display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{actor.handle}" data-text="{actor.handle}"></a>
+                <span class="did" data-text="{msg[kind_key]}">fez algo</span>
+                <span class="about-you" data-text="{msg.news_you}">você</span><a class="about-user who-link" data-route="profile" data-param-handle="{about_user.handle}" data-text="{about_user.display_name}"></a><a class="about-user who-handle" data-route="profile" data-param-handle="{about_user.handle}" data-text="{about_user.handle}"></a><a class="about-community who-link" data-route="community" data-param-id="{about_community_id}" data-text="{about_community.name}"></a>
+                <time class="when" datetime="{at}" data-text="{at}" data-text-format="datetime"></time>
+              </p>
+              <p class="news-body role-body" data-text="{excerpt}"></p>
+            </li>
+          </template>
+        </ul>
+      </section>
+
+      <!-- The network's latest scraps: scrapbooks were public, so the newest
+           eight across every page are the pulse of the place. Two embeds on
+           the one table with two keys to app_user, each named by its column. -->
+      <section class="panel scraps">
+        <h2 class="band role-band"><span data-text="{msg.network_scraps_title}">recados recentes na rede</span></h2>
+        <ul class="rows" data-live="scrap" data-filter="limit=8"
+            data-select="*,author:app_user!author_id(handle,display_name,photo_url),owner:app_user!owner_id(handle,display_name)"
+            data-order="created_at.desc,id.desc" data-empty="{msg.network_scraps_empty}">
+          <template data-item>
+            <li class="row scrap">
+              <span class="face small"><img class="photo" src="{author.photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{author.handle}"></span></span>
+              <p class="scrap-line role-meta">
+                <a class="who-link" data-route="profile" data-param-handle="{author.handle}" data-text="{author.display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{author.handle}" data-text="{author.handle}"></a>
+                <span class="for" data-text="{msg.scrap_for}">para</span>
+                <a class="who-link" data-route="profile" data-param-handle="{owner.handle}" data-text="{owner.display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{owner.handle}" data-text="{owner.handle}"></a>
+                <time class="when" datetime="{created_at}" data-text="{created_at}" data-text-format="datetime"></time>
+              </p>
+              <p class="scrap-body role-body" data-text="{body}"></p>
+            </li>
+          </template>
+        </ul>
+      </section>
+
+      <!-- Every community with a count nobody is outside of: the members list
+           is public, so the count is a projection over it. -->
+      <section class="panel communities">
+        <h2 class="band role-band"><span data-text="{msg.communities_title}">comunidades</span> <a class="count role-meta" data-route="communities" data-text="{msg.see_all_communities}">ver todas as comunidades</a></h2>
+        <ul class="rows" data-live="community" data-filter="limit=12" data-order="created_at.asc,id.asc" data-empty="{msg.communities_empty}">
+          <template data-item>
+            <li class="row community">
+              <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+              <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+              <span class="chip role-label" data-text="{msg[category]}"></span>
+              <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            </li>
+          </template>
+        </ul>
+      </section>
+    </div>
+  </div>
+</section>

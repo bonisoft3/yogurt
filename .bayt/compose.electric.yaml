@@ -1,0 +1,55 @@
+# generated from bayt.cue — do not edit
+services:
+  yogurt-electric:
+    build:
+      additional_contexts:
+        yogurt-database: service:yogurt-database
+      context: ..
+      dockerfile: .bayt/Dockerfile.electric
+      target: electric
+      tags:
+      - bayt-yogurt-electric:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+      - bayt-yogurt-electric:latest
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    depends_on:
+      yogurt-database:
+        condition: service_healthy
+        restart: true
+    environment:
+      DATABASE_URL: >-
+        postgresql://electric:${ELECTRIC_PASSWORD:-dev-electric-password}@database:5432/${POSTGRES_DB:-yogurt}?sslmode=disable
+      ELECTRIC_SECRET: ${ELECTRIC_SECRET:-dev-electric-secret}
+      ELECTRIC_MANUAL_TABLE_PUBLISHING: "true"
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - -f
+      - http://localhost:3000/v1/health
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+      start_interval: 500ms
+    image: bayt-yogurt-electric:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+    networks:
+      default:
+        aliases:
+        - electric
+    restart: on-failure
+  yogurt-electric_bayt:
+    build:
+      additional_contexts:
+        yogurt-database_bayt: service:yogurt-database_bayt
+      context: ..
+      dockerfile: .bayt/Dockerfile.electric
+      target: electric_bayt
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-electric_bayt:latest
+    scale: 0

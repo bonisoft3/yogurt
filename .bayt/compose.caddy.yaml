@@ -1,0 +1,397 @@
+# generated from bayt.cue — do not edit
+services:
+  yogurt-caddy:
+    build:
+      additional_contexts:
+        yogurt-crud: service:yogurt-crud
+        yogurt-served: service:yogurt-served
+        root: ..
+      context: ..
+      dockerfile: .bayt/Dockerfile.caddy
+      target: caddy
+      tags:
+      - bayt-yogurt-caddy:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+      - bayt-yogurt-caddy:latest
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    depends_on:
+      yogurt-crud:
+        condition: service_healthy
+        restart: true
+    develop:
+      watch:
+      - action: sync+restart
+        path: ../docker/Caddyfile
+        target: /etc/caddy/Caddyfile
+      - action: sync+restart
+        path: ../.certs
+        target: /certs
+      - action: rebuild
+        path: ../shell/index.html
+        target: /srv/shell/index.html
+      - action: rebuild
+        path: ../shell/shell.css
+        target: /srv/shell/shell.css
+      - action: rebuild
+        path: ../shell/boot.js
+        target: /srv/shell/boot.js
+      - action: rebuild
+        path: ../offline-first-sw.js
+        target: /srv/offline-first-sw.js
+      - action: rebuild
+        path: ../shell/shell.yaml
+        target: /srv/shell/shell.yaml
+      - action: rebuild
+        path: ../shell/shell.json
+        target: /srv/shell/shell.json
+      - action: rebuild
+        path: ../shell/design.css
+        target: /srv/shell/design.css
+      - action: rebuild
+        path: ../shell/screens/home.html
+        target: /srv/shell/screens/home.html
+      - action: rebuild
+        path: ../shell/screens/home.css
+        target: /srv/shell/screens/home.css
+      - action: rebuild
+        path: ../shell/screens/profile.html
+        target: /srv/shell/screens/profile.html
+      - action: rebuild
+        path: ../shell/screens/profile.css
+        target: /srv/shell/screens/profile.css
+      - action: rebuild
+        path: ../shell/screens/scrapbook.html
+        target: /srv/shell/screens/scrapbook.html
+      - action: rebuild
+        path: ../shell/screens/scrapbook.css
+        target: /srv/shell/screens/scrapbook.css
+      - action: rebuild
+        path: ../shell/screens/communities.html
+        target: /srv/shell/screens/communities.html
+      - action: rebuild
+        path: ../shell/screens/communities.css
+        target: /srv/shell/screens/communities.css
+      - action: rebuild
+        path: ../shell/screens/community.html
+        target: /srv/shell/screens/community.html
+      - action: rebuild
+        path: ../shell/screens/community.css
+        target: /srv/shell/screens/community.css
+      - action: rebuild
+        path: ../shell/screens/topic.html
+        target: /srv/shell/screens/topic.html
+      - action: rebuild
+        path: ../shell/screens/topic.css
+        target: /srv/shell/screens/topic.css
+      - action: rebuild
+        path: ../shell/screens/testimonials.html
+        target: /srv/shell/screens/testimonials.html
+      - action: rebuild
+        path: ../shell/screens/testimonials.css
+        target: /srv/shell/screens/testimonials.css
+      - action: rebuild
+        path: ../shell/screens/edit.html
+        target: /srv/shell/screens/edit.html
+      - action: rebuild
+        path: ../shell/screens/edit.css
+        target: /srv/shell/screens/edit.css
+      - action: rebuild
+        path: ../shell/screens/members.html
+        target: /srv/shell/screens/members.html
+      - action: rebuild
+        path: ../shell/screens/members.css
+        target: /srv/shell/screens/members.css
+      - action: rebuild
+        path: ../shell/screens/search.html
+        target: /srv/shell/screens/search.html
+      - action: rebuild
+        path: ../shell/screens/search.css
+        target: /srv/shell/screens/search.css
+      - action: rebuild
+        path: ../shell/screens/friends.html
+        target: /srv/shell/screens/friends.html
+      - action: rebuild
+        path: ../shell/screens/friends.css
+        target: /srv/shell/screens/friends.css
+      - action: rebuild
+        path: ../shell/screens/credits.html
+        target: /srv/shell/screens/credits.html
+      - action: rebuild
+        path: ../shell/screens/credits.css
+        target: /srv/shell/screens/credits.css
+      - action: rebuild
+        path: ../shell/screens/news.html
+        target: /srv/shell/screens/news.html
+      - action: rebuild
+        path: ../shell/screens/news.css
+        target: /srv/shell/screens/news.css
+      - action: rebuild
+        path: ../shell/screens/fans.html
+        target: /srv/shell/screens/fans.html
+      - action: rebuild
+        path: ../shell/screens/fans.css
+        target: /srv/shell/screens/fans.css
+      - action: rebuild
+        path: ../shell/handlers/editing-text.js
+        target: /srv/shell/handlers/editing-text.js
+      - action: rebuild
+        path: ../shell/shared/chrome.css
+        target: /srv/shell/shared/chrome.css
+      - action: rebuild
+        path: ../shell/shared/yogurt.css
+        target: /srv/shell/shared/yogurt.css
+      - action: rebuild
+        path: ../messages/pt-BR.json
+        target: /srv/messages/pt-BR.json
+      - action: rebuild
+        path: ../messages/en.json
+        target: /srv/messages/en.json
+      - action: rebuild
+        path: ../brief.md
+        target: /srv/docs/brief.md
+      - action: rebuild
+        path: ../brief.html
+        target: /srv/docs/brief.html
+      - action: rebuild
+        path: ../journal.html
+        target: /srv/docs/journal.html
+      - action: rebuild
+        path: ../ir.html
+        target: /srv/docs/ir.html
+      - action: rebuild
+        path: ../ir/card.css
+        target: /srv/docs/ir/card.css
+      - action: rebuild
+        path: ../acceptance.md
+        target: /srv/docs/acceptance.md
+      - action: rebuild
+        path: ../DESIGN.md
+        target: /srv/docs/DESIGN.md
+      - action: rebuild
+        path: ../ir/neighbourhood-app.svg
+        target: /srv/docs/ir/neighbourhood-app.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-communities.svg
+        target: /srv/docs/ir/neighbourhood-communities.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-community.svg
+        target: /srv/docs/ir/neighbourhood-community.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-edit.svg
+        target: /srv/docs/ir/neighbourhood-edit.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-fans.svg
+        target: /srv/docs/ir/neighbourhood-fans.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-friends.svg
+        target: /srv/docs/ir/neighbourhood-friends.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-home.svg
+        target: /srv/docs/ir/neighbourhood-home.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-members.svg
+        target: /srv/docs/ir/neighbourhood-members.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-news.svg
+        target: /srv/docs/ir/neighbourhood-news.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-profile.svg
+        target: /srv/docs/ir/neighbourhood-profile.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-scrapbook.svg
+        target: /srv/docs/ir/neighbourhood-scrapbook.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-search.svg
+        target: /srv/docs/ir/neighbourhood-search.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-testimonials.svg
+        target: /srv/docs/ir/neighbourhood-testimonials.svg
+      - action: rebuild
+        path: ../ir/neighbourhood-topic.svg
+        target: /srv/docs/ir/neighbourhood-topic.svg
+      - action: rebuild
+        path: ../journal/2026-10-29-s1-porta.jpeg
+        target: /srv/docs/journal/2026-10-29-s1-porta.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t5-perfil-teaser.jpeg
+        target: /srv/docs/journal/2026-10-29-t5-perfil-teaser.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t5-recados-mine.jpeg
+        target: /srv/docs/journal/2026-10-29-t5-recados-mine.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t5-recados-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-29-t5-recados-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t5-recados.jpeg
+        target: /srv/docs/journal/2026-10-29-t5-recados.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t6-amigos.jpeg
+        target: /srv/docs/journal/2026-10-29-t6-amigos.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t6-inicio-pedido.jpeg
+        target: /srv/docs/journal/2026-10-29-t6-inicio-pedido.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t6-inicio-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-29-t6-inicio-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t6-perfil-amigos-live.jpeg
+        target: /srv/docs/journal/2026-10-29-t6-perfil-amigos-live.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t7-busca.jpeg
+        target: /srv/docs/journal/2026-10-29-t7-busca.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t7-comunidades-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-29-t7-comunidades-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t7-comunidades.jpeg
+        target: /srv/docs/journal/2026-10-29-t7-comunidades.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t8-comunidade-membro.jpeg
+        target: /srv/docs/journal/2026-10-29-t8-comunidade-membro.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t8-comunidade-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-29-t8-comunidade-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t8-comunidade.jpeg
+        target: /srv/docs/journal/2026-10-29-t8-comunidade.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t9-topico-membro.jpeg
+        target: /srv/docs/journal/2026-10-29-t9-topico-membro.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t9-topico-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-29-t9-topico-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-29-t9-topico.jpeg
+        target: /srv/docs/journal/2026-10-29-t9-topico.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-s3-inicio.jpeg
+        target: /srv/docs/journal/2026-10-30-s3-inicio.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t10-depoimentos-aprovado.jpeg
+        target: /srv/docs/journal/2026-10-30-t10-depoimentos-aprovado.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t10-depoimentos-aprovar.jpeg
+        target: /srv/docs/journal/2026-10-30-t10-depoimentos-aprovar.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t10-depoimentos-esperando.jpeg
+        target: /srv/docs/journal/2026-10-30-t10-depoimentos-esperando.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t10-depoimentos-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-30-t10-depoimentos-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t10-perfil.jpeg
+        target: /srv/docs/journal/2026-10-30-t10-perfil.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t11-comunidade-dona.jpeg
+        target: /srv/docs/journal/2026-10-30-t11-comunidade-dona.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t11-editar-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-30-t11-editar-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t11-editar.jpeg
+        target: /srv/docs/journal/2026-10-30-t11-editar.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t11-membros.jpeg
+        target: /srv/docs/journal/2026-10-30-t11-membros.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t12-buscar-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-30-t12-buscar-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t12-buscar.jpeg
+        target: /srv/docs/journal/2026-10-30-t12-buscar.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t13-inicio-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-30-t13-inicio-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-30-t13-perfil.jpeg
+        target: /srv/docs/journal/2026-10-30-t13-perfil.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t14-fas.jpeg
+        target: /srv/docs/journal/2026-10-31-t14-fas.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t14-inicio-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-31-t14-inicio-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t15-karma.jpeg
+        target: /srv/docs/journal/2026-10-31-t15-karma.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t15-perfil-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-31-t15-perfil-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t16-novidades-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-31-t16-novidades-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t16-novidades.jpeg
+        target: /srv/docs/journal/2026-10-31-t16-novidades.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t17-inicio.jpeg
+        target: /srv/docs/journal/2026-10-31-t17-inicio.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t17-novidades-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-31-t17-novidades-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t18-creditos.jpeg
+        target: /srv/docs/journal/2026-10-31-t18-creditos.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t18-inicio.jpeg
+        target: /srv/docs/journal/2026-10-31-t18-inicio.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t18-leticia-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-31-t18-leticia-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t19-karma-rows-phone-dark.jpeg
+        target: /srv/docs/journal/2026-10-31-t19-karma-rows-phone-dark.jpeg
+      - action: rebuild
+        path: ../journal/2026-10-31-t19-karma-rows.jpeg
+        target: /srv/docs/journal/2026-10-31-t19-karma-rows.jpeg
+      - action: rebuild
+        path: ../robots.txt
+        target: /srv/robots.txt
+      - action: rebuild
+        path: ../sitemap.xml
+        target: /srv/sitemap.xml
+    environment:
+      ELECTRIC_SECRET: ${ELECTRIC_SECRET:-dev-electric-secret}
+      ORIGIN: ${ORIGIN:-https://localhost:${CADDY_TLS_HOST_PORT:-26248}}
+    healthcheck:
+      test:
+      - CMD
+      - httpcheck
+      - http://127.0.0.1:8080/health
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+      start_interval: 500ms
+    image: bayt-yogurt-caddy:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+    networks:
+      default:
+        aliases:
+        - caddy
+  yogurt-caddy_bayt:
+    build:
+      additional_contexts:
+        yogurt-crud_bayt: service:yogurt-crud_bayt
+        yogurt-served_bayt: service:yogurt-served_bayt
+      context: ..
+      dockerfile: .bayt/Dockerfile.caddy
+      target: caddy_bayt
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-caddy_bayt:latest
+    scale: 0
+  yogurt-caddy_srcs:
+    build:
+      context: ..
+      dockerfile: .bayt/Dockerfile.caddy
+      target: caddy_srcs
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-caddy_srcs:latest
+    scale: 0

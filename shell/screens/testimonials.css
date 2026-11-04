@@ -1,0 +1,97 @@
+@import "./shared/yogurt.css";
+
+/* testimonials — ir: #testimonials. One column: whose page, what waits, the box, mine waiting, the approved. */
+[data-screen="testimonials"] { container-type: inline-size; }
+[data-screen="testimonials"] .topline { padding-bottom: var(--sp-sm); margin-bottom: var(--sp-md); }
+[data-screen="testimonials"] .back { color: var(--secondary); text-decoration: none; display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+[data-screen="testimonials"] .back:hover { color: var(--primary); }
+[data-screen="testimonials"] .back.to-home { display: none; }
+[data-screen="testimonials"]:has(.person > .empty) .back.to-profile { display: none; }
+[data-screen="testimonials"]:has(.person > .empty) .back.to-home { display: inline-flex; }
+[data-screen="testimonials"] .page { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="testimonials"] .whose { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--size-1) var(--sp-sm); }
+[data-screen="testimonials"] .whose > * { margin: 0; }
+[data-screen="testimonials"] .person-name { color: var(--primary); overflow-wrap: anywhere; }
+[data-screen="testimonials"] .person-handle { color: var(--secondary); font-weight: 400; }
+[data-screen="testimonials"] .person-name:empty { display: none; }
+[data-screen="testimonials"] .person-name:empty + .person-handle { color: var(--primary); font-weight: 700; }
+[data-screen="testimonials"] .count-line { flex-basis: 100%; color: var(--secondary); }
+[data-screen="testimonials"] .count-line b { color: var(--primary); }
+[data-screen="testimonials"] .tally i { font-style: normal; }
+[data-screen="testimonials"] .tally i:not(:first-of-type) { display: none; }
+[data-screen="testimonials"] .tally .empty { display: inline; color: var(--primary); }
+[data-screen="testimonials"] .me-probe, [data-screen="testimonials"] .mine, [data-screen="testimonials"] .relation,
+[data-screen="testimonials"] .friend-rows, [data-screen="testimonials"] .friend-row, [data-screen="testimonials"] .person-probe { display: none; }
+[data-screen="testimonials"] .note { color: var(--secondary); }
+[data-screen="testimonials"] .row.draft { display: block; }
+[data-screen="testimonials"] .row.testimonial .erase, [data-screen="testimonials"] .row.testimonial .approve { margin-top: var(--size-1); }
+
+/* The pending panel is the subject's alone and draws only with rows (an empty
+   region renders nothing, so rows are the signal); the approve pill is the
+   one accent control on an own page. */
+[data-screen="testimonials"] .pending { display: none; }
+[data-screen="testimonials"]:has(.me-probe > i) .pending:has(.rows > li:not(.empty)) { display: block; }
+[data-screen="testimonials"] .approve { display: flex; align-items: center; gap: var(--sp-sm); margin: 0; }
+[data-screen="testimonials"] .approve .store-error { margin: 0; }
+
+/* The box: for a friend without one about this person yet; the note for
+   everyone else; nothing on my own page; neither until the probes resolve. */
+[data-screen="testimonials"] .write-form { display: none; gap: var(--sp-sm); margin: 0; }
+[data-screen="testimonials"] .write-form textarea { width: 100%; resize: vertical; min-height: var(--control-h-lg); }
+[data-screen="testimonials"] .write-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm) var(--sp-md); }
+[data-screen="testimonials"] .write-foot .invalid, [data-screen="testimonials"] .write-foot .store-error { margin: 0; }
+[data-screen="testimonials"] .write-foot:has(.invalid:not([hidden])) .store-error { display: none; }
+[data-screen="testimonials"] .friends-only { margin: 0; color: var(--secondary); }
+[data-screen="testimonials"]:has(.friend-rows .person-probe > i) .write-form { display: grid; }
+[data-screen="testimonials"]:has(.friend-rows .person-probe > i) .friends-only { display: none; }
+[data-screen="testimonials"]:has(.me-probe > i) .write { display: none; }
+[data-screen="testimonials"]:has(.awaiting .rows > li:not(.empty)) .write { display: none; }
+[data-screen="testimonials"] .already { display: none; margin: 0; color: var(--secondary); }
+[data-screen="testimonials"]:has(.approved .author-probe > i) .write-form, [data-screen="testimonials"]:has(.approved .author-probe > i) .friends-only { display: none; }
+[data-screen="testimonials"]:has(.approved .author-probe > i) .already { display: block; }
+[data-screen="testimonials"] .page:has(.me-probe > template, .mine > template, .friend-rows > template, .person-probe > template) .write { visibility: hidden; }
+
+/* Mine waiting: drawn only with rows. */
+[data-screen="testimonials"] .awaiting { display: none; }
+[data-screen="testimonials"] .awaiting:has(.rows > li:not(.empty)) { display: block; }
+
+/* apagar for the writer or the subject alone: two probes, either non-empty. */
+[data-screen="testimonials"] .may { display: none; }
+[data-screen="testimonials"] .row.testimonial .erase { display: none; }
+[data-screen="testimonials"] .row.testimonial:has(.may > i) .erase, [data-screen="testimonials"] .pending .row.testimonial .erase, [data-screen="testimonials"] .awaiting .row.testimonial .erase { display: block; }
+[data-screen="testimonials"] .row.testimonial:has(.may > template) .erase { visibility: hidden; }
+[data-screen="testimonials"] .erase summary { list-style: none; cursor: pointer; color: var(--danger); text-decoration: underline; display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+[data-screen="testimonials"] .erase summary::-webkit-details-marker { display: none; }
+[data-screen="testimonials"] .erase[open] summary { display: none; }
+[data-screen="testimonials"] .erase form { display: flex; align-items: center; gap: var(--sp-sm); margin: 0; }
+[data-screen="testimonials"] .erase button { padding-block: var(--size-1); min-height: var(--control-h-sm); }
+[data-screen="testimonials"] .erase .store-error { margin: 0; }
+[data-screen="testimonials"] .pending .scrap-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm) var(--sp-md); }
+
+/* Loading: skeletons where the name, the box and the list will be. */
+[data-screen="testimonials"][data-state="loading"] .skeleton { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="testimonials"][data-state="loading"] .person { display: none; }
+[data-screen="testimonials"] .name-skel { height: var(--sp-lg); width: min(100%, calc(var(--measure-column) / 2)); }
+[data-screen="testimonials"] .box-skel { height: calc(var(--control-h-lg) * 3); }
+[data-screen="testimonials"] .list-skel { height: calc(var(--control-h-lg) * 6); }
+[data-screen="testimonials"] .person > .empty { background: var(--surface); border: var(--border-size-1) solid var(--border);
+  border-radius: var(--r-sm); padding: var(--sp-md); margin: 0; color: var(--secondary); max-width: var(--measure-column); }
+
+/* Storybook frames: the fixture fills every probe and list, so each state names what it shows. */
+.storybook .frame [data-screen="testimonials"] .page .write { visibility: visible; }
+.storybook .frame [data-screen="testimonials"] .row.testimonial .erase { visibility: visible; }
+.storybook .frame [data-screen="testimonials"]:not([data-state="own-page"]) .pending { display: none; }
+.storybook .frame [data-screen="testimonials"]:not([data-state="awaiting"]) .awaiting { display: none; }
+.storybook .frame [data-screen="testimonials"]:is([data-state="populated"], [data-state="populated-dark"]) .write-form { display: none; }
+.storybook .frame [data-screen="testimonials"] .already { display: none; }
+.storybook .frame [data-screen="testimonials"]:is([data-state="populated"], [data-state="populated-dark"]) .friends-only { display: block; }
+.storybook .frame [data-screen="testimonials"]:is([data-state="populated"], [data-state="populated-dark"], [data-state="friend"], [data-state="validation-error"]) .approved .erase { display: none; }
+.storybook .frame [data-screen="testimonials"]:is([data-state="populated"], [data-state="populated-dark"], [data-state="friend"], [data-state="awaiting"], [data-state="validation-error"]) .write { display: block; }
+.storybook .frame [data-screen="testimonials"]:is([data-state="friend"], [data-state="awaiting"], [data-state="validation-error"]) .write-form { display: grid; }
+.storybook .frame [data-screen="testimonials"]:is([data-state="friend"], [data-state="awaiting"], [data-state="validation-error"]) .friends-only { display: none; }
+.storybook .frame [data-screen="testimonials"][data-state="awaiting"] .write { display: none; }
+.storybook .frame [data-screen="testimonials"][data-state="awaiting"] .awaiting { display: block; }
+.storybook .frame [data-screen="testimonials"][data-state="awaiting"] .approved .erase { display: none; }
+.storybook .frame [data-screen="testimonials"][data-state="own-page"] .write { display: none; }
+.storybook .frame [data-screen="testimonials"][data-state="own-page"] .pending { display: block; }
+.storybook .frame [data-screen="testimonials"][data-state="validation-error"] .write-form .store-error { display: block; }

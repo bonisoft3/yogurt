@@ -1,0 +1,47 @@
+# generated from bayt.cue — do not edit
+services:
+  yogurt-ci-replay:
+    build:
+      additional_contexts:
+        yogurt-setup: service:yogurt-setup
+        yogurt-database: service:yogurt-database
+      context: ..
+      dockerfile: .bayt/Dockerfile.ci-replay
+      target: ci-replay
+      tags:
+      - bayt-yogurt-ci-replay:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+      - bayt-yogurt-ci-replay:latest
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-ci-replay:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+    scale: 0
+  yogurt-ci-replay_bayt:
+    build:
+      additional_contexts:
+        yogurt-setup_bayt: service:yogurt-setup_bayt
+        yogurt-database_bayt: service:yogurt-database_bayt
+      context: ..
+      dockerfile: .bayt/Dockerfile.ci-replay
+      target: ci-replay_bayt
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-ci-replay_bayt:latest
+    scale: 0
+  yogurt-ci-replay_srcs:
+    build:
+      additional_contexts:
+        yogurt-setup_srcs: service:yogurt-setup_srcs
+        yogurt-database_srcs: service:yogurt-database_srcs
+      context: ..
+      dockerfile: .bayt/Dockerfile.ci-replay
+      target: ci-replay_srcs
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-ci-replay_srcs:latest
+    scale: 0

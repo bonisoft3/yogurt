@@ -1,0 +1,183 @@
+syntax = "proto3";
+package pronto.entities;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/struct.proto";
+
+message AppUser {
+  optional string id = 1 [json_name = "id"];
+  optional string handle = 2 [json_name = "handle"];
+  optional string display_name = 3 [json_name = "display_name"];
+  optional string photo_url = 4 [json_name = "photo_url"];
+  optional string about = 5 [json_name = "about"];
+  optional string relationship = 6 [json_name = "relationship"];
+  optional string city = 7 [json_name = "city"];
+  optional string country = 8 [json_name = "country"];
+  optional string birthday = 9 [json_name = "birthday"];
+  optional string passions = 10 [json_name = "passions"];
+  optional string music = 11 [json_name = "music"];
+  optional string movies = 12 [json_name = "movies"];
+  optional string books = 13 [json_name = "books"];
+  google.protobuf.Timestamp created_at = 14 [json_name = "created_at"];
+  optional string search_text = 15 [json_name = "search_text"];
+}
+
+message Community {
+  optional string id = 1 [json_name = "id"];
+  optional string name = 2 [json_name = "name"];
+  optional string description = 3 [json_name = "description"];
+  optional string category = 4 [json_name = "category"];
+  optional string owner_id = 5 [json_name = "owner_id"];
+  optional string photo_url = 6 [json_name = "photo_url"];
+  google.protobuf.Timestamp created_at = 7 [json_name = "created_at"];
+}
+
+message CommunitySearch {
+  optional string id = 1 [json_name = "id"];
+  optional string q = 2 [json_name = "q"];
+}
+
+message Fan {
+  optional string id = 1 [json_name = "id"];
+  optional string fan_id = 2 [json_name = "fan_id"];
+  optional string idol_id = 3 [json_name = "idol_id"];
+  google.protobuf.Timestamp created_at = 4 [json_name = "created_at"];
+}
+
+message Feed {
+  optional string id = 1 [json_name = "id"];
+  google.protobuf.Timestamp at = 2 [json_name = "at"];
+  optional string actor_id = 3 [json_name = "actor_id"];
+  optional string kind = 4 [json_name = "kind"];
+  optional string kind_key = 5 [json_name = "kind_key"];
+  optional string about_user_id = 6 [json_name = "about_user_id"];
+  optional string about_community_id = 7 [json_name = "about_community_id"];
+  optional string excerpt = 8 [json_name = "excerpt"];
+  optional string source_id = 9 [json_name = "source_id"];
+}
+
+message FeedItem {
+  optional string id = 1 [json_name = "id"];
+  optional string reader_id = 2 [json_name = "reader_id"];
+  google.protobuf.Timestamp at = 3 [json_name = "at"];
+  optional string actor_id = 4 [json_name = "actor_id"];
+  optional string kind = 5 [json_name = "kind"];
+  optional string kind_key = 6 [json_name = "kind_key"];
+  optional string about_user_id = 7 [json_name = "about_user_id"];
+  optional string about_community_id = 8 [json_name = "about_community_id"];
+  optional string excerpt = 9 [json_name = "excerpt"];
+  optional string source_id = 10 [json_name = "source_id"];
+}
+
+message FriendRequest {
+  optional string id = 1 [json_name = "id"];
+  optional string from_id = 2 [json_name = "from_id"];
+  optional string to_id = 3 [json_name = "to_id"];
+  optional bool accepted = 4 [json_name = "accepted"];
+  google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
+}
+
+message FriendRequestSent {
+  optional string id = 1 [json_name = "id"];
+  optional string from_id = 2 [json_name = "from_id"];
+  optional string to_id = 3 [json_name = "to_id"];
+  google.protobuf.Timestamp created_at = 4 [json_name = "created_at"];
+}
+
+message Friendship {
+  optional string id = 1 [json_name = "id"];
+  optional string user_id = 2 [json_name = "user_id"];
+  optional string friend_id = 3 [json_name = "friend_id"];
+  google.protobuf.Timestamp created_at = 4 [json_name = "created_at"];
+}
+
+message Karma {
+  optional string id = 1 [json_name = "id"];
+  optional string rater_id = 2 [json_name = "rater_id"];
+  optional string rated_id = 3 [json_name = "rated_id"];
+  optional int32 trust = 4 [json_name = "trust"];
+  optional int32 cool = 5 [json_name = "cool"];
+  optional int32 sexy = 6 [json_name = "sexy"];
+  google.protobuf.Timestamp created_at = 7 [json_name = "created_at"];
+}
+
+message KarmaSmiley {
+  optional string id = 1 [json_name = "id"];
+  optional string rated_id = 2 [json_name = "rated_id"];
+  optional int32 trust = 3 [json_name = "trust"];
+  optional int32 cool = 4 [json_name = "cool"];
+  optional int32 sexy = 5 [json_name = "sexy"];
+  optional int32 raters = 6 [json_name = "raters"];
+  optional string trust_key = 7 [json_name = "trust_key"];
+  optional string cool_key = 8 [json_name = "cool_key"];
+  optional string sexy_key = 9 [json_name = "sexy_key"];
+  google.protobuf.Timestamp updated_at = 10 [json_name = "updated_at"];
+}
+
+message Me {
+  optional string id = 1 [json_name = "id"];
+  optional string handle = 2 [json_name = "handle"];
+}
+
+message Membership {
+  optional string id = 1 [json_name = "id"];
+  optional string community_id = 2 [json_name = "community_id"];
+  optional string user_id = 3 [json_name = "user_id"];
+  google.protobuf.Timestamp created_at = 4 [json_name = "created_at"];
+}
+
+message Post {
+  optional string id = 1 [json_name = "id"];
+  optional string topic_id = 2 [json_name = "topic_id"];
+  optional string author_id = 3 [json_name = "author_id"];
+  optional string body = 4 [json_name = "body"];
+  google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
+}
+
+message Scrap {
+  optional string id = 1 [json_name = "id"];
+  optional string owner_id = 2 [json_name = "owner_id"];
+  optional string author_id = 3 [json_name = "author_id"];
+  optional string body = 4 [json_name = "body"];
+  google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
+}
+
+message Search {
+  optional string id = 1 [json_name = "id"];
+  optional string q = 2 [json_name = "q"];
+}
+
+message Testimonial {
+  optional string id = 1 [json_name = "id"];
+  optional string subject_id = 2 [json_name = "subject_id"];
+  optional string author_id = 3 [json_name = "author_id"];
+  optional string body = 4 [json_name = "body"];
+  google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
+}
+
+message TestimonialDraft {
+  optional string id = 1 [json_name = "id"];
+  optional string subject_id = 2 [json_name = "subject_id"];
+  optional string author_id = 3 [json_name = "author_id"];
+  optional string body = 4 [json_name = "body"];
+  google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
+}
+
+message TestimonialPending {
+  optional string id = 1 [json_name = "id"];
+  optional string subject_id = 2 [json_name = "subject_id"];
+  optional string author_id = 3 [json_name = "author_id"];
+  optional string body = 4 [json_name = "body"];
+  optional bool approved = 5 [json_name = "approved"];
+  google.protobuf.Timestamp created_at = 6 [json_name = "created_at"];
+}
+
+message Topic {
+  optional string id = 1 [json_name = "id"];
+  optional string community_id = 2 [json_name = "community_id"];
+  optional string author_id = 3 [json_name = "author_id"];
+  optional string title = 4 [json_name = "title"];
+  optional string body = 5 [json_name = "body"];
+  google.protobuf.Timestamp created_at = 6 [json_name = "created_at"];
+}

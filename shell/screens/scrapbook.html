@@ -1,0 +1,83 @@
+<!-- scrapbook — ir: #scrapbook. A person's scraps, the box to leave one,
+     apagar for the reader who may. The header is the same one-row LIST region
+     over app_user as the profile, so every nested region hydrates against the
+     person's row and an unknown handle is the same sentence. -->
+<section class="screen" data-screen="scrapbook">
+  <header class="topline">
+    <a class="back to-profile role-meta" data-route="profile" data-param-handle="{param.handle}" data-text="{msg.back_profile}">← perfil</a>
+    <!-- A handle nobody carries has no profile to go back to. -->
+    <a class="back to-home role-meta" data-route="home" data-text="{msg.back_home}">← início</a>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel name-skel"></div>
+    <div class="skel box-skel"></div>
+    <div class="skel list-skel"></div>
+  </div>
+
+  <div class="person" data-live="app_user" data-filter="handle=eq.{param.handle}"
+       data-empty="{msg.profile_not_found}">
+    <template data-item>
+      <div class="page">
+        <header class="whose">
+          <h1 class="person-name role-title" dir="auto" data-text="{display_name}"></h1>
+          <p class="person-handle role-title" data-text="{handle}"></p>
+          <p class="count-line role-meta"><span data-text="{msg.scrapbook_label}">recados</span> · <b class="tally" data-live="scrap" data-filter="owner_id=eq.{id}" data-project='{"n":"count"}' data-empty="0"><template data-item><i data-text="{n}"></i></template></b></p>
+        </header>
+
+        <!-- Leaving one is why the page was opened: the box first. author_id
+             defaults to the token's bearer and 011 grants no other value. -->
+        <section class="panel">
+          <h2 class="band role-band"><span data-text="{msg.leave_scrap_label}">deixar um recado</span></h2>
+          <form class="panel-body leave" data-form="leave-scrap" data-entity="scrap" data-action="create">
+            <input type="hidden" name="owner_id" data-value="{id}">
+            <textarea name="body" required maxlength="1000" rows="3" placeholder="{msg.scrap_placeholder}" aria-label="{msg.leave_scrap_label}"></textarea>
+            <div class="leave-foot">
+              <button type="submit" class="role-meta" data-text="{msg.send_scrap_button}">enviar recado</button>
+              <p class="invalid role-meta" hidden data-text="{msg.scrap_blank}">Escreva alguma coisa antes de enviar.</p>
+              <p class="store-error role-meta" hidden data-text="{msg.scrap_failed}">Não deu pra enviar o recado.</p>
+            </div>
+          </form>
+        </section>
+
+        <!-- Every scrap on the page, newest first. The two probes in a row are
+             the ownership primitive twice: I wrote it, or it is on my page;
+             the row draws apagar when either has a row (ir decision-scrapbook).
+             Probes carry no whitespace. -->
+        <section class="panel">
+          <h2 class="band role-band"><span data-text="{msg.scrapbook_label}">recados</span></h2>
+          <ul class="rows" data-live="scrap" data-filter="owner_id=eq.{id}"
+              data-select="*,author:app_user!author_id(handle,display_name,photo_url)"
+              data-order="created_at.desc,id.desc" data-empty="{msg.scrapbook_empty}">
+            <template data-item>
+              <li class="row scrap">
+              <span class="face small"><img class="photo" src="{author.photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{author.handle}"></span></span>
+              <p class="scrap-line role-meta">
+                <a class="who-link" data-route="profile" data-param-handle="{author.handle}" data-text="{author.display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{author.handle}" data-text="{author.handle}"></a>
+                <time class="when" datetime="{created_at}" data-text="{created_at}" data-text-format="datetime"></time>
+              </p>
+              <p class="scrap-body role-body" data-text="{body}"></p>
+              <span class="may author-probe" data-live="me" data-filter="id=eq.{author_id}" data-empty=""><template data-item><i></i></template></span><span class="may owner-probe" data-live="me" data-filter="id=eq.{owner_id}" data-empty=""><template data-item><i></i></template></span>
+              <div class="scrap-foot role-meta">
+                <a class="reply" data-route="scrapbook" data-param-handle="{author.handle}" data-text="{msg.reply_link}">responder</a>
+                <!-- Two taps, as unfriend: the summary arms it, the form commits. -->
+                <details class="erase">
+                  <summary class="role-meta" data-text="{msg.delete_scrap_button}">apagar…</summary>
+                  <form data-form="delete-scrap" data-entity="scrap" data-action="delete">
+                    <button type="submit" class="danger role-meta" data-text="{msg.delete_scrap_confirm}">sim, apagar</button>
+                    <p class="invalid role-meta" hidden data-text="{msg.delete_scrap_failed}">Não deu pra apagar.</p>
+                    <p class="store-error role-meta" hidden data-text="{msg.delete_scrap_failed}">Não deu pra apagar.</p>
+                  </form>
+                </details>
+              </div>
+            </li>
+            </template>
+          </ul>
+          <p class="blank-note role-meta" data-text="{msg.scrapbook_empty}">Ninguém deixou recado aqui ainda.</p>
+        </section>
+      </div>
+    </template>
+  </div>
+</section>

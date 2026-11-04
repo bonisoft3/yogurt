@@ -1,0 +1,7 @@
+@import "./shared/yogurt.css";
+/* credits — a list of lines, each a link and its byline. */
+[data-screen="credits"] .page { max-width: var(--measure-page, 72ch); margin: 0 auto; }
+/* Title, author and license are flex items, each a rectangle of its own: an
+   inline link that wraps spans the pieces beside it. The title takes a line. */
+[data-screen="credits"] .row.credit { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--size-1); padding: var(--sp-sm) var(--sp-md); }
+[data-screen="credits"] .row.credit > .role-body { flex-basis: 100%; }

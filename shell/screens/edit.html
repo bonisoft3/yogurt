@@ -1,0 +1,48 @@
+<!-- edit — ir: #edit. The reader's own form: my app_user row read through my
+     me row, every control bound to its column, one row-scoped update. -->
+<section class="screen" data-screen="edit">
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel name-skel"></div>
+    <div class="skel form-skel"></div>
+  </div>
+
+  <div class="me" data-live="me">
+    <template data-item>
+      <div class="mine">
+        <header class="topline">
+          <a class="back role-meta" data-route="profile" data-param-handle="{handle}" data-text="{msg.back_my_profile}">← meu perfil</a>
+        </header>
+        <section class="panel own" data-live="app_user" data-filter="id=eq.{id}">
+          <template data-item>
+            <div class="own-body">
+              <h1 class="band role-band" data-text="{msg.edit_profile_title}">editar perfil</h1>
+              <form class="panel-body edit-form" data-form="edit-profile" data-entity="app_user" data-action="update">
+              <p class="note role-meta" data-text="{msg.edit_note}">Tudo aqui aparece no seu perfil.</p>
+              <label class="field"><span class="role-meta" data-text="{msg.name_label}">nome</span><input type="text" name="display_name" data-value-adapter="editing-text" maxlength="60" data-value="{display_name}"></label>
+              <label class="field"><span class="role-meta" data-text="{msg.photo_label}">foto (link https)</span><input type="text" name="photo_url" data-value-adapter="editing-text" maxlength="2048" data-value="{photo_url}"></label>
+              <label class="field"><span class="role-meta" data-text="{msg.about_label}">quem sou eu</span><textarea name="about" data-value-adapter="editing-text" maxlength="1000" rows="4" data-value="{about}"></textarea></label>
+              <label class="field"><span class="role-meta" data-text="{msg.relationship_label}">relacionamento</span><select name="relationship" data-value="{relationship}"><option value="rel_unsaid" data-text="{msg.rel_unsaid}"></option><option value="rel_single" data-text="{msg.rel_single}"></option><option value="rel_dating" data-text="{msg.rel_dating}"></option><option value="rel_married" data-text="{msg.rel_married}"></option><option value="rel_open" data-text="{msg.rel_open}"></option><option value="rel_complicated" data-text="{msg.rel_complicated}"></option></select></label>
+              <label class="field"><span class="role-meta" data-text="{msg.city_label}">cidade</span><input type="text" name="city" data-value-adapter="editing-text" maxlength="80" data-value="{city}"></label>
+              <label class="field"><span class="role-meta" data-text="{msg.country_label}">país</span><input type="text" name="country" data-value-adapter="editing-text" maxlength="60" data-value="{country}"></label>
+              <label class="field"><span class="role-meta" data-text="{msg.birthday_label}">aniversário</span><input type="date" name="birthday" data-value-adapter="editing-text" data-value="{birthday}"></label>
+              <label class="field"><span class="role-meta" data-text="{msg.passions_label}">paixões</span><input type="text" name="passions" data-value-adapter="editing-text" maxlength="300" data-value="{passions}"></label>
+              <label class="field"><span class="role-meta" data-text="{msg.music_label}">música</span><input type="text" name="music" data-value-adapter="editing-text" maxlength="300" data-value="{music}"></label>
+              <label class="field"><span class="role-meta" data-text="{msg.movies_label}">filmes</span><input type="text" name="movies" data-value-adapter="editing-text" maxlength="300" data-value="{movies}"></label>
+              <label class="field"><span class="role-meta" data-text="{msg.books_label}">livros</span><input type="text" name="books" data-value-adapter="editing-text" maxlength="300" data-value="{books}"></label>
+              <div class="edit-foot">
+                <button type="submit" class="role-meta" data-text="{msg.save_button}">salvar</button>
+                <a class="role-meta" data-route="profile" data-param-handle="{handle}" data-text="{msg.view_profile_cta}">ver meu perfil →</a>
+                <p class="invalid role-meta" hidden data-text="{msg.edit_blank}">Confira os campos marcados.</p>
+                <p class="store-error role-meta" hidden data-text="{msg.edit_failed}">Não deu pra salvar.</p>
+                <p class="saved role-meta" role="status" data-text="{msg.saved_line}">salvo</p>
+              </div>
+              </form>
+            </div>
+          </template>
+        </section>
+      </div>
+    </template>
+  </div>
+</section>

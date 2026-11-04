@@ -1,0 +1,2445 @@
+{
+  "version": 1,
+  "types": {
+    "types": {
+      "string": {
+        "pg": "text",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "text",
+          "varchar",
+          "bpchar",
+          "tsvector"
+        ],
+        "json": "string",
+        "refuse": "\\x00",
+        "order": "text",
+        "beyond": [
+          "scalar-values"
+        ]
+      },
+      "bool": {
+        "pg": "boolean",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "bool",
+          "boolean"
+        ],
+        "json": "boolean",
+        "order": "boolean",
+        "beyond": []
+      },
+      "int32": {
+        "pg": "integer",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "int2",
+          "int4",
+          "integer",
+          "smallint"
+        ],
+        "json": "number",
+        "min": -2147483648,
+        "max": 2147483647,
+        "order": "number",
+        "beyond": []
+      },
+      "int64": {
+        "pg": "bigint",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_int64",
+        "base": [
+          "int8",
+          "bigint"
+        ],
+        "json": "string",
+        "pattern": "^(0|-?[1-9][0-9]*)$",
+        "order": "integer",
+        "beyond": [
+          "int64-range"
+        ]
+      },
+      "double": {
+        "pg": "double precision",
+        "column": "checked",
+        "subset": true,
+        "base": [
+          "float4",
+          "float8",
+          "double precision",
+          "real"
+        ],
+        "json": "number",
+        "order": "number",
+        "beyond": []
+      },
+      "bytes": {
+        "pg": "bytea",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_bytes",
+        "base": [
+          "bytea"
+        ],
+        "json": "string",
+        "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+        "order": "none",
+        "beyond": []
+      },
+      "uuid": {
+        "pg": "uuid",
+        "column": "plain",
+        "subset": true,
+        "base": [
+          "uuid"
+        ],
+        "json": "string",
+        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+        "order": "text",
+        "beyond": []
+      },
+      "timestamp": {
+        "pg": "timestamptz",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_timestamp",
+        "base": [
+          "timestamptz",
+          "timestamp with time zone"
+        ],
+        "json": "string",
+        "pattern": "^(000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|[1-9][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{6}Z$",
+        "order": "text",
+        "beyond": [
+          "calendar"
+        ]
+      },
+      "duration": {
+        "pg": "interval",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_duration",
+        "base": [
+          "interval"
+        ],
+        "json": "string",
+        "pattern": "^PT(0|[1-9][0-9]*)(\\.[0-9]{0,5}[1-9])?S$",
+        "order": "duration",
+        "beyond": [
+          "duration-range"
+        ]
+      },
+      "decimal": {
+        "pg": "numeric",
+        "column": "domain",
+        "subset": false,
+        "base": [
+          "numeric",
+          "decimal"
+        ],
+        "json": "string",
+        "pattern": "^(0|-?[1-9][0-9]*|-?(0|[1-9][0-9]*)\\.[0-9]*[1-9])$",
+        "order": "decimal",
+        "beyond": [
+          "decimal-profile"
+        ]
+      },
+      "date": {
+        "pg": "date",
+        "column": "checked",
+        "subset": true,
+        "base": [
+          "date"
+        ],
+        "json": "string",
+        "pattern": "^(000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|[1-9][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+        "order": "text",
+        "beyond": [
+          "calendar"
+        ]
+      },
+      "time": {
+        "pg": "time(6)",
+        "column": "domain",
+        "subset": false,
+        "sql": "portable_time",
+        "base": [
+          "time",
+          "time without time zone"
+        ],
+        "json": "string",
+        "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\\.[0-9]{6}$",
+        "order": "text",
+        "beyond": []
+      },
+      "timezone": {
+        "pg": "text",
+        "column": "checked",
+        "subset": true,
+        "base": [
+          "text"
+        ],
+        "json": "string",
+        "pattern": "^[A-Za-z0-9+_/-]+$",
+        "order": "none",
+        "beyond": [
+          "tzdb"
+        ]
+      },
+      "json": {
+        "pg": "json",
+        "column": "checked",
+        "subset": false,
+        "base": [
+          "json",
+          "jsonb"
+        ],
+        "json": "value",
+        "order": "none",
+        "beyond": [
+          "scalar-values",
+          "finite-numbers"
+        ]
+      },
+      "geojson": {
+        "pg": "json",
+        "column": "checked",
+        "subset": false,
+        "base": [
+          "json",
+          "jsonb",
+          "geometry",
+          "geography"
+        ],
+        "json": "value",
+        "order": "none",
+        "beyond": [
+          "scalar-values",
+          "finite-numbers",
+          "ring-closure"
+        ]
+      }
+    },
+    "aliases": {
+      "text": "string",
+      "int": "int32",
+      "bigint": "int64",
+      "timestamptz": "timestamp",
+      "tsvector": "string"
+    }
+  },
+  "entities": {
+    "AppUser": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "AppUser",
+      "ir": "AppUser",
+      "read": "eager",
+      "table": "app_user",
+      "id": "0x92e9617a3499ddef",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true
+        },
+        {
+          "name": "handle",
+          "ordinal": 2,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "unique": true,
+          "cel": "this.size() > 0"
+        },
+        {
+          "name": "display_name",
+          "ordinal": 3,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.size() <= 60"
+        },
+        {
+          "name": "photo_url",
+          "ordinal": 4,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.matches('^(https://|/pictures/[0-9a-f]{64}\\.(jpg|png|webp)$)') && this.size() <= 2048"
+        },
+        {
+          "name": "about",
+          "ordinal": 5,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.size() <= 1000"
+        },
+        {
+          "name": "relationship",
+          "ordinal": 6,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "default": "'rel_unsaid'",
+          "cel": "this in ['rel_unsaid', 'rel_single', 'rel_dating', 'rel_married', 'rel_open', 'rel_complicated']"
+        },
+        {
+          "name": "city",
+          "ordinal": 7,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.size() <= 80"
+        },
+        {
+          "name": "country",
+          "ordinal": 8,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.size() <= 60"
+        },
+        {
+          "name": "birthday",
+          "ordinal": 9,
+          "retired": false,
+          "type": "date",
+          "pk": false,
+          "required": false
+        },
+        {
+          "name": "passions",
+          "ordinal": 10,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.size() <= 300"
+        },
+        {
+          "name": "music",
+          "ordinal": 11,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.size() <= 300"
+        },
+        {
+          "name": "movies",
+          "ordinal": 12,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.size() <= 300"
+        },
+        {
+          "name": "books",
+          "ordinal": 13,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.size() <= 300"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 14,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        },
+        {
+          "name": "search_text",
+          "ordinal": 15,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "generated": "coalesce(display_name, '') || ' ' || handle"
+        }
+      ],
+      "seed": [],
+      "durability": "server",
+      "level": "replicated",
+      "server": true,
+      "writers": [
+        {
+          "by": "edit",
+          "kind": "form",
+          "ops": [
+            "update"
+          ]
+        }
+      ],
+      "cel": {
+        "checks": {
+          "handle": "char_length(handle) > 0",
+          "display_name": "char_length(display_name) <= 60",
+          "photo_url": "photo_url ~ '^(https://|/pictures/[0-9a-f]{64}\\.(jpg|png|webp)$)' AND char_length(photo_url) <= 2048",
+          "about": "char_length(about) <= 1000",
+          "relationship": "relationship IN ('rel_unsaid', 'rel_single', 'rel_dating', 'rel_married', 'rel_open', 'rel_complicated')",
+          "city": "char_length(city) <= 80",
+          "country": "char_length(country) <= 60",
+          "passions": "char_length(passions) <= 300",
+          "music": "char_length(music) <= 300",
+          "movies": "char_length(movies) <= 300",
+          "books": "char_length(books) <= 300"
+        },
+        "enums": {
+          "relationship": [
+            "rel_unsaid",
+            "rel_single",
+            "rel_dating",
+            "rel_married",
+            "rel_open",
+            "rel_complicated"
+          ]
+        },
+        "bounds": {
+          "handle": {
+            "sizeMin": 1
+          },
+          "display_name": {
+            "sizeMax": 60
+          },
+          "photo_url": {
+            "sizeMax": 2048,
+            "regex": "^(https://|/pictures/[0-9a-f]{64}\\.(jpg|png|webp)$)"
+          },
+          "about": {
+            "sizeMax": 1000
+          },
+          "city": {
+            "sizeMax": 80
+          },
+          "country": {
+            "sizeMax": 60
+          },
+          "passions": {
+            "sizeMax": 300
+          },
+          "music": {
+            "sizeMax": 300
+          },
+          "movies": {
+            "sizeMax": 300
+          },
+          "books": {
+            "sizeMax": 300
+          }
+        }
+      },
+      "uniques": [],
+      "validations": {}
+    },
+    "Me": {
+      "access": {
+        "scope": "private",
+        "owner": "id"
+      },
+      "name": "Me",
+      "ir": "Me",
+      "read": "eager",
+      "table": "me",
+      "id": "0xc9deaa990cf202e7",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "handle",
+          "ordinal": 2,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.size() > 0"
+        }
+      ],
+      "seed": [],
+      "durability": "live",
+      "level": "compensable",
+      "server": true,
+      "writers": [],
+      "cel": {
+        "checks": {
+          "handle": "char_length(handle) > 0"
+        },
+        "enums": {},
+        "bounds": {
+          "handle": {
+            "sizeMin": 1
+          }
+        }
+      },
+      "uniques": [],
+      "validations": {}
+    },
+    "FriendRequestSent": {
+      "access": {
+        "scope": "private",
+        "owner": "from_id"
+      },
+      "name": "FriendRequestSent",
+      "ir": "FriendRequestSent",
+      "read": "eager",
+      "table": "friend_request_sent",
+      "id": "0xaaa2f719850c2eec",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "from_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user",
+          "default": "auth_uid()"
+        },
+        {
+          "name": "to_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 4,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "live",
+      "level": "compensable",
+      "server": true,
+      "writers": [
+        {
+          "by": "profile",
+          "kind": "form",
+          "ops": [
+            "create",
+            "delete"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "on": "to_id",
+          "using": "btree"
+        }
+      ],
+      "invariant": {
+        "cel": "this.from_id != this.to_id",
+        "check": "from_id <> to_id"
+      },
+      "cel": {
+        "checks": {},
+        "enums": {},
+        "bounds": {}
+      },
+      "uniques": [
+        {
+          "name": "uq_friend_request_sent_pair",
+          "cols": [
+            "from_id",
+            "to_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "FriendRequest": {
+      "access": {
+        "scope": "private",
+        "owner": "to_id"
+      },
+      "name": "FriendRequest",
+      "ir": "FriendRequest",
+      "read": "eager",
+      "table": "friend_request",
+      "id": "0xbd0cefd7711f6892",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true
+        },
+        {
+          "name": "from_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "to_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "accepted",
+          "ordinal": 4,
+          "retired": false,
+          "type": "bool",
+          "pk": false,
+          "required": true,
+          "default": "false"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 5,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "live",
+      "level": "compensable",
+      "server": true,
+      "writers": [
+        {
+          "by": "home",
+          "kind": "form",
+          "ops": [
+            "update",
+            "delete"
+          ]
+        },
+        {
+          "by": "profile",
+          "kind": "form",
+          "ops": [
+            "update",
+            "delete"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "on": "from_id",
+          "using": "btree"
+        }
+      ],
+      "invariant": {
+        "cel": "this.from_id != this.to_id",
+        "check": "from_id <> to_id"
+      },
+      "cel": {
+        "checks": {},
+        "enums": {},
+        "bounds": {}
+      },
+      "uniques": [
+        {
+          "name": "uq_friend_request_pair",
+          "cols": [
+            "from_id",
+            "to_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "Friendship": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "Friendship",
+      "ir": "Friendship",
+      "read": "lazy",
+      "table": "friendship",
+      "id": "0xb39adcf3dbce73fd",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "user_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "friend_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 4,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "live",
+      "level": "compensable",
+      "server": true,
+      "writers": [
+        {
+          "by": "profile",
+          "kind": "form",
+          "ops": [
+            "delete"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "on": "friend_id",
+          "using": "btree"
+        }
+      ],
+      "invariant": {
+        "cel": "this.user_id != this.friend_id",
+        "check": "user_id <> friend_id"
+      },
+      "cel": {
+        "checks": {},
+        "enums": {},
+        "bounds": {}
+      },
+      "uniques": [
+        {
+          "name": "uq_friendship_pair",
+          "cols": [
+            "user_id",
+            "friend_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "Scrap": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "Scrap",
+      "ir": "Scrap",
+      "read": "lazy",
+      "table": "scrap",
+      "id": "0x86e0ef84144f0a17",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "owner_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user",
+          "default": "auth_uid()"
+        },
+        {
+          "name": "body",
+          "ordinal": 4,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.trim().size() > 0 && this.size() <= 1000"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 5,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "server",
+      "level": "replicated",
+      "server": true,
+      "writers": [
+        {
+          "by": "scrapbook",
+          "kind": "form",
+          "ops": [
+            "create",
+            "delete"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "on": "owner_id",
+          "using": "btree"
+        },
+        {
+          "on": "created_at",
+          "using": "btree"
+        }
+      ],
+      "cel": {
+        "checks": {
+          "body": "char_length(regexp_replace(body, '^[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+|[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 1000"
+        },
+        "enums": {},
+        "bounds": {
+          "body": {
+            "sizeMin": 1,
+            "sizeMax": 1000
+          }
+        }
+      },
+      "uniques": [],
+      "validations": {}
+    },
+    "TestimonialDraft": {
+      "access": {
+        "scope": "private",
+        "owner": "author_id"
+      },
+      "name": "TestimonialDraft",
+      "ir": "TestimonialDraft",
+      "read": "eager",
+      "table": "testimonial_draft",
+      "id": "0xe64974d71dfe174c",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "subject_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user",
+          "default": "auth_uid()"
+        },
+        {
+          "name": "body",
+          "ordinal": 4,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.trim().size() > 0 && this.size() <= 1500"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 5,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "durability": "live",
+      "indexes": [
+        {
+          "on": "subject_id",
+          "using": "btree"
+        }
+      ],
+      "invariant": {
+        "cel": "this.subject_id != this.author_id",
+        "check": "subject_id <> author_id"
+      },
+      "level": "compensable",
+      "seed": [],
+      "server": true,
+      "writers": [
+        {
+          "by": "testimonials",
+          "kind": "form",
+          "ops": [
+            "create",
+            "delete"
+          ]
+        }
+      ],
+      "cel": {
+        "checks": {
+          "body": "char_length(regexp_replace(body, '^[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+|[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 1500"
+        },
+        "enums": {},
+        "bounds": {
+          "body": {
+            "sizeMin": 1,
+            "sizeMax": 1500
+          }
+        }
+      },
+      "uniques": [
+        {
+          "name": "uq_testimonial_draft_pair",
+          "cols": [
+            "author_id",
+            "subject_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "TestimonialPending": {
+      "access": {
+        "scope": "private",
+        "owner": "subject_id"
+      },
+      "name": "TestimonialPending",
+      "ir": "TestimonialPending",
+      "read": "eager",
+      "table": "testimonial_pending",
+      "id": "0x9682bb96df74eb95",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true
+        },
+        {
+          "name": "subject_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "body",
+          "ordinal": 4,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.trim().size() > 0 && this.size() <= 1500"
+        },
+        {
+          "name": "approved",
+          "ordinal": 5,
+          "retired": false,
+          "type": "bool",
+          "pk": false,
+          "required": true,
+          "default": "false"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "durability": "live",
+      "indexes": [
+        {
+          "on": "author_id",
+          "using": "btree"
+        }
+      ],
+      "invariant": {
+        "cel": "this.subject_id != this.author_id",
+        "check": "subject_id <> author_id"
+      },
+      "level": "compensable",
+      "seed": [],
+      "server": true,
+      "writers": [
+        {
+          "by": "testimonials",
+          "kind": "form",
+          "ops": [
+            "update",
+            "delete"
+          ]
+        }
+      ],
+      "cel": {
+        "checks": {
+          "body": "char_length(regexp_replace(body, '^[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+|[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 1500"
+        },
+        "enums": {},
+        "bounds": {
+          "body": {
+            "sizeMin": 1,
+            "sizeMax": 1500
+          }
+        }
+      },
+      "uniques": [],
+      "validations": {}
+    },
+    "Testimonial": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "Testimonial",
+      "ir": "Testimonial",
+      "read": "lazy",
+      "table": "testimonial",
+      "id": "0xa8502ee901bda55c",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true
+        },
+        {
+          "name": "subject_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "body",
+          "ordinal": 4,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.trim().size() > 0 && this.size() <= 1500"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 5,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "durability": "live",
+      "indexes": [
+        {
+          "on": "subject_id",
+          "using": "btree"
+        }
+      ],
+      "invariant": {
+        "cel": "this.subject_id != this.author_id",
+        "check": "subject_id <> author_id"
+      },
+      "level": "compensable",
+      "seed": [],
+      "server": true,
+      "writers": [
+        {
+          "by": "testimonials",
+          "kind": "form",
+          "ops": [
+            "delete"
+          ]
+        }
+      ],
+      "cel": {
+        "checks": {
+          "body": "char_length(regexp_replace(body, '^[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+|[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 1500"
+        },
+        "enums": {},
+        "bounds": {
+          "body": {
+            "sizeMin": 1,
+            "sizeMax": 1500
+          }
+        }
+      },
+      "uniques": [
+        {
+          "name": "uq_testimonial_pair",
+          "cols": [
+            "author_id",
+            "subject_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "Fan": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "Fan",
+      "ir": "Fan",
+      "read": "lazy",
+      "table": "fan",
+      "id": "0x839fe523fab878af",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "fan_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user",
+          "default": "auth_uid()"
+        },
+        {
+          "name": "idol_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 4,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "server",
+      "level": "replicated",
+      "server": true,
+      "writers": [
+        {
+          "by": "home",
+          "kind": "form",
+          "ops": [
+            "create"
+          ]
+        },
+        {
+          "by": "profile",
+          "kind": "form",
+          "ops": [
+            "create",
+            "delete"
+          ]
+        },
+        {
+          "by": "community",
+          "kind": "form",
+          "ops": [
+            "create"
+          ]
+        },
+        {
+          "by": "members",
+          "kind": "form",
+          "ops": [
+            "create"
+          ]
+        },
+        {
+          "by": "search",
+          "kind": "form",
+          "ops": [
+            "create"
+          ]
+        },
+        {
+          "by": "friends",
+          "kind": "form",
+          "ops": [
+            "create"
+          ]
+        },
+        {
+          "by": "fans",
+          "kind": "form",
+          "ops": [
+            "create"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "on": "idol_id",
+          "using": "btree"
+        }
+      ],
+      "invariant": {
+        "cel": "this.fan_id != this.idol_id",
+        "check": "fan_id <> idol_id"
+      },
+      "cel": {
+        "checks": {},
+        "enums": {},
+        "bounds": {}
+      },
+      "uniques": [
+        {
+          "name": "uq_fan_pair",
+          "cols": [
+            "fan_id",
+            "idol_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "Karma": {
+      "access": {
+        "scope": "private",
+        "owner": "rater_id"
+      },
+      "name": "Karma",
+      "ir": "Karma",
+      "read": "eager",
+      "table": "karma",
+      "id": "0xc854cd2195559e5b",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "rater_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user",
+          "default": "auth_uid()"
+        },
+        {
+          "name": "rated_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "trust",
+          "ordinal": 4,
+          "retired": false,
+          "type": "int32",
+          "pk": false,
+          "required": true,
+          "cel": "this >= 0 && this <= 3"
+        },
+        {
+          "name": "cool",
+          "ordinal": 5,
+          "retired": false,
+          "type": "int32",
+          "pk": false,
+          "required": true,
+          "cel": "this >= 0 && this <= 3"
+        },
+        {
+          "name": "sexy",
+          "ordinal": 6,
+          "retired": false,
+          "type": "int32",
+          "pk": false,
+          "required": true,
+          "cel": "this >= 0 && this <= 3"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 7,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "durability": "server",
+      "indexes": [
+        {
+          "on": "rated_id",
+          "using": "btree"
+        }
+      ],
+      "invariant": {
+        "cel": "this.rater_id != this.rated_id",
+        "check": "rater_id <> rated_id"
+      },
+      "level": "replicated",
+      "seed": [],
+      "server": true,
+      "writers": [
+        {
+          "by": "profile",
+          "kind": "form",
+          "ops": [
+            "create",
+            "update",
+            "delete"
+          ]
+        }
+      ],
+      "cel": {
+        "checks": {
+          "trust": "trust >= 0 AND trust <= 3",
+          "cool": "cool >= 0 AND cool <= 3",
+          "sexy": "sexy >= 0 AND sexy <= 3"
+        },
+        "enums": {},
+        "bounds": {
+          "trust": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "cool": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "sexy": {
+            "intMin": 0,
+            "intMax": 3
+          }
+        }
+      },
+      "uniques": [
+        {
+          "name": "uq_karma_pair",
+          "cols": [
+            "rater_id",
+            "rated_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "KarmaSmiley": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "KarmaSmiley",
+      "ir": "KarmaSmiley",
+      "read": "lazy",
+      "table": "karma_smiley",
+      "id": "0xa609e50ebc12a3a8",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true
+        },
+        {
+          "name": "rated_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "trust",
+          "ordinal": 3,
+          "retired": false,
+          "type": "int32",
+          "pk": false,
+          "required": true,
+          "cel": "this >= 0 && this <= 3"
+        },
+        {
+          "name": "cool",
+          "ordinal": 4,
+          "retired": false,
+          "type": "int32",
+          "pk": false,
+          "required": true,
+          "cel": "this >= 0 && this <= 3"
+        },
+        {
+          "name": "sexy",
+          "ordinal": 5,
+          "retired": false,
+          "type": "int32",
+          "pk": false,
+          "required": true,
+          "cel": "this >= 0 && this <= 3"
+        },
+        {
+          "name": "raters",
+          "ordinal": 6,
+          "retired": false,
+          "type": "int32",
+          "pk": false,
+          "required": true,
+          "cel": "this >= 3"
+        },
+        {
+          "name": "trust_key",
+          "ordinal": 7,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "generated": "'trust_' || trust::text"
+        },
+        {
+          "name": "cool_key",
+          "ordinal": 8,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "generated": "'cool_' || cool::text"
+        },
+        {
+          "name": "sexy_key",
+          "ordinal": 9,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "generated": "'sexy_' || sexy::text"
+        },
+        {
+          "name": "updated_at",
+          "ordinal": 10,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "live",
+      "level": "compensable",
+      "server": true,
+      "writers": [],
+      "cel": {
+        "checks": {
+          "trust": "trust >= 0 AND trust <= 3",
+          "cool": "cool >= 0 AND cool <= 3",
+          "sexy": "sexy >= 0 AND sexy <= 3",
+          "raters": "raters >= 3"
+        },
+        "enums": {},
+        "bounds": {
+          "trust": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "cool": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "sexy": {
+            "intMin": 0,
+            "intMax": 3
+          },
+          "raters": {
+            "intMin": 3
+          }
+        }
+      },
+      "uniques": [
+        {
+          "name": "uq_karma_smiley_rated",
+          "cols": [
+            "rated_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "Feed": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "Feed",
+      "ir": "Feed",
+      "read": "eager",
+      "table": "feed",
+      "id": "0x8641a6706a08c29e",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "at",
+          "ordinal": 2,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true
+        },
+        {
+          "name": "actor_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "kind",
+          "ordinal": 4,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this in ['scrap', 'testimonial', 'membership']"
+        },
+        {
+          "name": "kind_key",
+          "ordinal": 5,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "generated": "'feed_' || kind"
+        },
+        {
+          "name": "about_user_id",
+          "ordinal": 6,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": false,
+          "ref": "app_user"
+        },
+        {
+          "name": "about_community_id",
+          "ordinal": 7,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": false,
+          "ref": "community"
+        },
+        {
+          "name": "excerpt",
+          "ordinal": 8,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false
+        },
+        {
+          "name": "source_id",
+          "ordinal": 9,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true
+        }
+      ],
+      "seed": [],
+      "durability": "server",
+      "level": "replicated",
+      "server": true,
+      "writers": [],
+      "indexes": [
+        {
+          "on": "actor_id",
+          "using": "btree"
+        }
+      ],
+      "cel": {
+        "checks": {
+          "kind": "kind IN ('scrap', 'testimonial', 'membership')"
+        },
+        "enums": {
+          "kind": [
+            "scrap",
+            "testimonial",
+            "membership"
+          ]
+        },
+        "bounds": {}
+      },
+      "uniques": [
+        {
+          "name": "uq_feed_source",
+          "cols": [
+            "kind",
+            "source_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "FeedItem": {
+      "access": {
+        "scope": "private",
+        "owner": "reader_id"
+      },
+      "name": "FeedItem",
+      "ir": "FeedItem",
+      "read": "eager",
+      "table": "feed_item",
+      "id": "0xdfb645e37c351c71",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "reader_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "at",
+          "ordinal": 3,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true
+        },
+        {
+          "name": "actor_id",
+          "ordinal": 4,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user"
+        },
+        {
+          "name": "kind",
+          "ordinal": 5,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this in ['scrap', 'testimonial', 'membership']"
+        },
+        {
+          "name": "kind_key",
+          "ordinal": 6,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "generated": "'feed_' || kind"
+        },
+        {
+          "name": "about_user_id",
+          "ordinal": 7,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": false,
+          "ref": "app_user"
+        },
+        {
+          "name": "about_community_id",
+          "ordinal": 8,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": false,
+          "ref": "community"
+        },
+        {
+          "name": "excerpt",
+          "ordinal": 9,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false
+        },
+        {
+          "name": "source_id",
+          "ordinal": 10,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true
+        }
+      ],
+      "seed": [],
+      "durability": "server",
+      "level": "replicated",
+      "server": true,
+      "writers": [],
+      "indexes": [
+        {
+          "on": "reader_id",
+          "using": "btree"
+        },
+        {
+          "on": "actor_id",
+          "using": "btree"
+        }
+      ],
+      "cel": {
+        "checks": {
+          "kind": "kind IN ('scrap', 'testimonial', 'membership')"
+        },
+        "enums": {
+          "kind": [
+            "scrap",
+            "testimonial",
+            "membership"
+          ]
+        },
+        "bounds": {}
+      },
+      "uniques": [
+        {
+          "name": "uq_feed_item",
+          "cols": [
+            "reader_id",
+            "kind",
+            "source_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "Community": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "Community",
+      "ir": "Community",
+      "read": "lazy",
+      "table": "community",
+      "id": "0xbba29239871da5e8",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "name",
+          "ordinal": 2,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.trim().size() > 0 && this.size() <= 80"
+        },
+        {
+          "name": "description",
+          "ordinal": 3,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.size() <= 1000"
+        },
+        {
+          "name": "category",
+          "ordinal": 4,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this in ['cat_humor', 'cat_music', 'cat_movies', 'cat_food', 'cat_tech', 'cat_sports', 'cat_travel', 'cat_cities', 'cat_school', 'cat_other']"
+        },
+        {
+          "name": "owner_id",
+          "ordinal": 5,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user",
+          "default": "auth_uid()"
+        },
+        {
+          "name": "photo_url",
+          "ordinal": 6,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": false,
+          "cel": "this.matches('^(https://|/pictures/[0-9a-f]{64}\\.(jpg|png|webp)$)') && this.size() <= 2048"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 7,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "server",
+      "level": "replicated",
+      "server": true,
+      "writers": [
+        {
+          "by": "communities",
+          "kind": "form",
+          "ops": [
+            "create"
+          ]
+        },
+        {
+          "by": "community",
+          "kind": "form",
+          "ops": [
+            "update"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "on": "category",
+          "using": "btree"
+        }
+      ],
+      "cel": {
+        "checks": {
+          "name": "char_length(regexp_replace(name, '^[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+|[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$', '', 'g')) > 0 AND char_length(name) <= 80",
+          "description": "char_length(description) <= 1000",
+          "category": "category IN ('cat_humor', 'cat_music', 'cat_movies', 'cat_food', 'cat_tech', 'cat_sports', 'cat_travel', 'cat_cities', 'cat_school', 'cat_other')",
+          "photo_url": "photo_url ~ '^(https://|/pictures/[0-9a-f]{64}\\.(jpg|png|webp)$)' AND char_length(photo_url) <= 2048"
+        },
+        "enums": {
+          "category": [
+            "cat_humor",
+            "cat_music",
+            "cat_movies",
+            "cat_food",
+            "cat_tech",
+            "cat_sports",
+            "cat_travel",
+            "cat_cities",
+            "cat_school",
+            "cat_other"
+          ]
+        },
+        "bounds": {
+          "name": {
+            "sizeMin": 1,
+            "sizeMax": 80
+          },
+          "description": {
+            "sizeMax": 1000
+          },
+          "photo_url": {
+            "sizeMax": 2048,
+            "regex": "^(https://|/pictures/[0-9a-f]{64}\\.(jpg|png|webp)$)"
+          }
+        }
+      },
+      "uniques": [],
+      "validations": {}
+    },
+    "Membership": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "Membership",
+      "ir": "Membership",
+      "read": "lazy",
+      "table": "membership",
+      "id": "0xcabe3837ceaa14d4",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "community_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "community"
+        },
+        {
+          "name": "user_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user",
+          "default": "auth_uid()"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 4,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "server",
+      "level": "replicated",
+      "server": true,
+      "writers": [
+        {
+          "by": "community",
+          "kind": "form",
+          "ops": [
+            "create",
+            "delete"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "on": "user_id",
+          "using": "btree"
+        }
+      ],
+      "cel": {
+        "checks": {},
+        "enums": {},
+        "bounds": {}
+      },
+      "uniques": [
+        {
+          "name": "uq_membership_pair",
+          "cols": [
+            "community_id",
+            "user_id"
+          ]
+        }
+      ],
+      "validations": {}
+    },
+    "Search": {
+      "name": "Search",
+      "ir": "Search",
+      "table": "search",
+      "id": "0x9a29e939361b5a78",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "string",
+          "pk": true,
+          "required": true,
+          "cel": "this.size() <= 12"
+        },
+        {
+          "name": "q",
+          "ordinal": 2,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.size() <= 80"
+        }
+      ],
+      "seed": [],
+      "durability": "tab",
+      "level": "ephemeral",
+      "server": false,
+      "writers": [
+        {
+          "by": "search",
+          "kind": "form",
+          "ops": [
+            "upsert"
+          ]
+        }
+      ],
+      "cel": {
+        "checks": {},
+        "enums": {},
+        "bounds": {
+          "id": {
+            "sizeMax": 12
+          },
+          "q": {
+            "sizeMax": 80
+          }
+        }
+      },
+      "uniques": [],
+      "validations": {}
+    },
+    "CommunitySearch": {
+      "name": "CommunitySearch",
+      "ir": "CommunitySearch",
+      "table": "community_search",
+      "id": "0x92992c6283823258",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "string",
+          "pk": true,
+          "required": true,
+          "cel": "this.size() <= 12"
+        },
+        {
+          "name": "q",
+          "ordinal": 2,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.size() <= 80"
+        }
+      ],
+      "seed": [],
+      "durability": "tab",
+      "level": "ephemeral",
+      "server": false,
+      "writers": [
+        {
+          "by": "communities",
+          "kind": "form",
+          "ops": [
+            "upsert"
+          ]
+        }
+      ],
+      "cel": {
+        "checks": {},
+        "enums": {},
+        "bounds": {
+          "id": {
+            "sizeMax": 12
+          },
+          "q": {
+            "sizeMax": 80
+          }
+        }
+      },
+      "uniques": [],
+      "validations": {}
+    },
+    "Topic": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "Topic",
+      "ir": "Topic",
+      "read": "lazy",
+      "table": "topic",
+      "id": "0xb6b6625bfd193b5a",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "community_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "community"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user",
+          "default": "auth_uid()"
+        },
+        {
+          "name": "title",
+          "ordinal": 4,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.trim().size() > 0 && this.size() <= 120"
+        },
+        {
+          "name": "body",
+          "ordinal": 5,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.trim().size() > 0 && this.size() <= 4000"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "server",
+      "level": "replicated",
+      "server": true,
+      "writers": [
+        {
+          "by": "community",
+          "kind": "form",
+          "ops": [
+            "create"
+          ]
+        },
+        {
+          "by": "topic",
+          "kind": "form",
+          "ops": [
+            "delete"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "on": "community_id",
+          "using": "btree"
+        }
+      ],
+      "cel": {
+        "checks": {
+          "title": "char_length(regexp_replace(title, '^[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+|[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$', '', 'g')) > 0 AND char_length(title) <= 120",
+          "body": "char_length(regexp_replace(body, '^[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+|[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 4000"
+        },
+        "enums": {},
+        "bounds": {
+          "title": {
+            "sizeMin": 1,
+            "sizeMax": 120
+          },
+          "body": {
+            "sizeMin": 1,
+            "sizeMax": 4000
+          }
+        }
+      },
+      "uniques": [],
+      "validations": {}
+    },
+    "Post": {
+      "access": {
+        "scope": "public"
+      },
+      "name": "Post",
+      "ir": "Post",
+      "read": "lazy",
+      "table": "post",
+      "id": "0x8027cea7fd8ad2b1",
+      "fields": [
+        {
+          "name": "id",
+          "ordinal": 1,
+          "retired": false,
+          "type": "uuid",
+          "pk": true,
+          "required": true,
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "topic_id",
+          "ordinal": 2,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "topic"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 3,
+          "retired": false,
+          "type": "uuid",
+          "pk": false,
+          "required": true,
+          "ref": "app_user",
+          "default": "auth_uid()"
+        },
+        {
+          "name": "body",
+          "ordinal": 4,
+          "retired": false,
+          "type": "string",
+          "pk": false,
+          "required": true,
+          "cel": "this.trim().size() > 0 && this.size() <= 4000"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 5,
+          "retired": false,
+          "type": "timestamp",
+          "pk": false,
+          "required": true,
+          "default": "now()"
+        }
+      ],
+      "seed": [],
+      "durability": "server",
+      "level": "replicated",
+      "server": true,
+      "writers": [
+        {
+          "by": "topic",
+          "kind": "form",
+          "ops": [
+            "create",
+            "delete"
+          ]
+        }
+      ],
+      "indexes": [
+        {
+          "on": "topic_id",
+          "using": "btree"
+        }
+      ],
+      "cel": {
+        "checks": {
+          "body": "char_length(regexp_replace(body, '^[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+|[\\s\\u0085\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 4000"
+        },
+        "enums": {},
+        "bounds": {
+          "body": {
+            "sizeMin": 1,
+            "sizeMax": 4000
+          }
+        }
+      },
+      "uniques": [],
+      "validations": {}
+    }
+  },
+  "hybrids": {},
+  "hatches": {},
+  "rawMigrations": [
+    {
+      "name": "011_owner_writes.sql",
+      "src": "services/database/sql/011_owner_writes.sql"
+    },
+    {
+      "name": "012_me_readonly.sql",
+      "src": "services/database/sql/012_me_readonly.sql"
+    },
+    {
+      "name": "013_me_provision.sql",
+      "src": "services/database/sql/013_me_provision.sql"
+    },
+    {
+      "name": "014_default_privileges.sql",
+      "src": "services/database/sql/014_default_privileges.sql"
+    },
+    {
+      "name": "015_mirrors.sql",
+      "src": "services/database/sql/015_mirrors.sql"
+    },
+    {
+      "name": "017_forum_guards.sql",
+      "src": "services/database/sql/017_forum_guards.sql"
+    },
+    {
+      "name": "020_demo_network.sql",
+      "src": "services/database/sql/020_demo_network.sql"
+    },
+    {
+      "name": "021_testimonial_guard.sql",
+      "src": "services/database/sql/021_testimonial_guard.sql"
+    },
+    {
+      "name": "022_forum_ownership.sql",
+      "src": "services/database/sql/022_forum_ownership.sql"
+    },
+    {
+      "name": "023_karma_smiley.sql",
+      "src": "services/database/sql/023_karma_smiley.sql"
+    },
+    {
+      "name": "024_feed.sql",
+      "src": "services/database/sql/024_feed.sql"
+    },
+    {
+      "name": "025_feed_inbox.sql",
+      "src": "services/database/sql/025_feed_inbox.sql"
+    }
+  ],
+  "duckstreams": {}
+}

@@ -1,0 +1,20 @@
+@import "./shared/yogurt.css";
+/* news — início's novidades panel as a page: the panel's own rules, scoped. */
+[data-screen="news"] .page { max-width: var(--measure-page, 72ch); margin: 0 auto; }
+[data-screen="news"] .skeleton { display: none; }
+[data-screen="news"][data-state="loading"] .skeleton { display: block; }
+[data-screen="news"][data-state="loading"] .page { display: none; }
+[data-screen="news"] .list-skel { height: 320px; background: var(--surface-muted); border-radius: var(--r-md); }
+[data-screen="news"] .row.news { display: grid; grid-template-columns: 36px 1fr; column-gap: var(--sp-sm); align-items: start; }
+[data-screen="news"] .row.news .face.small { grid-row: 1 / 3; }
+[data-screen="news"] .row.news .news-line { margin: 0; display: flex; flex-wrap: wrap; gap: 0 var(--size-1); align-items: baseline; }
+[data-screen="news"] .row.news .news-body { margin: var(--size-1) 0 0; }
+[data-screen="news"] .row.news .about-user, [data-screen="news"] .row.news .about-community, [data-screen="news"] .row.news .about-you { display: none; }
+[data-screen="news"] .row.news:is([data-kind="scrap"], [data-kind="testimonial"]) .about-user { display: inline; }
+[data-screen="news"] .row.news[data-kind="membership"] .about-community { display: inline; }
+[data-screen="news"] .row.news[data-kind="membership"] .news-body { display: none; }
+/* The probe's stamped child (one element more) outranks the kind rules above at a tie. */
+[data-screen="news"] .row.news:has(.you-probe > i) .about-you { display: inline; }
+[data-screen="news"] .row.news:has(.you-probe > i) .about-user { display: none; }
+[data-screen="news"] .you-probe { display: none; }
+[data-screen="news"] .row.news .when { color: var(--secondary); margin-inline-start: auto; }

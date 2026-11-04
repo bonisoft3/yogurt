@@ -1,0 +1,61 @@
+@import "./shared/yogurt.css";
+
+/* communities — ir: #communities. One column: the search, the sections, the form. */
+[data-screen="communities"] { container-type: inline-size; }
+[data-screen="communities"] .topline { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--size-1) var(--sp-md); margin-bottom: var(--sp-md); }
+[data-screen="communities"] .topline > * { margin: 0; }
+[data-screen="communities"] .intro { color: var(--secondary); }
+[data-screen="communities"] .page { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="communities"] .search-slot { display: grid; gap: var(--sp-md); }
+[data-screen="communities"] .search { display: flex; gap: var(--sp-sm); margin: 0; }
+[data-screen="communities"] .search input { flex: 1 1 auto; min-width: 0; }
+/* A blank search draws no results panel: the attribute bound to q decides. */
+[data-screen="communities"] .search-slot[data-q=""] .results { display: none; }
+[data-screen="communities"] .directory-empty { margin: 0; color: var(--secondary); }
+[data-screen="communities"] .directory-empty i { display: none; }
+[data-screen="communities"] .directory-empty:empty { display: none; }
+/* A category with nothing in it hides with its list. */
+[data-screen="communities"] .category:has(> .rows:empty), [data-screen="communities"] .category:has(> .rows > template) { display: none; }
+[data-screen="communities"] .search-none-note { display: none; margin: 0; padding: var(--sp-md); color: var(--secondary); }
+[data-screen="communities"] .row.community { display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline; column-gap: var(--sp-md); row-gap: var(--size-1); }
+[data-screen="communities"] .row.community .face.small { grid-row: 1 / 3; align-self: start; }
+[data-screen="communities"] .row.community .row-name { color: var(--link); font-weight: 600; overflow-wrap: anywhere; text-decoration: none; }
+[data-screen="communities"] .row.community .row-name:hover { text-decoration: underline; }
+[data-screen="communities"] .row.community .members { color: var(--secondary); white-space: nowrap; }
+[data-screen="communities"] .row.community .members b { color: var(--primary); }
+[data-screen="communities"] .row.community .row-desc { grid-column: 2 / -1; margin: 0; color: var(--secondary); overflow-wrap: anywhere; }
+[data-screen="communities"] .row.community .row-desc:empty { display: none; }
+[data-screen="communities"] .tally i { font-style: normal; }
+[data-screen="communities"] .tally i:not(:first-of-type) { display: none; }
+[data-screen="communities"] .tally .empty { display: inline; color: var(--primary); }
+
+/* The form: name and category side by side, the description wide, the one
+   pink pill under them with the refusal beside it. */
+[data-screen="communities"] .create-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-sm) var(--sp-md); margin: 0; }
+[data-screen="communities"] .field { display: grid; gap: var(--size-1); min-width: 0; }
+[data-screen="communities"] .field input, [data-screen="communities"] .field select, [data-screen="communities"] .field textarea { width: 100%; min-height: var(--control-h); }
+[data-screen="communities"] .field.wide, [data-screen="communities"] .create-foot { grid-column: 1 / -1; }
+[data-screen="communities"] .create-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm) var(--sp-md); }
+[data-screen="communities"] .create-foot .invalid, [data-screen="communities"] .create-foot .store-error { margin: 0; }
+@container (max-width: 480px) {
+  [data-screen="communities"] .create-form { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Loading: skeletons where the box and the first sections will be. */
+[data-screen="communities"][data-state="loading"] .skeleton { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="communities"][data-state="loading"] .page { display: none; }
+[data-screen="communities"] .box-skel { height: var(--control-h); }
+[data-screen="communities"] .list-skel { height: calc(var(--control-h-lg) * 4); }
+
+/* Storybook frames: the fixture fills every list, so searching shows the
+   results panel and the others hide it; validation-error reveals the refusal. */
+.storybook .frame [data-screen="communities"]:not([data-state="searching"]) .results { display: none; }
+.storybook .frame [data-screen="communities"]:is([data-state="searching"], [data-state="search-none"]) .results { display: block; }
+/* No hits: the fixture's rows hide and the panel's own sentence stands in; the
+   last category hides too, to show what an empty category does. */
+.storybook .frame [data-screen="communities"][data-state="search-none"] .results .rows { display: none; }
+.storybook .frame [data-screen="communities"][data-state="search-none"] .search-none-note { display: block; }
+.storybook .frame [data-screen="communities"][data-state="search-none"] .category:last-of-type { display: none; }
+.storybook .frame [data-screen="communities"][data-state="validation-error"] .create-form .store-error { display: block; }
+[data-screen="communities"] .credits-line { margin: var(--sp-md) 0 0; text-align: center; }

@@ -1,0 +1,59 @@
+# generated from bayt.cue — do not edit
+includes:
+  ci-replay:
+    taskfile: ./Taskfile.ci-replay.yaml
+    dir: ../
+    optional: true
+  setup:
+    taskfile: ./Taskfile.setup.yaml
+    dir: ../
+    optional: true
+  lint-inputs:
+    taskfile: ./Taskfile.lint-inputs.yaml
+    dir: ../
+    optional: true
+  lint:
+    taskfile: ./Taskfile.lint.yaml
+    dir: ../
+    optional: true
+  generate:
+    taskfile: ./Taskfile.generate.yaml
+    dir: ../
+    optional: true
+  build:
+    taskfile: ./Taskfile.build.yaml
+    dir: ../
+    optional: true
+  test:
+    taskfile: ./Taskfile.test.yaml
+    dir: ../
+    optional: true
+  integrate:
+    taskfile: ./Taskfile.integrate.yaml
+    dir: ../
+    optional: true
+  ci-visual:
+    taskfile: ./Taskfile.ci-visual.yaml
+    dir: ../
+    optional: true
+  ci:
+    taskfile: ./Taskfile.ci.yaml
+    dir: ../
+    optional: true
+  launch-action:
+    taskfile: ./Taskfile.launch-action.yaml
+    dir: ../
+    optional: true
+  integrate-action:
+    taskfile: ./Taskfile.integrate-action.yaml
+    dir: ../
+    optional: true
+  check-ledger:
+    taskfile: ./Taskfile.check-ledger.yaml
+    dir: ../
+    optional: true
+  ci-ledger:
+    taskfile: ./Taskfile.ci-ledger.yaml
+    dir: ../
+    optional: true
+version: "3"

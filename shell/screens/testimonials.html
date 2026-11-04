@@ -1,0 +1,132 @@
+<!-- testimonials — ir: #testimonials. A person's approved testimonials, the
+     box a friend writes one in, the writer's own waiting drafts, and on one's
+     own page what awaits approval. The header is the same one-row LIST region
+     over app_user as the profile. Every list here is a live table, so none
+     carries an embed: the writer is a nested region on their own key, as
+     início's pedidos panel reads the asker (ir decision-live-relations). -->
+<section class="screen" data-screen="testimonials">
+  <header class="topline">
+    <a class="back to-profile role-meta" data-route="profile" data-param-handle="{param.handle}" data-text="{msg.back_profile}">← perfil</a>
+    <a class="back to-home role-meta" data-route="home" data-text="{msg.back_home}">← início</a>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel name-skel"></div>
+    <div class="skel box-skel"></div>
+    <div class="skel list-skel"></div>
+  </div>
+
+  <div class="person" data-live="app_user" data-filter="handle=eq.{param.handle}"
+       data-empty="{msg.profile_not_found}">
+    <template data-item>
+      <div class="page">
+        <header class="whose">
+          <h1 class="person-name role-title" dir="auto" data-text="{display_name}"></h1>
+          <p class="person-handle role-title" data-text="{handle}"></p>
+          <p class="count-line role-meta"><span data-text="{msg.testimonials_label}">depoimentos</span> · <b class="tally" data-live="testimonial" data-filter="subject_id=eq.{id}" data-project='{"n":"count"}' data-empty="0"><template data-item><i data-text="{n}"></i></template></b></p>
+        </header>
+
+        <!-- Is this my page; am I their friend. No whitespace in the probes. -->
+        <span class="me-probe" data-live="me" data-filter="id=eq.{id}"><template data-item><i></i></template></span>
+        <span class="mine" data-live="me"><template data-item><span class="relation"><span class="friend-rows" data-live="friendship" data-filter="user_id=eq.{id}" data-empty=""><template data-item><span class="friend-row"><span class="person-probe" data-live="app_user" data-filter="id=eq.{friend_id}&handle=eq.{param.handle}" data-empty=""><template data-item><i></i></template></span></span></template></span></span></template></span>
+
+        <!-- My page: the pending copies the 015 mirror wrote for me, newest
+             first, each with aprovar and a two-tap descartar, row-scoped. -->
+        <section class="panel pending">
+          <h2 class="band role-band"><span data-text="{msg.pending_for_you_label}">esperando sua aprovação</span></h2>
+          <ul class="rows" data-live="testimonial_pending" data-filter="subject_id=eq.{id}"
+              data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+              <li class="row testimonial">
+                <span class="who" data-live="app_user" data-filter="id=eq.{author_id}" data-empty=""><template data-item><span class="who-item"><span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{handle}"></span></span><a class="who-link" data-route="profile" data-param-handle="{handle}" data-text="{display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{handle}" data-text="{handle}"></a></span></template></span>
+                <time class="when role-meta" datetime="{created_at}" data-text="{created_at}" data-text-format="datetime"></time>
+                <p class="scrap-body role-body" data-text="{body}"></p>
+                <div class="scrap-foot role-meta">
+                  <form class="approve" data-form="approve-testimonial" data-entity="testimonial_pending" data-action="update">
+                    <input type="checkbox" name="approved" checked hidden aria-hidden="true">
+                    <button type="submit" class="role-meta" data-text="{msg.approve_button}">aprovar</button>
+                    <p class="store-error role-meta" hidden data-text="{msg.approve_failed}">Não deu pra aprovar.</p>
+                  </form>
+                  <details class="erase">
+                    <summary class="role-meta" data-text="{msg.discard_button}">recusar…</summary>
+                    <form data-form="discard-testimonial" data-entity="testimonial_pending" data-action="delete">
+                      <button type="submit" class="danger role-meta" data-text="{msg.discard_confirm}">sim, recusar</button>
+                      <p class="store-error role-meta" hidden data-text="{msg.discard_failed}">Não deu pra recusar.</p>
+                    </form>
+                  </details>
+                </div>
+              </li>
+            </template></ul>
+        </section>
+
+        <!-- The box, for a friend who has none about this person yet. author_id
+             defaults to the token's bearer; 021 is the rule a hand-made
+             request meets. -->
+        <section class="panel write">
+          <h2 class="band role-band"><span data-text="{msg.write_testimonial_label}">escrever depoimento</span></h2>
+          <form class="panel-body write-form" data-form="write-testimonial" data-entity="testimonial_draft" data-action="create">
+            <input type="hidden" name="subject_id" data-value="{id}">
+            <textarea name="body" required maxlength="1500" rows="4" placeholder="{msg.testimonial_placeholder}" aria-label="{msg.write_testimonial_label}"></textarea>
+            <div class="write-foot">
+              <button type="submit" class="role-meta" data-text="{msg.send_testimonial_button}">enviar depoimento</button>
+              <p class="invalid role-meta" hidden data-text="{msg.testimonial_blank}">Escreva um depoimento antes de enviar.</p>
+              <p class="store-error role-meta" hidden data-text="{msg.testimonial_failed}">Não deu pra enviar.</p>
+            </div>
+          </form>
+          <p class="panel-body friends-only role-meta" data-text="{msg.friends_only_testimonial}">Só amigos escrevem depoimentos.</p>
+          <p class="panel-body already role-meta" data-text="{msg.already_wrote_testimonial}">Você já deixou um depoimento aqui.</p>
+        </section>
+
+        <!-- My own waiting drafts about this person: private, mine, with a
+             two-tap retirar that 015 mirrors into the subject's list. -->
+        <section class="panel awaiting">
+          <h2 class="band role-band"><span data-text="{msg.awaiting_approval_label}">esperando aprovação</span></h2>
+          <ul class="rows" data-live="testimonial_draft" data-filter="subject_id=eq.{id}"
+              data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+              <li class="row testimonial draft">
+                <p class="scrap-line role-meta">
+                  <span class="note" data-text="{msg.awaiting_note}">Só aparece no perfil depois que a pessoa aprovar.</span>
+                  <time class="when" datetime="{created_at}" data-text="{created_at}" data-text-format="datetime"></time>
+                </p>
+                <p class="scrap-body role-body" data-text="{body}"></p>
+                <div class="scrap-foot role-meta">
+                  <details class="erase">
+                    <summary class="role-meta" data-text="{msg.withdraw_testimonial_button}">retirar…</summary>
+                    <form data-form="withdraw-testimonial" data-entity="testimonial_draft" data-action="delete">
+                      <button type="submit" class="danger role-meta" data-text="{msg.withdraw_testimonial_confirm}">sim, retirar</button>
+                      <p class="store-error role-meta" hidden data-text="{msg.withdraw_testimonial_failed}">Não deu pra retirar.</p>
+                    </form>
+                  </details>
+                </div>
+              </li>
+            </template></ul>
+        </section>
+
+        <!-- Every approved testimonial, newest first. Two probes: I wrote it,
+             or it is about me; apagar draws for either. -->
+        <section class="panel approved">
+          <h2 class="band role-band"><span data-text="{msg.testimonials_label}">depoimentos</span></h2>
+          <ul class="rows" data-live="testimonial" data-filter="subject_id=eq.{id}"
+              data-order="created_at.desc,id.desc" data-empty="{msg.testimonials_empty}"><template data-item>
+              <li class="row testimonial">
+                <span class="who" data-live="app_user" data-filter="id=eq.{author_id}" data-empty=""><template data-item><span class="who-item"><span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{handle}"></span></span><a class="who-link" data-route="profile" data-param-handle="{handle}" data-text="{display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{handle}" data-text="{handle}"></a></span></template></span>
+                <time class="when role-meta" datetime="{created_at}" data-text="{created_at}" data-text-format="datetime"></time>
+                <p class="scrap-body role-body" data-text="{body}"></p>
+                <span class="may author-probe" data-live="me" data-filter="id=eq.{author_id}" data-empty=""><template data-item><i></i></template></span><span class="may subject-probe" data-live="me" data-filter="id=eq.{subject_id}" data-empty=""><template data-item><i></i></template></span>
+                <div class="scrap-foot role-meta">
+                  <details class="erase">
+                    <summary class="role-meta" data-text="{msg.delete_testimonial_button}">apagar…</summary>
+                    <form data-form="delete-testimonial" data-entity="testimonial" data-action="delete">
+                      <button type="submit" class="danger role-meta" data-text="{msg.delete_testimonial_confirm}">sim, apagar</button>
+                      <p class="store-error role-meta" hidden data-text="{msg.delete_testimonial_failed}">Não deu pra apagar.</p>
+                    </form>
+                  </details>
+                </div>
+              </li>
+            </template></ul>
+        </section>
+      </div>
+    </template>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+<!-- news — ir: #news. A hundred of my friends' doings, the panel on início
+     grown to a page: the same row, the same policy, no filter but the cap. -->
+<section class="screen" data-screen="news">
+  <header class="topline">
+    <a class="back role-meta" data-route="home" data-text="{msg.back_home}">← início</a>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel list-skel"></div>
+  </div>
+
+  <div class="page">
+    <section class="panel news">
+      <h2 class="band role-band"><span data-text="{msg.news_title}">novidades dos amigos</span></h2>
+      <ul class="rows" data-live="feed_item" data-filter="limit=100"
+          data-select="*,actor:app_user!actor_id(handle,display_name,photo_url),about_user:app_user!about_user_id(handle,display_name),about_community:community!about_community_id(name)"
+          data-order="at.desc,id.desc" data-empty="{msg.news_empty}">
+        <template data-item>
+          <li class="row news" data-kind="{kind}">
+            <span class="face small"><img class="photo" src="{actor.photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{actor.handle}"></span></span>
+            <span class="you-probe" data-live="me" data-filter="id=eq.{about_user_id}" data-empty=""><template data-item><i></i></template></span>
+            <p class="news-line role-meta">
+              <a class="who-link" data-route="profile" data-param-handle="{actor.handle}" data-text="{actor.display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{actor.handle}" data-text="{actor.handle}"></a>
+              <span class="did" data-text="{msg[kind_key]}">fez algo</span>
+              <span class="about-you" data-text="{msg.news_you}">você</span><a class="about-user who-link" data-route="profile" data-param-handle="{about_user.handle}" data-text="{about_user.display_name}"></a><a class="about-user who-handle" data-route="profile" data-param-handle="{about_user.handle}" data-text="{about_user.handle}"></a><a class="about-community who-link" data-route="community" data-param-id="{about_community_id}" data-text="{about_community.name}"></a>
+              <time class="when" datetime="{at}" data-text="{at}" data-text-format="datetime"></time>
+            </p>
+            <p class="news-body role-body" data-text="{excerpt}"></p>
+          </li>
+        </template>
+      </ul>
+    </section>
+  </div>
+</section>

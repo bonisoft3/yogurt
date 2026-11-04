@@ -1,0 +1,192 @@
+@import "./shared/yogurt.css";
+
+/* profile — ir: #profile. The left column is the person, the right column
+   their panels, as the page was laid out. */
+[data-screen="profile"] { container-type: inline-size; }
+[data-screen="profile"] .topline { padding-bottom: var(--sp-sm); margin-bottom: var(--sp-md); }
+[data-screen="profile"] .back { color: var(--secondary); text-decoration: none;
+  display: inline-block; padding-block: var(--size-1); }
+[data-screen="profile"] .back:hover { color: var(--primary); }
+
+[data-screen="profile"] .columns { display: grid; grid-template-columns: var(--measure-portrait) minmax(0, 1fr);
+  gap: var(--sp-md); align-items: start; }
+[data-screen="profile"] .right { display: grid; gap: var(--sp-md); }
+@container (max-width: 640px) {
+  [data-screen="profile"] .columns { grid-template-columns: minmax(0, 1fr); }
+}
+[data-screen="profile"] .portrait { display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: var(--size-1); }
+[data-screen="profile"] .initial.big { width: 160px; height: 160px; line-height: 160px; }
+[data-screen="profile"] .face.big { margin: 0 auto; }
+[data-screen="profile"] .initial.big::first-letter { font-size: var(--type-display); }
+[data-screen="profile"] .person-name { margin: var(--sp-sm) 0 0; color: var(--primary); overflow-wrap: anywhere; }
+[data-screen="profile"] .person-handle { margin: 0; color: var(--secondary); }
+[data-screen="profile"] .person-name:empty { display: none; }
+[data-screen="profile"] .person-name:empty + .person-handle { color: var(--primary); font-weight: 700; }
+[data-screen="profile"] .rel { margin: var(--sp-sm) 0 0; }
+[data-screen="profile"] .counts { list-style: none; display: flex; gap: var(--sp-md);
+  padding: 0; margin: var(--sp-md) 0 0; color: var(--secondary); }
+[data-screen="profile"] .counts b { color: var(--primary); }
+[data-screen="profile"] .tally i { font-style: normal; }
+[data-screen="profile"] .tally i:not(:first-of-type) { display: none; }
+[data-screen="profile"] .tally .empty { display: inline; color: var(--primary); }
+
+/* The scraps teaser: the band's link carries the count; the foot is the way
+   to the box, which lives on the scrapbook (ir decision-scrapbook). */
+[data-screen="profile"] .teaser-foot { margin: 0; padding: var(--sp-sm) var(--sp-md);
+  border-top: var(--border-size-1) solid var(--border); }
+
+/* What the person wrote is primary; what the site says about it is secondary.
+   A nullable column that is empty hides its line rather than drawing a blank. */
+[data-screen="profile"] .about { margin: 0; white-space: pre-line; }
+[data-screen="profile"] .about-empty { margin: 0; color: var(--secondary); display: none; }
+[data-screen="profile"] .about:empty { display: none; }
+[data-screen="profile"] .about:empty + .about-empty { display: block; }
+[data-screen="profile"] .details { display: grid; grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--sp-sm) var(--sp-md); }
+[data-screen="profile"] .details dt { color: var(--secondary); }
+[data-screen="profile"] .details dd { margin: 0; overflow-wrap: anywhere; }
+[data-screen="profile"] .details dd:has(> span:first-child:empty) .sep { display: none; }
+[data-screen="profile"] .details dd:has(> span:last-child:empty) .sep { display: none; }
+[data-screen="profile"] .details dd:empty::before,
+[data-screen="profile"] .details dd:has(> span:first-child:empty):has(> span:last-child:empty)::before { content: "—"; color: var(--secondary); }
+
+/* The arms (ir decision-relation-through-me, decision-live-relations): every
+   relation is a list of my own rows, each with a person probe whose :empty
+   state is a fact; :has() over the probes chooses which arm is drawn. Every
+   arm starts hidden at one specificity and is shown by a more specific rule,
+   so no base rule can outrank a state. Precedence is the order a person
+   reads it: mine, friends, their request, my request, nothing yet. */
+[data-screen="profile"] .arms { display: flex; flex-direction: column; align-items: center;
+  gap: var(--sp-sm); margin-top: var(--sp-md); width: 100%; }
+[data-screen="profile"] .arms form { margin: 0; flex-direction: column; align-items: center; gap: var(--size-1); }
+[data-screen="profile"] .me-probe, [data-screen="profile"] .person-probe { display: none; }
+/* Lists and rows are boxes only for :has(); their arms lay out as the box's children. */
+[data-screen="profile"] .mine, [data-screen="profile"] .relation, [data-screen="profile"] .friend-rows,
+[data-screen="profile"] .fan-probe, [data-screen="profile"] .sent-rows, [data-screen="profile"] .inbox { display: contents; }
+/* A row is this page's when its person probe has a row; every other row of mine stays out. */
+[data-screen="profile"] .friend-row, [data-screen="profile"] .sent-row, [data-screen="profile"] .inbox-row { display: none; }
+[data-screen="profile"] :is(.friend-row, .sent-row, .inbox-row):has(.person-probe > i) { display: contents; }
+/* Reading order is friendship then fandom whichever row each arm lives in. */
+[data-screen="profile"] .arms .fan-arm, [data-screen="profile"] .arms .unfan-arm { order: 1; }
+[data-screen="profile"] .state-label { color: var(--secondary); }
+[data-screen="profile"] .own-note { margin: 0; color: var(--secondary); }
+[data-screen="profile"] .pending-arm { display: flex; flex-direction: column; align-items: center; gap: var(--size-1); }
+[data-screen="profile"] .pending-arm form { flex-direction: row; gap: var(--sp-sm); }
+/* Undoing a friendship is two taps: one arms it, the second commits. */
+[data-screen="profile"] .friends-arm { display: flex; flex-direction: column; align-items: center; gap: var(--size-1); }
+[data-screen="profile"] .friends-arm summary { list-style: none; cursor: pointer; color: var(--danger); text-decoration: underline;
+  display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+[data-screen="profile"] .friends-arm summary::-webkit-details-marker { display: none; }
+[data-screen="profile"] .friends-arm details[open] summary { display: none; }
+/* Defaults, all at one specificity. */
+[data-screen="profile"] .arms form, [data-screen="profile"] .arms .friends-arm, [data-screen="profile"] .arms .pending-arm, [data-screen="profile"] .arms .own-note { display: none; }
+[data-screen="profile"] .arms .ask-arm, [data-screen="profile"] .arms .fan-arm { display: flex; }
+/* Before a region's first sweep it still holds its template, so every probe
+   reads non-empty and the arms would show a state nobody is in: hold them
+   invisible until every probe has been swept. */
+[data-screen="profile"] .arms:has(.me-probe > template, .mine > template, .friend-rows > template, .sent-rows > template, .inbox > template, .fan-probe > template, .person-probe > template) { visibility: hidden; }
+/* Friends: the friendship row whose probe names this person. */
+[data-screen="profile"] .arms .friend-row:has(.person-probe > i) .friends-arm,
+[data-screen="profile"] .arms .friend-row:has(.person-probe > i) .friends-arm form { display: flex; }
+/* The hide rules double the box class so they outrank the show rules at a tie:
+   friends hide every request arm, their request hides mine, whatever order
+   the rows arrive in. */
+[data-screen="profile"] .arms.arms:has(.friend-row .person-probe > i) :is(.ask-arm, .requested-arm, .pending-arm) { display: none; }
+/* They asked me: the inbox row draws accept and decline; the ask arm and my own sent arm hide. */
+[data-screen="profile"] .arms .inbox-row:has(.person-probe > i) .pending-arm,
+[data-screen="profile"] .arms .inbox-row:has(.person-probe > i) .pending-arm form { display: flex; }
+[data-screen="profile"] .arms.arms:has(.inbox-row .person-probe > i) :is(.ask-arm, .requested-arm) { display: none; }
+/* I asked them. */
+[data-screen="profile"] .arms .sent-row:has(.person-probe > i) .requested-arm { display: flex; }
+[data-screen="profile"] .arms.arms:has(.sent-row .person-probe > i) .ask-arm { display: none; }
+/* Fan: my fan row for this person carries its own undo. */
+[data-screen="profile"] .arms .fan-probe > .unfan-arm { display: flex; }
+[data-screen="profile"] .arms:has(.fan-probe > .unfan-arm) .fan-arm { display: none; }
+/* Mine: no control at all, one sentence. */
+[data-screen="profile"] .arms:has(.me-probe > i) :is(form, .friends-arm, .pending-arm, .friend-row, .sent-row, .inbox-row) { display: none; }
+[data-screen="profile"] .arms:has(.me-probe > i) .own-note { display: block; }
+
+/* Storybook frames: the fixture tier fills every list with three rows and every
+   probe with a row, so each frame names the arm it shows, on the first row
+   alone; outside the storybook the probes decide. */
+.storybook .frame [data-screen="profile"][data-state] .arms :is(form, .friends-arm, .pending-arm, .own-note, .friend-row, .sent-row, .inbox-row) { display: none; }
+.storybook .frame [data-screen="profile"][data-state] .arms { visibility: visible; }
+.storybook .frame [data-screen="profile"]:is([data-state="populated"], [data-state="populated-dark"], [data-state="validation-error"]) .arms :is(.ask-arm, .fan-arm) { display: flex; }
+.storybook .frame [data-screen="profile"][data-state="requested"] .arms .sent-row:first-child { display: contents; }
+.storybook .frame [data-screen="profile"][data-state="requested"] .arms :is(.sent-row:first-child .requested-arm, .fan-arm) { display: flex; }
+.storybook .frame [data-screen="profile"][data-state="pending"] .arms .inbox-row:first-child { display: contents; }
+.storybook .frame [data-screen="profile"][data-state="pending"] .arms :is(.inbox-row:first-child .pending-arm, .inbox-row:first-child .pending-arm form, .fan-arm) { display: flex; }
+.storybook .frame [data-screen="profile"][data-state="friends"] .arms .friend-row:first-child { display: contents; }
+.storybook .frame [data-screen="profile"][data-state="friends"] .arms :is(.friend-row:first-child .friends-arm, .friend-row:first-child .friends-arm form, .unfan-arm) { display: flex; }
+.storybook .frame [data-screen="profile"][data-state="own-profile"] .arms .own-note { display: block; }
+.storybook .frame [data-screen="profile"][data-state="validation-error"] .arms :is(.ask-arm, .fan-arm) .store-error { display: block; }
+
+/* States. */
+[data-screen="profile"][data-state="loading"] .skeleton { display: grid;
+  grid-template-columns: var(--measure-portrait) minmax(0, 1fr); gap: var(--sp-md); }
+[data-screen="profile"][data-state="loading"] .person { display: none; }
+[data-screen="profile"] .left-skel { height: 300px; }
+[data-screen="profile"] .right-skel { height: 420px; }
+@container (max-width: 640px) {
+  [data-screen="profile"][data-state="loading"] .skeleton { grid-template-columns: minmax(0, 1fr); }
+}
+/* The one-row list with no row reports empty, and the region's own sentence
+   is the whole frame. */
+[data-screen="profile"] .person > .empty { background: var(--surface); border: var(--border-size-1) solid var(--border);
+  border-radius: var(--r-sm); padding: var(--sp-md); margin: 0; color: var(--secondary); }
+
+/* The two panels of turn 10: communities under the portrait, the testimonials' teaser on the right. */
+[data-screen="profile"] .communities .count { color: var(--secondary); font-weight: 400; }
+[data-screen="profile"] .communities .count b { font-weight: inherit; }
+/* The foot's "escrever depoimento" leads to a box drawn for friends alone, so it draws for them alone. */
+[data-screen="profile"] .testimonials .teaser-foot { display: none; }
+[data-screen="profile"]:has(.friend-rows .person-probe > i):not(:has(.me-probe > i)) .testimonials .teaser-foot { display: block; }
+.storybook .frame [data-screen="profile"][data-state="friends"] .testimonials .teaser-foot { display: block; }
+[data-screen="profile"] .own-note .edit-link { display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+/* A detail with nothing to say draws nothing: an unset column is an empty dd, and mora em is two empty spans. */
+[data-screen="profile"] .details dd:empty, [data-screen="profile"] .details dt:has(+ dd:empty) { display: none; }
+[data-screen="profile"] .details dd:has(> .sep):not(:has(> span:not(.sep):not(:empty))),
+[data-screen="profile"] .details dt:has(+ dd:has(> .sep):not(:has(> span:not(.sep):not(:empty)))) { display: none; }
+
+/* Karma (ir decision-karma): the smileys line under the counts; the rater's
+   form inside the friend row, the create form only once the region has
+   stamped that I have no row yet. */
+[data-screen="profile"] .karma { margin: var(--sp-sm) 0 0; }
+[data-screen="profile"] .smiley-row { display: inline-flex; flex-wrap: wrap; gap: var(--sp-sm); align-items: baseline; }
+[data-screen="profile"] .smiley-row .k b { font-weight: 400; letter-spacing: .05em; font-size: var(--type-body); }
+[data-screen="profile"] .smiley-row .raters { color: var(--secondary); }
+[data-screen="profile"] .karma-form { display: flex; flex-direction: column; gap: var(--sp-sm); margin: var(--sp-md) 0 0; padding-top: var(--sp-md); border-top: var(--border-size-1) solid var(--border); }
+/* The arm centres its children and a size container has no intrinsic width,
+   so the forms and the row that holds the update form take the column. */
+[data-screen="profile"] .arms .friends-arm, [data-screen="profile"] .friends-arm .karma-mine, [data-screen="profile"] .friends-arm .karma-form { align-self: stretch; width: 100%; }
+/* Tap-to-set rows: one fieldset a smiley, four levels as radio chips; the
+   radio itself is off-screen, the chip carries its state and its focus ring. */
+[data-screen="profile"] .karma-form .level-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--size-1); border: 0; margin: 0; padding: 0; min-inline-size: 0; }
+/* Floated, the legend is an ordinary child, so the grid lays it across the top. */
+[data-screen="profile"] .karma-form .level-row legend { float: left; grid-column: 1 / -1; padding: 0; }
+[data-screen="profile"] .karma-form .level { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: var(--control-h); padding: 0 var(--size-1); border: var(--border-size-1) solid var(--border); border-radius: var(--r-md); cursor: pointer; }
+[data-screen="profile"] .karma-form .level .role-meta { font-size: var(--type-caption); text-align: center; white-space: nowrap; }
+/* The arms column is narrow on a wide screen (about 13rem) and the phone's
+   is wide (about 19rem): below 17rem the four levels go two by two. */
+[data-screen="profile"] .karma-form { container-type: inline-size; }
+@container (width < 17rem) { [data-screen="profile"] .karma-form .level-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+[data-screen="profile"] .karma-form .level input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+[data-screen="profile"] .karma-form .level:has(:checked) { background: var(--accent); border-color: var(--accent); }
+[data-screen="profile"] .karma-form .level:has(:checked) .role-meta { color: var(--surface); }
+[data-screen="profile"] .karma-form .level:has(:focus-visible) { outline: var(--border-size-2) solid var(--accent); outline-offset: var(--border-size-2); }
+[data-screen="profile"] .karma-form .karma-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm) var(--sp-md); }
+[data-screen="profile"] .karma-form .karma-foot .invalid, [data-screen="profile"] .karma-form .karma-foot .store-error { margin: 0; }
+/* The create form outranks the friends-arm show rule (which draws every form
+   in the arm) and is drawn only once my karma region has stamped its empty. */
+[data-screen="profile"] .arms .friend-row:has(.person-probe > i) .friends-arm form.karma-new { display: none; }
+[data-screen="profile"] .arms .friend-row:has(.person-probe > i):has(.karma-mine > .empty) .friends-arm form.karma-new { display: flex; }
+[data-screen="profile"] .karma-mine > .empty { display: none; }
+.storybook .frame [data-screen="profile"][data-state="rated"] .arms .friend-row { display: block; }
+.storybook .frame [data-screen="profile"][data-state="rated"] .arms .friend-row .karma-new { display: none; }
+[data-screen="profile"] .karma-row { display: contents; }
+[data-screen="profile"] .arms .friend-row:has(.person-probe > i) .friends-arm form.unrate-form { display: flex; margin-top: var(--sp-sm); }
+/* A person who filled no interest line has no interests panel. */
+[data-screen="profile"] .panel.interests:not(:has(dd:not(:empty))) { display: none; }
+/* "responder" is for somebody else's scrap. */
+[data-screen="profile"] .row.scrap:has(.may > i) .reply { display: none; }

@@ -1,0 +1,45 @@
+# generated from bayt.cue — do not edit
+services:
+  yogurt-served-release:
+    build:
+      additional_contexts:
+        plugins_omnishell-runtime-image: >-
+          ${MONOREPO_COMPOSE_MODE:-docker-image://bonitao/omnishell:0.21.7@sha256:300583571c8a5434d59c7ada9a3b5c2f6319d5768b3950a9f06504d96237d1a8}${MONOREPO_COMPOSE_MODE:+:plugins_omnishell-runtime-image}
+      context: ..
+      dockerfile: .bayt/Dockerfile.served-release
+      target: served-release
+      tags:
+      - bayt-yogurt-served-release:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+      - bayt-yogurt-served-release:latest
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-served-release:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+    networks:
+      default:
+        aliases:
+        - served-release
+    scale: 0
+  yogurt-served-release_bayt:
+    build:
+      context: ..
+      dockerfile: .bayt/Dockerfile.served-release
+      target: served-release_bayt
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-served-release_bayt:latest
+    scale: 0
+  yogurt-served-release_srcs:
+    build:
+      context: ..
+      dockerfile: .bayt/Dockerfile.served-release
+      target: served-release_srcs
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-served-release_srcs:latest
+    scale: 0

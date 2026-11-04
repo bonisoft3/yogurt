@@ -1,0 +1,146 @@
+<!-- community — ir: #community. One community's page. The header is a one-row
+     LIST region over community by the route's id; the membership arm is read
+     through the reader's me row, as the profile reads a relation. -->
+<section class="screen" data-screen="community">
+  <header class="topline">
+    <a class="back role-meta" data-route="communities" data-text="{msg.back_communities}">← comunidades</a>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel left-skel"></div>
+    <div class="skel right-skel"></div>
+  </div>
+
+  <div class="one" data-live="community" data-filter="id=eq.{param.id}"
+       data-empty="{msg.community_not_found}">
+    <template data-item>
+      <div class="columns">
+        <div class="left">
+          <section class="panel">
+            <div class="panel-body portrait">
+              <span class="face big"><img class="photo" src="{photo_url}" alt="" width="160" height="160"><span class="initial big" aria-hidden="true" data-text="{name}"></span></span>
+              <h1 class="community-name role-band" dir="auto" data-text="{name}"></h1>
+              <p class="rel role-meta"><span class="chip role-label" data-text="{msg[category]}"></span></p>
+              <ul class="counts role-meta">
+                <li><a class="members-link" data-route="members" data-param-id="{id}"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></a></li>
+                <li class="owner"><span data-text="{msg.owner_label}">dono(a)</span> <span class="owner-name" data-live="app_user" data-filter="id=eq.{owner_id}" data-empty=""><template data-item><span class="owner-row"><a class="who-link" data-route="profile" data-param-handle="{handle}" data-text="{display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{handle}" data-text="{handle}"></a></span></template></span></li>
+              </ul>
+
+              <!-- The arm (ir decision-community-page): my membership probe lives
+                   in my me row, under a wrapper, because an item's root is never
+                   searched for nested regions; the join form stays a sibling because
+                   it needs the community's id. Regions and probes carry no whitespace.
+                   Every rule keys on the stamped arm, not on :empty, so a probe still
+                   holding its template before its first sweep decides nothing. -->
+              <div class="arms">
+                <span class="mine" data-live="me"><template data-item><span class="relation"><span class="member-probe" data-live="membership" data-filter="user_id=eq.{id}&community_id=eq.{param.id}" data-empty=""><template data-item><span class="member-arm">
+                  <span class="state-label role-meta" data-text="{msg.member_state_label}">você é membro</span>
+                  <!-- One tap (DESIGN.md: rejoining is free), row-scoped in my probe's row. -->
+                  <form data-form="leave-community" data-entity="membership" data-action="delete">
+                    <button type="submit" class="outline role-meta" data-text="{msg.leave_button}">sair da comunidade</button>
+                    <p class="store-error role-meta" hidden data-text="{msg.leave_failed}">Não deu pra sair da comunidade.</p>
+                  </form>
+                </span></template></span></span></template></span>
+                <form class="join-arm" data-form="join-community" data-entity="membership" data-action="create">
+                  <input type="hidden" name="community_id" data-value="{id}">
+                  <button type="submit" class="role-meta" data-text="{msg.join_button}">entrar na comunidade</button>
+                  <p class="invalid role-meta" hidden data-text="{msg.join_failed}">Não deu pra entrar na comunidade.</p>
+                  <p class="store-error role-meta" hidden data-text="{msg.join_failed}">Não deu pra entrar na comunidade.</p>
+                </form>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="right">
+          <section class="panel">
+            <h2 class="band role-band"><span data-text="{msg.community_about_label}">quem somos</span></h2>
+            <div class="panel-body">
+              <p class="about role-body" data-text="{description}"></p>
+              <p class="about-empty role-meta" data-text="{msg.community_about_empty}">Esta comunidade ainda não tem descrição.</p>
+            </div>
+          </section>
+
+          <!-- The owner's form (ir decision-edits-and-members): a Me probe on
+               owner_id draws it; the update is row-scoped in the community's
+               own row and 011 admits the owner alone. -->
+          <span class="owner-probe" data-live="me" data-filter="id=eq.{owner_id}" data-empty=""><template data-item><i></i></template></span>
+          <section class="panel edit-community">
+            <h2 class="band role-band"><span data-text="{msg.edit_community_label}">editar comunidade</span></h2>
+            <form class="panel-body edit-form" data-form="edit-community" data-entity="community" data-action="update">
+              <label class="field"><span class="role-meta" data-text="{msg.community_description_label}">descrição</span><textarea name="description" data-value-adapter="editing-text" maxlength="1000" rows="3" data-value="{description}"></textarea></label>
+              <label class="field"><span class="role-meta" data-text="{msg.community_photo_label}">foto (link https)</span><input type="text" name="photo_url" data-value-adapter="editing-text" maxlength="2048" data-value="{photo_url}"></label>
+              <div class="edit-foot">
+                <button type="submit" class="role-meta" data-text="{msg.save_button}">salvar</button>
+                <p class="invalid role-meta" hidden data-text="{msg.edit_blank}">Confira os campos marcados.</p>
+                <p class="store-error role-meta" hidden data-text="{msg.edit_community_failed}">Não deu pra salvar a comunidade.</p>
+                <p class="saved role-meta" role="status" data-text="{msg.saved_line}">salvo</p>
+              </div>
+            </form>
+          </section>
+
+          <!-- The newest twelve members as the shared person tile; the count is in the band. -->
+          <section class="panel">
+            <h2 class="band role-band"><span data-text="{msg.members_title}">membros</span> <a class="count role-meta" data-route="members" data-param-id="{id}"><span data-text="{msg.see_all_members}">ver todos os membros</span> (<b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="0"><template data-item><i data-text="{n}"></i></template></b>)</a></h2>
+            <ul class="tiles" data-live="membership" data-filter="community_id=eq.{id}&limit=12"
+                data-select="*,member:app_user!user_id(handle,display_name,photo_url)"
+                data-order="created_at.desc,id.asc" data-empty="{msg.members_empty}">
+              <template data-item>
+                <li class="tile person">
+                  <span class="me-probe" data-live="me" data-filter="id=eq.{user_id}"><template data-item><i></i></template></span>
+                  <a data-route="profile" data-param-handle="{member.handle}">
+                    <span class="face"><img class="photo" src="{member.photo_url}" alt="" width="72" height="72"><span class="initial" aria-hidden="true" data-text="{member.handle}"></span></span>
+                    <span class="name role-meta" data-text="{member.display_name}"></span>
+                    <span class="handle role-label" data-text="{member.handle}"></span>
+                  </a>
+                  <form class="fan-form" data-form="be-fan-community" data-entity="fan" data-action="create">
+                    <input type="hidden" name="idol_id" data-value="{user_id}">
+                    <button type="submit" class="role-meta" aria-label="{msg.be_fan_button}: {member.handle}" data-text="{msg.be_fan_button}">ser fã</button>
+                    <p class="saved role-meta" role="status"><a data-route="profile" data-param-handle="{member.handle}" data-text="{msg.fan_state_label}">você é fã</a></p>
+                    <p class="store-error role-meta" role="status" hidden data-text="{msg.fan_tile_failed}">Não deu. Talvez você já seja fã.</p>
+                  </form>
+                </li>
+              </template>
+            </ul>
+          </section>
+
+          <!-- The forum: the new-topic form for members (the 017 guard is the
+               rule), then the topics newest first. -->
+          <section class="panel forum">
+            <h2 class="band role-band"><span data-text="{msg.forum_title}">fórum</span></h2>
+            <div class="panel-body forum-head">
+              <form class="new-topic" data-form="new-topic" data-entity="topic" data-action="create">
+                <input type="hidden" name="community_id" data-value="{id}">
+                <label class="field"><span class="role-meta" data-text="{msg.topic_title_label}">título</span><input type="text" name="title" required maxlength="120"></label>
+                <label class="field"><span class="role-meta" data-text="{msg.topic_body_label}">mensagem</span><textarea name="body" required maxlength="4000" rows="3"></textarea></label>
+                <div class="topic-foot">
+                  <button type="submit" class="role-meta" data-text="{msg.post_topic_button}">publicar tópico</button>
+                  <p class="invalid role-meta" hidden data-text="{msg.topic_blank}">Dê um título e uma mensagem.</p>
+                  <p class="store-error role-meta" hidden data-text="{msg.topic_failed}">Não deu pra publicar.</p>
+                </div>
+              </form>
+              <p class="members-only role-meta" data-text="{msg.members_only_note}">Entre na comunidade para abrir um tópico.</p>
+            </div>
+            <ul class="rows" data-live="topic" data-filter="community_id=eq.{id}"
+                data-select="*,author:app_user!author_id(handle,display_name,photo_url)"
+                data-order="created_at.desc,id.desc" data-empty="{msg.topics_empty}">
+              <template data-item>
+                <li class="row topic">
+                  <a class="topic-title role-body" data-route="topic" data-param-community="{community_id}" data-param-id="{id}" data-text="{title}"></a>
+                  <p class="topic-line role-meta">
+                    <span data-text="{msg.topic_by}">por</span>
+                    <a class="who-link" data-route="profile" data-param-handle="{author.handle}" data-text="{author.display_name}"></a><a class="who-handle" data-route="profile" data-param-handle="{author.handle}" data-text="{author.handle}"></a>
+                    <span class="replies"><span data-text="{msg.replies_label}">respostas</span>: <b class="tally" data-live="post" data-filter="topic_id=eq.{id}" data-project='{"n":"count"}' data-empty="0"><template data-item><i data-text="{n}"></i></template></b></span>
+                    <time class="when" datetime="{created_at}" data-text="{created_at}" data-text-format="datetime"></time>
+                  </p>
+                </li>
+              </template>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </template>
+  </div>
+</section>

@@ -1,0 +1,172 @@
+/* The design system, declared once for the whole app (DESIGN.md "Scrapbook").
+   Screens import this and declare their own layout, nothing else. Every value
+   here comes through a token in design.css; a literal hex would fork the dark
+   twin (ir test-dual-appearance). */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Type roles — the five DESIGN.md entries, the ONLY place a size is named.
+   One family: the identity is in the boxes, not the type. */
+.role-title { font-size: var(--type-title); font-weight: 700; line-height: var(--type-leading-title); }
+.role-band { font-size: var(--type-subtitle); font-weight: 700; line-height: var(--type-leading-title); }
+.role-body { font-size: var(--type-body); line-height: var(--type-leading-body); }
+.role-meta { font-size: var(--type-caption); line-height: var(--type-leading-body); }
+.role-label { font-size: var(--type-label); line-height: var(--type-leading-body); }
+
+.screen { margin: 0 auto; max-width: var(--measure-page); color: var(--primary);
+  background: var(--neutral); padding: var(--sp-md) var(--sp-lg) var(--sp-xl);
+  font-family: system-ui, sans-serif; }
+
+a { color: var(--link); }
+input, textarea, select { color: var(--primary); background: var(--surface);
+  border: var(--border-size-1) solid var(--border); border-radius: var(--r-sm);
+  padding: var(--sp-sm) var(--sp-md); font: inherit; }
+input::placeholder, textarea::placeholder { color: var(--secondary); }
+input:focus-visible, textarea:focus-visible, select:focus-visible { outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+/* The pink is spent on commitment alone (DESIGN.md). */
+button { cursor: pointer; background: var(--accent); color: var(--surface);
+  border: var(--border-size-1) solid transparent; border-radius: var(--r-sm);
+  padding: var(--sp-sm) var(--sp-md); font: inherit; font-weight: 600;
+  transition: filter var(--motion-fast) var(--motion-ease); }
+button:hover { filter: brightness(.94); }
+button:focus-visible { outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+button.outline { background: var(--surface); color: var(--secondary);
+  border-color: var(--border); }
+button.outline:hover { color: var(--primary); border-color: var(--secondary); filter: none; }
+button.danger { background: var(--surface); color: var(--danger); border-color: var(--border); }
+
+/* The panel: yogurt's one component. A white box, a light-blue band with the
+   title and a count, rows under it. */
+.panel { background: var(--surface); border: var(--border-size-1) solid var(--border);
+  border-radius: var(--r-sm); overflow: hidden; }
+.band { display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--sp-sm); background: var(--surface-muted); color: var(--primary);
+  padding: var(--sp-sm) var(--sp-md); border-bottom: var(--border-size-1) solid var(--border); margin: 0; }
+.band .count { color: var(--secondary); font-weight: 400; }
+.band a { font-weight: 400; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: var(--size-1); min-height: var(--control-h-lg); }
+.band a:hover { text-decoration: underline; }
+/* Every summary that arms an undo is a control: a thumb's height. */
+summary { display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+.panel-body { padding: var(--sp-md); }
+.panel-body > :first-child { margin-top: 0; }
+.panel-body > :last-child { margin-bottom: 0; }
+
+/* The person tile: a picture over a name in link blue, the handle in
+   secondary. The same tile wherever people are listed. */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: var(--sp-md); padding: var(--sp-md); margin: 0; list-style: none; }
+.tile { display: flex; flex-direction: column; align-items: center; gap: var(--size-1);
+  text-align: center; min-width: 0; }
+.tile a { text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: var(--size-1); width: 100%; border-radius: var(--r-sm); }
+.tile a:focus-visible { outline: var(--border-size-2) solid var(--accent); outline-offset: var(--border-size-2); }
+/* Two lines for a name, always, so the arms under a row of tiles sit level;
+   a short name sits at the top of its box, under the face, as before. The
+   reserve is deliberate: a clamp would clip a name, and a subgrid per row
+   would tie every tile's height to its neighbours' for no better result. */
+/* Two lines for a name, never more: a long legal name is clamped here and whole on its profile, so the arms under a row of tiles stay level. */
+.tile .name { color: var(--link); font-weight: 600; overflow-wrap: anywhere; min-height: calc(2 * var(--type-leading-body) * 1em); max-height: calc(2 * var(--type-leading-body) * 1em); overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; text-align: center; }
+.tile .handle { color: var(--secondary); overflow-wrap: anywhere; }
+/* A person with no picture is a letter disc: the display name's own first
+   letter, no column, no upload, no request. The rest of the name is sized
+   away rather than clipped (font-size 0), so nothing is hidden. */
+.initial { display: block; flex: none; width: 72px; height: 72px; line-height: 72px;
+  text-align: center; border-radius: var(--r-md); background: var(--surface-muted);
+  border: var(--border-size-1) solid var(--border); color: var(--link); font-weight: 700;
+  font-size: 0; text-transform: uppercase; }
+.initial::first-letter { font-size: var(--type-title); }
+.initial.small { width: 36px; height: 36px; line-height: 36px; border-radius: var(--r-sm); }
+.initial.small::first-letter { font-size: var(--type-body); }
+/* A face and a letter are the two states of one box: the picture binds the
+   row's own link, and a person with no link gets the binder's transparent
+   pixel (a data: src, no request), so the disc shows then and only then
+   (DESIGN.md, Pictures). A posed frame blanks every src to that pixel, so
+   the storybook shows discs where the live page shows faces. */
+.face { display: block; position: relative; flex: none; width: 72px; height: 72px; }
+.face .photo { display: block; width: 72px; height: 72px; object-fit: cover; border-radius: var(--r-md);
+  border: var(--border-size-1) solid var(--border); background: var(--surface-muted); }
+.face .photo[src^="data:"] { display: none; }
+.face .photo:not([src^="data:"]) + .initial { display: none; }
+.face.small, .face.small .photo { width: 36px; height: 36px; }
+.face.small .photo { border-radius: var(--r-sm); }
+.face.big, .face.big .photo { width: 160px; height: 160px; }
+.tiles .empty, .rows .empty { grid-column: 1 / -1; color: var(--secondary); margin: 0; }
+/* "ser fã" under a person's tile: a stateless create drawn as a quiet link,
+   so fourteen of them on a rail stay under the faces, hidden on my own tile
+   by the me probe. The word after a tap is the saved line's mechanism; a
+   refusal (already a fan) paints its line while the screen holds that state
+   and clears with the state, since nothing here types to clear it. */
+.tile .fan-form { margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--size-1); }
+.tile .fan-form button { padding: 0 var(--sp-sm); min-height: var(--control-h); font-size: var(--type-caption);
+  background: transparent; border: 0; color: var(--link); text-decoration: underline; text-underline-offset: var(--size-1); }
+.tile .fan-form .saved, .tile .fan-form .store-error { margin: 0; font-size: var(--type-label); text-align: center; }
+.screen:not([data-state="validation-error"]) .tile .fan-form .store-error { display: none; }
+.tile:has(.me-probe > i) .fan-form { display: none; }
+
+/* Rows under a band: a scrap, a community. Separated by the one hairline. */
+.rows { list-style: none; margin: 0; padding: 0; }
+.rows > li { padding: var(--sp-sm) var(--sp-md); border-top: var(--border-size-1) solid var(--border); }
+.rows > li:first-child { border-top: 0; }
+.rows > .empty { padding: var(--sp-md); }
+/* A scrap, wherever scraps are listed: the writer's face, who and when in
+   secondary, what they wrote in ink. A writer with no display name is named
+   by their handle, the same way the profile names them. */
+.row.scrap, .row.reply { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-sm); align-items: start; }
+.row.scrap .face.small, .row.reply .face.small { grid-row: 1 / 4; align-self: start; }
+.scrap-line { margin: 0; color: var(--secondary); display: flex; flex-wrap: wrap;
+  gap: var(--size-1) var(--sp-sm); align-items: baseline; }
+.who-link, .who-handle { font-weight: 600; display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+.who-handle { display: none; }
+.who-link:empty { display: none; }
+.who-link:empty + .who-handle { display: inline; }
+.scrap-line .when { margin-inline-start: auto; }
+.scrap-body { margin: var(--size-1) 0 0; overflow-wrap: anywhere; white-space: pre-line; }
+/* Under a scrap: responder goes to the writer's own scrapbook, the 2004 loop. */
+.scrap-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm) var(--sp-md); margin: var(--size-1) 0 0; }
+.scrap-foot .reply { font-weight: 600; }
+/* A thumb's target, not a line's: every control under a scrap is a small control tall. */
+.scrap-foot a, .scrap-foot summary { display: inline-flex; align-items: center; min-height: var(--control-h-sm); }
+
+/* Chips: category and relationship words. */
+.chip { display: inline-block; background: var(--surface-muted); color: var(--secondary);
+  border-radius: var(--r-full); padding: 2px var(--sp-sm); }
+
+/* Refusal, one treatment for every form: danger words under the control that
+   was refused. .invalid is the shell's validation reveal, .store-error the
+   store's 4xx. */
+.invalid, .store-error { display: none; color: var(--danger); margin: 6px 0 0; }
+.invalid:not([hidden]), .store-error:not([hidden]) { display: block; }
+
+/* Hidden until the screen says otherwise ([data-state="network-error"]). */
+.offline { display: none; color: var(--secondary); margin: 0 0 var(--sp-md); }
+[data-state="network-error"] .offline { display: block; }
+/* The word after a save: the terminal stamps success on the screen for a
+   600 ms flash, and the word stays readable past it because leaving is a
+   delayed transition, which is the one memory a stylesheet has. The stamp
+   is the screen's, not the form's, so the word is drawn only in the form
+   that still holds focus, which after a tap on salvar is the one saved. */
+.saved { color: var(--secondary); margin: 0; visibility: hidden; opacity: 0;
+  transition: visibility 0s linear 2.6s, opacity .5s ease 2.1s; }
+[data-state="success"] form:focus-within .saved { visibility: visible; opacity: 1; transition: none; }
+[data-state="form-submit"] form[data-submitting] button[type="submit"] { opacity: .55; }
+
+/* Skeletons draw nothing but surface-muted. */
+.skeleton { display: none; }
+.skel { background: var(--surface-muted); border-radius: var(--r-sm); }
+
+/* A testimonial row: the writer is a nested region (live table, no embed), so
+   its face and name are the region's item, drawn into the row's grid through
+   display: contents; the time, body and foot are the row's own. */
+.row.testimonial { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--sp-sm); row-gap: var(--size-1); align-items: start; }
+.row.testimonial .who, .row.testimonial .who-item { display: contents; }
+.row.testimonial .face.small { grid-column: 1; grid-row: 1 / span 3; }
+.row.testimonial .who-link, .row.testimonial .who-handle { grid-column: 2; grid-row: 1; }
+.row.testimonial .who-link:empty + .who-handle { display: inline-flex; }
+.row.testimonial .when { grid-column: 3; grid-row: 1; color: var(--secondary); align-self: center; }
+.row.testimonial .scrap-body { grid-column: 2 / span 2; grid-row: 2; margin: 0; }
+.row.testimonial .scrap-foot { grid-column: 2 / span 2; grid-row: 3; margin: 0; }
+.row.testimonial .may { display: none; }
+/* Text for readers alone, beside a glyph hidden from them. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

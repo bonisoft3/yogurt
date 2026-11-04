@@ -1,0 +1,6 @@
+# generated from bayt.cue — do not edit
+services:
+  yogurt-caddy:
+    ports:
+    - ${CADDY_TLS_HOST_PORT:-26248}:8443
+    - ${CADDY_TLS_HOST_PORT:-26248}:8443/udp

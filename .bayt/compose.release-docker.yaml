@@ -1,0 +1,56 @@
+# generated from bayt.cue — do not edit
+services:
+  yogurt-release-docker:
+    build:
+      additional_contexts:
+        yogurt-database: service:yogurt-database
+        yogurt-crud: service:yogurt-crud
+        yogurt-caddy: service:yogurt-caddy
+        yogurt-served-release: service:yogurt-served-release
+        yogurt-auth: service:yogurt-auth
+      context: ..
+      dockerfile: .bayt/Dockerfile.release-docker
+      target: release-docker
+      tags:
+      - ${BAYT_DOCKER_REPOSITORY:-ghcr.io/bonisoft3/yogurt}:${BAYT_IMAGE_TAG:-latest}
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: ${BAYT_DOCKER_REPOSITORY:-ghcr.io/bonisoft3/yogurt}:${BAYT_IMAGE_TAG:-latest}
+    ports:
+    - ${PORT:-8080}:${PORT:-8080}
+    scale: 0
+  yogurt-release-docker_bayt:
+    build:
+      additional_contexts:
+        yogurt-database_bayt: service:yogurt-database_bayt
+        yogurt-crud_bayt: service:yogurt-crud_bayt
+        yogurt-caddy_bayt: service:yogurt-caddy_bayt
+        yogurt-served-release_bayt: service:yogurt-served-release_bayt
+        yogurt-auth_bayt: service:yogurt-auth_bayt
+        yogurt-served_bayt: service:yogurt-served_bayt
+      context: ..
+      dockerfile: .bayt/Dockerfile.release-docker
+      target: release-docker_bayt
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-release-docker_bayt:latest
+    scale: 0
+  yogurt-release-docker_srcs:
+    build:
+      additional_contexts:
+        yogurt-database_srcs: service:yogurt-database_srcs
+        yogurt-caddy_srcs: service:yogurt-caddy_srcs
+        yogurt-served-release_srcs: service:yogurt-served-release_srcs
+      context: ..
+      dockerfile: .bayt/Dockerfile.release-docker
+      target: release-docker_srcs
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-release-docker_srcs:latest
+    scale: 0

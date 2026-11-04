@@ -1,0 +1,53 @@
+<!-- members — ir: #members. A community's full member list. The header is
+     the same one-row LIST region over community as its page, so an unknown
+     id is the same sentence. -->
+<section class="screen" data-screen="members">
+  <header class="topline">
+    <a class="back to-community role-meta" data-route="community" data-param-id="{param.id}" data-text="{msg.back_community}">← comunidade</a>
+    <a class="back to-home role-meta" data-route="communities" data-text="{msg.back_communities}">← comunidades</a>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel name-skel"></div>
+    <div class="skel list-skel"></div>
+  </div>
+
+  <div class="person" data-live="community" data-filter="id=eq.{param.id}"
+       data-empty="{msg.community_not_found}">
+    <template data-item>
+      <div class="page">
+        <header class="whose">
+          <h1 class="person-name role-title" dir="auto" data-text="{name}"></h1>
+          <p class="count-line role-meta"><span data-text="{msg.members_title}">membros</span> · <b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="0"><template data-item><i data-text="{n}"></i></template></b></p>
+        </header>
+
+        <!-- Every member, newest first; Membership is server-durable and form-free, so the embed is safe. -->
+        <section class="panel">
+          <h2 class="band role-band"><span data-text="{msg.members_title}">membros</span></h2>
+          <ul class="tiles" data-live="membership" data-filter="community_id=eq.{id}"
+              data-select="*,person:app_user!user_id(handle,display_name,photo_url)"
+              data-order="created_at.desc,id.asc" data-empty="{msg.members_empty}">
+            <template data-item>
+              <li class="tile person">
+                <span class="me-probe" data-live="me" data-filter="id=eq.{user_id}"><template data-item><i></i></template></span>
+                <a data-route="profile" data-param-handle="{person.handle}">
+                  <span class="face"><img class="photo" src="{person.photo_url}" alt="" width="72" height="72"><span class="initial" aria-hidden="true" data-text="{person.handle}"></span></span>
+                  <span class="name role-meta" data-text="{person.display_name}"></span>
+                  <span class="handle role-label" data-text="{person.handle}"></span>
+                </a>
+                <form class="fan-form" data-form="be-fan-members" data-entity="fan" data-action="create">
+                  <input type="hidden" name="idol_id" data-value="{user_id}">
+                  <button type="submit" class="role-meta" aria-label="{msg.be_fan_button}: {person.handle}" data-text="{msg.be_fan_button}">ser fã</button>
+                  <p class="saved role-meta" role="status"><a data-route="profile" data-param-handle="{person.handle}" data-text="{msg.fan_state_label}">você é fã</a></p>
+                  <p class="store-error role-meta" role="status" hidden data-text="{msg.fan_tile_failed}">Não deu. Talvez você já seja fã.</p>
+                </form>
+              </li>
+            </template>
+          </ul>
+        </section>
+      </div>
+    </template>
+  </div>
+</section>

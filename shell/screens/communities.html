@@ -1,0 +1,175 @@
+<!-- communities — ir: #communities. The directory: ten category sections,
+     each a public read on its word; the search as a tab row with the results
+     nested in it; the create form last. -->
+<section class="screen" data-screen="communities">
+  <header class="topline">
+    <h1 class="role-title" data-text="{msg.communities_title}">comunidades</h1>
+    <p class="intro role-meta" data-text="{msg.communities_intro}">Toda comunidade, por categoria.</p>
+  </header>
+
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel box-skel"></div>
+    <div class="skel list-skel"></div>
+    <div class="skel list-skel"></div>
+  </div>
+
+  <div class="page">
+    <!-- The search row: one tab row, mine alone; the results read its q. A
+         blank q hides the panel through the attribute bound to it. -->
+    <div class="search-slot" data-live="community_search" data-filter="id=eq.the" data-empty-row='{"id":"the","q":""}' data-q="{q}">
+      <form class="search" data-form="search-communities" data-entity="community_search" data-action="upsert">
+        <input type="hidden" name="id" value="the">
+        <input type="search" name="q" maxlength="80" data-value="{q}" placeholder="{msg.search_placeholder}" aria-label="{msg.search_label}">
+        <button type="submit" class="role-meta" data-text="{msg.search_button}">buscar</button>
+      </form>
+      <section class="panel results">
+        <h2 class="band role-band"><span data-text="{msg.search_results_label}">resultado da busca</span></h2>
+        <!-- Storybook stand-in for the sentence the region appends at runtime; revealed only there. -->
+        <p class="search-none-note role-meta" data-text="{msg.search_empty}">Nenhuma comunidade com esse nome.</p>
+        <ul class="rows" data-live="community" data-filter="name=ilike.*{q}*&limit=20" data-order="name.asc,id.asc" data-empty="{msg.search_empty}"><template data-item>
+            <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+          </template></ul>
+      </section>
+    </div>
+
+    <!-- Creating: three fields; the owner is the token's bearer. -->
+    <section class="panel create">
+      <h2 class="band role-band"><span data-text="{msg.create_community_label}">criar comunidade</span></h2>
+      <form class="panel-body create-form" data-form="create-community" data-entity="community" data-action="create">
+        <label class="field"><span class="role-meta" data-text="{msg.community_name_label}">nome</span><input type="text" name="name" required maxlength="80"></label>
+        <label class="field"><span class="role-meta" data-text="{msg.community_category_label}">categoria</span><select name="category" required><option value="" disabled selected data-text="{msg.choose_category}">escolha uma categoria</option><option value="cat_humor" data-text="{msg.cat_humor}">cat_humor</option><option value="cat_music" data-text="{msg.cat_music}">cat_music</option><option value="cat_movies" data-text="{msg.cat_movies}">cat_movies</option><option value="cat_food" data-text="{msg.cat_food}">cat_food</option><option value="cat_tech" data-text="{msg.cat_tech}">cat_tech</option><option value="cat_sports" data-text="{msg.cat_sports}">cat_sports</option><option value="cat_travel" data-text="{msg.cat_travel}">cat_travel</option><option value="cat_cities" data-text="{msg.cat_cities}">cat_cities</option><option value="cat_school" data-text="{msg.cat_school}">cat_school</option><option value="cat_other" data-text="{msg.cat_other}">cat_other</option></select></label>
+        <label class="field wide"><span class="role-meta" data-text="{msg.community_description_label}">descrição</span><textarea name="description" maxlength="1000" rows="2" placeholder="{msg.community_description_placeholder}"></textarea></label>
+        <div class="create-foot">
+          <button type="submit" class="role-meta" data-text="{msg.create_community_button}">criar comunidade</button>
+          <p class="invalid role-meta" hidden data-text="{msg.community_name_blank}">Dê um nome à comunidade.</p>
+          <p class="store-error role-meta" hidden data-text="{msg.create_community_failed}">Não deu pra criar a comunidade.</p>
+        </div>
+      </form>
+    </section>
+
+    <!-- Nobody has created one yet: a one-row probe whose empty copy sells the first. -->
+    <p class="directory-empty role-meta" data-live="community" data-filter="limit=1" data-empty="{msg.directory_empty}"><template data-item><i></i></template></p>
+
+    <!-- One section per category, in the directory's order; a category with
+         nothing in it hides with its list (ir decision-communities-screen). -->
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_humor}">cat_humor</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_humor" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_music}">cat_music</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_music" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_movies}">cat_movies</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_movies" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_food}">cat_food</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_food" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_tech}">cat_tech</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_tech" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_sports}">cat_sports</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_sports" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_travel}">cat_travel</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_travel" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_cities}">cat_cities</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_cities" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_school}">cat_school</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_school" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+    <section class="panel category">
+      <h2 class="band role-band"><span data-text="{msg.cat_other}">cat_other</span></h2>
+      <ul class="rows" data-live="community" data-filter="category=eq.cat_other" data-order="created_at.desc,id.desc" data-empty=""><template data-item>
+          <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+        </template></ul>
+    </section>
+
+  </div>
+  <p class="credits-line role-meta"><a data-route="credits" data-text="{msg.credits_link}">créditos das imagens</a></p>
+</section>

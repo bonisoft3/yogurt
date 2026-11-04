@@ -1,0 +1,35 @@
+@import "./shared/yogurt.css";
+
+/* fans — ir: #fans. One column: whose list, the tiles. */
+[data-screen="fans"] { container-type: inline-size; }
+[data-screen="fans"] .topline { padding-bottom: var(--sp-sm); margin-bottom: var(--sp-md); }
+[data-screen="fans"] .back { color: var(--secondary); text-decoration: none;
+  display: inline-block; padding-block: var(--size-1); }
+[data-screen="fans"] .back:hover { color: var(--primary); }
+[data-screen="fans"] .back.to-home { display: none; }
+[data-screen="fans"]:has(.person > .empty) .back.to-profile { display: none; }
+[data-screen="fans"]:has(.person > .empty) .back.to-home { display: inline-block; }
+[data-screen="fans"] .page { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="fans"] .whose { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--size-1) var(--sp-sm); }
+[data-screen="fans"] .whose > * { margin: 0; }
+[data-screen="fans"] .person-name { color: var(--primary); overflow-wrap: anywhere; }
+[data-screen="fans"] .person-handle { color: var(--secondary); font-weight: 400; }
+[data-screen="fans"] .person-name:empty { display: none; }
+[data-screen="fans"] .person-name:empty + .person-handle { color: var(--primary); font-weight: 700; }
+[data-screen="fans"] .count-line { flex-basis: 100%; color: var(--secondary); }
+[data-screen="fans"] .count-line b { color: var(--primary); }
+[data-screen="fans"] .tally i { font-style: normal; }
+[data-screen="fans"] .tally i:not(:first-of-type) { display: none; }
+[data-screen="fans"] .tally .empty { display: inline; color: var(--primary); }
+
+/* Loading: the skeletons stand where the name and the grid will be. */
+[data-screen="fans"][data-state="loading"] .skeleton { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="fans"][data-state="loading"] .person { display: none; }
+[data-screen="fans"] .name-skel { height: var(--sp-lg); width: min(100%, calc(var(--measure-column) / 2)); }
+[data-screen="fans"] .list-skel { height: calc(var(--control-h-lg) * 8); }
+/* The one-row list with no row reports empty, and the region's own sentence
+   is the whole frame. */
+[data-screen="fans"] .person > .empty { background: var(--surface); border: var(--border-size-1) solid var(--border);
+  border-radius: var(--r-sm); padding: var(--sp-md); color: var(--secondary); margin: 0; max-width: var(--measure-column); }
+/* The refusal under a tile, posed: the first tile's line shows in the frame. */
+.storybook .frame [data-screen="fans"][data-state="validation-error"] .tiles .tile:first-child .fan-form .store-error { display: block; }

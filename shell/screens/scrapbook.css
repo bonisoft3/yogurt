@@ -1,0 +1,67 @@
+@import "./shared/yogurt.css";
+
+/* scrapbook — ir: #scrapbook. One column: whose page, the box, the scraps. */
+[data-screen="scrapbook"] { container-type: inline-size; }
+[data-screen="scrapbook"] .topline { padding-bottom: var(--sp-sm); margin-bottom: var(--sp-md); }
+[data-screen="scrapbook"] .back { color: var(--secondary); text-decoration: none;
+  display: inline-block; padding-block: var(--size-1); }
+[data-screen="scrapbook"] .back:hover { color: var(--primary); }
+[data-screen="scrapbook"] .back.to-home { display: none; }
+[data-screen="scrapbook"]:has(.person > .empty) .back.to-profile { display: none; }
+[data-screen="scrapbook"]:has(.person > .empty) .back.to-home { display: inline-block; }
+[data-screen="scrapbook"] .page { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="scrapbook"] .whose { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--size-1) var(--sp-sm); }
+[data-screen="scrapbook"] .whose > * { margin: 0; }
+[data-screen="scrapbook"] .person-name { color: var(--primary); overflow-wrap: anywhere; }
+[data-screen="scrapbook"] .person-handle { color: var(--secondary); font-weight: 400; }
+[data-screen="scrapbook"] .person-name:empty { display: none; }
+[data-screen="scrapbook"] .person-name:empty + .person-handle { color: var(--primary); font-weight: 700; }
+[data-screen="scrapbook"] .count-line { flex-basis: 100%; color: var(--secondary); }
+[data-screen="scrapbook"] .count-line b { color: var(--primary); }
+[data-screen="scrapbook"] .tally i { font-style: normal; }
+[data-screen="scrapbook"] .tally i:not(:first-of-type) { display: none; }
+[data-screen="scrapbook"] .tally .empty { display: inline; color: var(--primary); }
+
+/* The box: a textarea the width of the panel, the one pink pill under it,
+   the refusal beside the pill. */
+[data-screen="scrapbook"] .leave { display: grid; gap: var(--sp-sm); margin: 0; }
+[data-screen="scrapbook"] .leave textarea { width: 100%; resize: vertical; min-height: var(--control-h-lg); }
+[data-screen="scrapbook"] .leave-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm) var(--sp-md); }
+[data-screen="scrapbook"] .leave-foot .invalid, [data-screen="scrapbook"] .leave-foot .store-error { margin: 0; }
+
+/* apagar is drawn for the writer or the page's owner alone: two probes, either
+   non-empty; held invisible while a probe still holds its template. */
+[data-screen="scrapbook"] .may { display: none; }
+[data-screen="scrapbook"] .row.scrap .erase { display: none; }
+[data-screen="scrapbook"] .row.scrap:has(.may > i) .erase { display: block; }
+[data-screen="scrapbook"] .row.scrap:has(.may > template) .erase { visibility: hidden; }
+[data-screen="scrapbook"] .erase summary { list-style: none; cursor: pointer; color: var(--danger); text-decoration: underline; }
+[data-screen="scrapbook"] .erase summary::-webkit-details-marker { display: none; }
+[data-screen="scrapbook"] .erase[open] summary { display: none; }
+[data-screen="scrapbook"] .erase form { display: flex; align-items: center; gap: var(--sp-sm); margin: 0; }
+[data-screen="scrapbook"] .erase button { padding-block: var(--size-1); }
+[data-screen="scrapbook"] .erase .invalid, [data-screen="scrapbook"] .erase .store-error { margin: 0; }
+
+/* Loading: the skeletons stand where the name, the box and the list will be. */
+[data-screen="scrapbook"][data-state="loading"] .skeleton { display: grid; gap: var(--sp-md); max-width: var(--measure-column); }
+[data-screen="scrapbook"][data-state="loading"] .person { display: none; }
+[data-screen="scrapbook"] .name-skel { height: var(--sp-lg); width: min(100%, calc(var(--measure-column) / 2)); }
+[data-screen="scrapbook"] .box-skel { height: calc(var(--control-h-lg) * 3); }
+[data-screen="scrapbook"] .list-skel { height: calc(var(--control-h-lg) * 6); }
+[data-screen="scrapbook"] .blank-note { display: none; margin: 0; padding: var(--sp-md); color: var(--secondary); }
+
+/* Storybook frames: the fixture fills every probe, so apagar is kept to the
+   first row; blank hides the rows for the panel's own sentence. */
+.storybook .frame [data-screen="scrapbook"] .row.scrap:not(:first-child) .erase { display: none; }
+.storybook .frame [data-screen="scrapbook"] .row.scrap .erase { visibility: visible; }
+.storybook .frame [data-screen="scrapbook"][data-state="blank"] .rows { display: none; }
+.storybook .frame [data-screen="scrapbook"][data-state="blank"] .blank-note { display: block; }
+.storybook .frame [data-screen="scrapbook"][data-state="blank"] .count-line .tally i { display: none; }
+.storybook .frame [data-screen="scrapbook"][data-state="blank"] .count-line .tally::after { content: "0"; }
+.storybook .frame [data-screen="scrapbook"][data-state="validation-error"] .leave .store-error { display: block; }
+/* The one-row list with no row reports empty, and the region's own sentence
+   is the whole frame. */
+[data-screen="scrapbook"] .person > .empty { background: var(--surface); border: var(--border-size-1) solid var(--border);
+  border-radius: var(--r-sm); padding: var(--sp-md); color: var(--secondary); margin: 0; max-width: var(--measure-column); }
+/* "responder" is for somebody else's scrap: the writer's probe hides it. */
+[data-screen="scrapbook"] .row.scrap:has(.author-probe > i) .reply { display: none; }

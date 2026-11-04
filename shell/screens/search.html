@@ -1,0 +1,55 @@
+<!-- search — ir: #search. The strip's box: one tab row, mine alone; two
+     nested lists read its q, people and communities. A blank q hides both
+     through the attribute bound to it (ir decision-search). -->
+<section class="screen" data-screen="search">
+  <p class="offline role-meta" data-text="{msg.offline}">O yogurt não está respondendo.</p>
+
+  <div class="skeleton" aria-hidden="true">
+    <div class="skel box-skel"></div>
+  </div>
+
+  <div class="page">
+    <div class="search-slot" data-live="search" data-filter="id=eq.the" data-empty-row='{"id":"the","q":""}' data-q="{q}">
+      <form class="search" data-form="search" data-entity="search" data-action="upsert">
+        <input type="hidden" name="id" value="the">
+        <input type="search" name="q" maxlength="80" data-value="{q}" placeholder="{msg.global_search_placeholder}" aria-label="{msg.global_search_label}">
+        <button type="submit" class="role-meta" data-text="{msg.search_button}">buscar</button>
+      </form>
+      <p class="hint role-meta" data-text="{msg.search_hint}">Digite um nome, um nome de usuário ou o nome de uma comunidade.</p>
+
+      <section class="panel results people">
+        <h2 class="band role-band"><span data-text="{msg.people_results_label}">pessoas</span></h2>
+        <p class="none-note role-meta" data-text="{msg.people_none}">Ninguém com esse nome.</p>
+        <ul class="tiles" data-live="app_user" data-filter="search_text=ilike.*{q}*&limit=24" data-order="display_name.asc,handle.asc" data-empty="{msg.people_none}"><template data-item>
+            <li class="tile person">
+              <span class="me-probe" data-live="me" data-filter="id=eq.{id}"><template data-item><i></i></template></span>
+              <a data-route="profile" data-param-handle="{handle}">
+                <span class="face"><img class="photo" src="{photo_url}" alt="" width="72" height="72"><span class="initial" aria-hidden="true" data-text="{handle}"></span></span>
+                <span class="name role-meta" data-text="{display_name}"></span>
+                <span class="handle role-label" data-text="{handle}"></span>
+              </a>
+              <form class="fan-form" data-form="be-fan-search" data-entity="fan" data-action="create">
+                <input type="hidden" name="idol_id" data-value="{id}">
+                <button type="submit" class="role-meta" aria-label="{msg.be_fan_button}: {handle}" data-text="{msg.be_fan_button}">ser fã</button>
+                <p class="saved role-meta" role="status"><a data-route="profile" data-param-handle="{handle}" data-text="{msg.fan_state_label}">você é fã</a></p>
+                <p class="store-error role-meta" role="status" hidden data-text="{msg.fan_tile_failed}">Não deu. Talvez você já seja fã.</p>
+              </form>
+            </li>
+          </template></ul>
+      </section>
+
+      <section class="panel results communities">
+        <h2 class="band role-band"><span data-text="{msg.communities_results_label}">comunidades</span></h2>
+        <p class="none-note role-meta" data-text="{msg.search_empty}">Nenhuma comunidade com esse nome.</p>
+        <ul class="rows" data-live="community" data-filter="name=ilike.*{q}*&limit=24" data-order="name.asc,id.asc" data-empty="{msg.search_empty}"><template data-item>
+            <li class="row community">
+            <span class="face small"><img class="photo" src="{photo_url}" alt="" width="36" height="36"><span class="initial small" aria-hidden="true" data-text="{name}"></span></span>
+            <a class="row-name role-body" data-route="community" data-param-id="{id}" data-text="{name}"></a>
+            <span class="members role-meta"><b class="tally" data-live="membership" data-filter="community_id=eq.{id}" data-project='{"n":"count"}' data-empty="{msg.members_zero}"><template data-item><i data-text="{msg.members_count}"></i></template></b></span>
+            <p class="row-desc role-meta" data-text="{description}"></p>
+          </li>
+          </template></ul>
+      </section>
+    </div>
+  </div>
+</section>

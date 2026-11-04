@@ -1,0 +1,134 @@
+# generated from bayt.cue — do not edit
+services:
+  yogurt-database:
+    build:
+      additional_contexts:
+        libraries_mecha-database-image: >-
+          ${MONOREPO_COMPOSE_MODE:-docker-image://bonitao/mecha-database:0.20.6@sha256:d3eb729237d5bcdead34c500e4f482b86f4cfce00994b98a7c5a27745880b624}${MONOREPO_COMPOSE_MODE:+:libraries_mecha-database-image}
+      context: ..
+      dockerfile: .bayt/Dockerfile.database
+      target: database
+      tags:
+      - bayt-yogurt-database:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+      - bayt-yogurt-database:latest
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    develop:
+      watch:
+      - action: rebuild
+        path: ../services/database/migrations/000_extensions.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/001_roles.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/002_grants.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/004_types.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/005_create_tables.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/006_policies.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/007_txid.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/008_publication.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/011_owner_writes.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/012_me_readonly.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/013_me_provision.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/014_default_privileges.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/015_mirrors.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/017_forum_guards.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/020_demo_network.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/021_testimonial_guard.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/022_forum_ownership.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/023_karma_smiley.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/024_feed.sql
+        target: /docker-entrypoint-initdb.d
+      - action: rebuild
+        path: ../services/database/migrations/025_feed_inbox.sql
+        target: /docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-yogurt}
+      ELECTRIC_PASSWORD: ${ELECTRIC_PASSWORD:-dev-electric-password}
+      AUTHENTICATOR_PASSWORD: ${AUTHENTICATOR_PASSWORD:-dev-authenticator-password}
+      POSTGRES_INITDB_ARGS: >-
+        --no-sync --encoding=UTF8 --auth=trust --locale-provider=icu --icu-locale=und
+        --locale=C
+    healthcheck:
+      test:
+      - CMD
+      - pg_isready
+      - -h
+      - localhost
+      - -p
+      - "5432"
+      - -d
+      - ${POSTGRES_DB:-yogurt}
+      - -U
+      - ${POSTGRES_USER:-postgres}
+      interval: 1s
+      timeout: 5s
+      retries: 30
+      start_period: 5m
+      start_interval: 100ms
+    image: bayt-yogurt-database:${BAYT_IMAGE_TAG:-${COMPOSE_PROJECT_NAME}}
+    networks:
+      default:
+        aliases:
+        - database
+    ports:
+    - "5432"
+  yogurt-database_bayt:
+    build:
+      context: ..
+      dockerfile: .bayt/Dockerfile.database
+      target: database_bayt
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-database_bayt:latest
+    scale: 0
+  yogurt-database_srcs:
+    build:
+      context: ..
+      dockerfile: .bayt/Dockerfile.database
+      target: database_srcs
+      args:
+        BAYT_DIR: ${MONOREPO_COMPOSE_MODE:+apps/yogurt}
+        BUILDKIT_SYNTAX: >-
+          docker/dockerfile:1.27@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+    image: bayt-yogurt-database_srcs:latest
+    scale: 0
