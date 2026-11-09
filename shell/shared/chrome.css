@@ -8,7 +8,7 @@ body > nav { background: var(--header); color: var(--strip-ink);
 body > nav > a { color: var(--strip-ink); font-weight: 600; }
 body > nav > a[aria-current="page"] { text-decoration: underline;
   text-underline-offset: var(--size-1); }
-body > nav .shell-me { color: var(--strip-ink); }
+body > nav .shell-me { color: var(--strip-ink); flex: none; }
 body > nav .shell-who { color: var(--strip-ink); }
 body > nav .shell-who .handle { opacity: .8; }
 /* The guest's two buttons keep their words on one line: the identity end of

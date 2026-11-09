@@ -8,6 +8,8 @@ services:
         yogurt-caddy: service:yogurt-caddy
         yogurt-served-release: service:yogurt-served-release
         yogurt-auth: service:yogurt-auth
+        libraries_mecha-extensions-image: >-
+          ${MONOREPO_COMPOSE_MODE:-docker-image://unpublished.invalid/mecha-publishes-no-extensions-image-yet}${MONOREPO_COMPOSE_MODE:+:libraries_mecha-extensions-image}
       context: ..
       dockerfile: .bayt/Dockerfile.release-docker
       target: release-docker
@@ -44,7 +46,6 @@ services:
       additional_contexts:
         yogurt-database_srcs: service:yogurt-database_srcs
         yogurt-caddy_srcs: service:yogurt-caddy_srcs
-        yogurt-served-release_srcs: service:yogurt-served-release_srcs
       context: ..
       dockerfile: .bayt/Dockerfile.release-docker
       target: release-docker_srcs

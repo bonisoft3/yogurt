@@ -22,23 +22,23 @@ include:
   required: false
 - path: ./compose.ci.yaml
   required: false
+- path: ./compose.caddy.yaml
+  required: false
+- path: ./compose.database.yaml
+  required: false
+- path: ./compose.crud.yaml
+  required: false
+- path: ./compose.auth.yaml
+  required: false
+- path: ./compose.electric.yaml
+  required: false
 - path: ./compose.served.yaml
   required: false
 - path: ./compose.served-release.yaml
   required: false
-- path: ./compose.database.yaml
-  required: false
-- path: ./compose.auth.yaml
-  required: false
 - path: ./compose.check-ledger.yaml
   required: false
 - path: ./compose.ci-ledger.yaml
-  required: false
-- path: ./compose.caddy.yaml
-  required: false
-- path: ./compose.crud.yaml
-  required: false
-- path: ./compose.electric.yaml
   required: false
 - path: ../monorepo/${MONOREPO_COMPOSE_MODE:-docker-image}.yaml
   required: false

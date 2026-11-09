@@ -6,7 +6,7 @@
 // be mounted here: the harness's select grammar refuses an embed hinted by its
 // foreign key column (the feed's actor, the fan probe's idol), so their caps
 // are read off the markup and their rows are exercised by tests/ledger.ts.
-import { assert, mountApp, type Row, textOf, writes } from "../../../plugins/omnishell/test/screen-harness.ts";
+import { assert, mountApp, type Row, textOf, writes } from "@bonisoft3/omnishell/test/screen-harness.ts";
 import { parseHTML } from "npm:linkedom@0.18.4";
 
 const APP = new URL("../", import.meta.url);

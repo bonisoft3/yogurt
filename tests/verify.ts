@@ -3,7 +3,9 @@
 // comes in as a guest and reads the demo network's first person, community
 // and topic through crud, and each other screen is visited at a concrete
 // route built from them, with the row's own text as the witness.
-import type { JourneyItem } from "../../../plugins/pronto/verify/browser-sweep.ts";
+// A journey as pronto's verify runs it (verify/browser-sweep.ts): the screen
+// it lands on, the role it signs in as, its path, and what it does there.
+type JourneyItem = { screen: string; role?: string; path?: string; run?: (page: any, ctx?: { baseUrl?: string }) => Promise<void> };
 import pt from "../messages/pt-BR.json" with { type: "json" };
 import en from "../messages/en.json" with { type: "json" };
 

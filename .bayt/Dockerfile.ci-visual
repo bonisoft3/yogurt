@@ -81,6 +81,9 @@ ARG MONOREPO_COMPOSE_MODE
 ENV MONOREPO_COMPOSE_MODE=$MONOREPO_COMPOSE_MODE
 ARG BAYT_RUNTIME
 ENV BAYT_RUNTIME=$BAYT_RUNTIME
+ENV FELDERA_COMPILATION_PROFILE=unoptimized
+COPY --from=libraries_mecha-activepieces-image_bayt /monorep[o] /monorepo/
+COPY --from=libraries_mecha-activepieces-image_srcs /monorep[o] /monorepo/
 COPY --from=libraries_mecha-airlock-image_bayt /monorep[o] /monorepo/
 COPY --from=libraries_mecha-airlock-image_srcs /monorep[o] /monorepo/
 COPY --from=libraries_mecha-auth-image_bayt /monorep[o] /monorepo/
@@ -92,6 +95,8 @@ COPY --from=libraries_mecha-compute-image_srcs /monorep[o] /monorepo/
 COPY --from=libraries_mecha-conduit-image_bayt /monorep[o] /monorepo/
 COPY --from=libraries_mecha-database-image_bayt /monorep[o] /monorepo/
 COPY --from=libraries_mecha-database-image_srcs /monorep[o] /monorepo/
+COPY --from=libraries_mecha-extensions-image_bayt /monorep[o] /monorepo/
+COPY --from=libraries_mecha-extensions-image_srcs /monorep[o] /monorepo/
 COPY --from=libraries_mecha-mesh-image_bayt /monorep[o] /monorepo/
 COPY --from=libraries_mecha-mesh-image_srcs /monorep[o] /monorepo/
 COPY --from=libraries_mecha-ticker-image_bayt /monorep[o] /monorepo/
@@ -101,7 +106,7 @@ COPY --from=plugins_omnishell-runtime-image_srcs /monorep[o] /monorepo/
 COPY --from=workspaceroot-pronto-sources_bayt /monorep[o] /monorepo/
 COPY --from=workspaceroot-pronto-sources_srcs /monorep[o] /monorepo/
 COPY --parents monorepo/*.yaml ./
-COPY --from=yogurt-integrate_srcs --parents /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/shell.yaml /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/** /
+COPY --from=yogurt-integrate_srcs --parents /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/shell.yaml /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/home.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/home.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/profile.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/profile.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/scrapbook.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/scrapbook.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/communities.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/communities.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/community.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/community.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/topic.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/topic.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/testimonials.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/testimonials.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/edit.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/edit.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/members.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/members.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/search.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/search.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/friends.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/friends.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/credits.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/credits.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/news.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/news.css /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/fans.html /monorepo/${BAYT_DIR:+${BAYT_DIR}/}shell/screens/fans.css /
 COPY --from=yogurt-integrate_bayt --link /monorepo /monorepo
 COPY --from=yogurt-database_srcs --parents /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/000_extensions.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/001_roles.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/002_grants.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/004_types.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/005_create_tables.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/006_policies.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/007_txid.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/008_publication.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/011_owner_writes.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/012_me_readonly.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/013_me_provision.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/014_default_privileges.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/015_mirrors.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/017_forum_guards.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/020_demo_network.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/021_testimonial_guard.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/022_forum_ownership.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/023_karma_smiley.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/024_feed.sql /monorepo/${BAYT_DIR:+${BAYT_DIR}/}services/database/migrations/025_feed_inbox.sql /
 COPY --from=yogurt-caddy_srcs --parents /monorepo/${BAYT_DIR:+${BAYT_DIR}/}docker/Caddyfile /

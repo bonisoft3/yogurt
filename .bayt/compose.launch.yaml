@@ -49,6 +49,7 @@ services:
   yogurt-launch_bayt:
     build:
       additional_contexts:
+        yogurt-build_bayt: service:yogurt-build_bayt
         yogurt-caddy_bayt: service:yogurt-caddy_bayt
         yogurt-database_bayt: service:yogurt-database_bayt
         yogurt-crud_bayt: service:yogurt-crud_bayt

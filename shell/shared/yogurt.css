@@ -42,7 +42,7 @@ button.danger { background: var(--surface); color: var(--danger); border-color: 
    title and a count, rows under it. */
 .panel { background: var(--surface); border: var(--border-size-1) solid var(--border);
   border-radius: var(--r-sm); overflow: hidden; }
-.band { display: flex; align-items: baseline; justify-content: space-between;
+.band { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
   gap: var(--sp-sm); background: var(--surface-muted); color: var(--primary);
   padding: var(--sp-sm) var(--sp-md); border-bottom: var(--border-size-1) solid var(--border); margin: 0; }
 .band .count { color: var(--secondary); font-weight: 400; }

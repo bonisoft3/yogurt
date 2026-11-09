@@ -77,6 +77,41 @@ services:
     profiles:
     - ci
     scale: 1
+  caddy:
+    extends:
+      file: ./compose.caddy.yaml
+      service: yogurt-caddy
+    profiles:
+    - caddy
+    scale: 1
+  database:
+    extends:
+      file: ./compose.database.yaml
+      service: yogurt-database
+    profiles:
+    - database
+    scale: 1
+  crud:
+    extends:
+      file: ./compose.crud.yaml
+      service: yogurt-crud
+    profiles:
+    - crud
+    scale: 1
+  auth:
+    extends:
+      file: ./compose.auth.yaml
+      service: yogurt-auth
+    profiles:
+    - auth
+    scale: 1
+  electric:
+    extends:
+      file: ./compose.electric.yaml
+      service: yogurt-electric
+    profiles:
+    - electric
+    scale: 1
   served:
     extends:
       file: ./compose.served.yaml
@@ -91,20 +126,6 @@ services:
     profiles:
     - served-release
     scale: 1
-  database:
-    extends:
-      file: ./compose.database.yaml
-      service: yogurt-database
-    profiles:
-    - database
-    scale: 1
-  auth:
-    extends:
-      file: ./compose.auth.yaml
-      service: yogurt-auth
-    profiles:
-    - auth
-    scale: 1
   check-ledger:
     extends:
       file: ./compose.check-ledger.yaml
@@ -118,25 +139,4 @@ services:
       service: yogurt-ci-ledger
     profiles:
     - ci-ledger
-    scale: 1
-  caddy:
-    extends:
-      file: ./compose.caddy.yaml
-      service: yogurt-caddy
-    profiles:
-    - caddy
-    scale: 1
-  crud:
-    extends:
-      file: ./compose.crud.yaml
-      service: yogurt-crud
-    profiles:
-    - crud
-    scale: 1
-  electric:
-    extends:
-      file: ./compose.electric.yaml
-      service: yogurt-electric
-    profiles:
-    - electric
     scale: 1

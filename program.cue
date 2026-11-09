@@ -1522,7 +1522,7 @@ out:      pronto.#emit & {"code": code, "cluster": cluster, "terminal": terminal
 loop: surface: checks: "screens": {
 	verb: "test"
 	cmds: [
-		"deno test --config tests/deno.json --no-lock --no-check --allow-env --allow-read tests/screens.test.ts",
+		"\(pronto.#Harness.rule); deno test \(pronto.#Harness.flags) --no-check --allow-env --allow-read tests/screens.test.ts",
 	]
 	note: "the caps of three, twelve, twenty and twenty-four, the plural counts, the tap-to-set karma rows and the saved stamp, over posed rows"
 }
@@ -1530,7 +1530,7 @@ loop: surface: checks: "screens": {
 loop: surface: checks: "catalogues": {
 	verb: "test"
 	cmds: [
-		"deno test --config tests/deno.json --no-lock --allow-read tests/catalogues.test.ts",
+		"deno test --config tests/deno.json --lock tests/deno.lock --frozen --allow-read tests/catalogues.test.ts",
 	]
 	note: "no message left in the other language; every count message has its plural arms"
 }
@@ -1540,7 +1540,7 @@ loop: surface: checks: "catalogues": {
 build: checks: "ledger": {
 	priority: 1
 	cmds: [
-		"deno test --config tests/deno.json --no-lock --allow-env --allow-read --allow-net --unsafely-ignore-certificate-errors=caddy tests/ledger.ts",
+		"\(pronto.#Harness.check); deno test \(pronto.#Harness.flags) --allow-env --allow-read --allow-net --unsafely-ignore-certificate-errors=caddy tests/ledger.ts",
 	]
 	note: "forged writes refused or filtered, an outsider's reply, a replied topic's delete and its race with the reply, the friend rule on testimonials and ratings, the three-rater mean and its drop on an unfriend, the creator's membership, the edit form's refusals"
 }
@@ -1548,7 +1548,7 @@ build: checks: "ledger": {
 loop: surface: checks: "pictures": {
 	verb: "test"
 	cmds: [
-		"deno test --config tests/deno.json --allow-read tests/pictures.test.ts",
+		"deno test --config tests/deno.json --lock tests/deno.lock --frozen --allow-read tests/pictures.test.ts",
 	]
 	note: "the demo network's pictures: every /pictures/ path the seed names is a file under pictures/ named by its own sha256, and every such file is named by the seed or the manifest"
 }

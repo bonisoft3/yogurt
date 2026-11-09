@@ -26,7 +26,8 @@ seconds, a dry run with no tag. Without `--snapshot` it mints
 publishes the edge with wrangler, which must be logged in on the machine:
 the worker, the custom domain route for yogurt.bonisoft3.com, the database
 load (the demo network, about forty megabytes, a minute), and the JWT secret
-kept in `dist/.jwt-secret` so sessions survive a publish. The edge keeps a
+provisioned in Cloudflare on the first deployment and preserved on subsequent
+publishes so sessions survive. The edge keeps a
 ledger of the migration scripts it ran with their digests; a release whose
 emitted scripts differ from the ledger's is refused and rolled back, so pass
 `--reset` whenever a migration changed since the last publish, which drops

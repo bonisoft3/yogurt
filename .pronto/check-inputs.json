@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "terminal": true,
   "types": {
     "types": {
       "string": {
@@ -2389,7 +2390,8 @@
       "validations": {}
     }
   },
-  "hybrids": {},
+  "reducers": {},
+  "machines": {},
   "hatches": {},
   "rawMigrations": [
     {
@@ -2441,5 +2443,6 @@
       "src": "services/database/sql/025_feed_inbox.sql"
     }
   ],
-  "duckstreams": {}
+  "duckstreams": {},
+  "effects": {}
 }

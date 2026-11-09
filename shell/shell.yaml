@@ -82,13 +82,13 @@ routes:
       key: nav_home
       label: início
     files:
-      html: shell/screens/home.html
-      css: shell/screens/home.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/home.html
+      css: shell/screens/home.css
     ssr: spa
     states:
       - loading
@@ -98,21 +98,21 @@ routes:
       - populated-dark
   - keep: 2
     path: '/perfil/:handle'
+    paths:
+      pt-BR: '/perfil/:handle'
+      en: '/profile/:handle'
     screen: profile
     nav:
       label: perfil
     files:
-      html: shell/screens/profile.html
-      css: shell/screens/profile.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/profile.html
+      css: shell/screens/profile.css
     slug: slug_profile
-    paths:
-      pt-BR: '/perfil/:handle'
-      en: '/profile/:handle'
     ssr: spa
     states:
       - loading
@@ -126,21 +126,21 @@ routes:
       - empty
       - populated-dark
   - path: '/recados/:handle'
+    paths:
+      pt-BR: '/recados/:handle'
+      en: '/scraps/:handle'
     screen: scrapbook
     nav:
       label: recados
     files:
-      html: shell/screens/scrapbook.html
-      css: shell/screens/scrapbook.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/scrapbook.html
+      css: shell/screens/scrapbook.css
     slug: slug_scrapbook
-    paths:
-      pt-BR: '/recados/:handle'
-      en: '/scraps/:handle'
     ssr: spa
     states:
       - loading
@@ -150,22 +150,22 @@ routes:
       - validation-error
       - populated-dark
   - path: /comunidades
+    paths:
+      pt-BR: /comunidades
+      en: /communities
     screen: communities
     nav:
       key: nav_communities
       label: comunidades
     files:
-      html: shell/screens/communities.html
-      css: shell/screens/communities.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/communities.html
+      css: shell/screens/communities.css
     slug: slug_communities
-    paths:
-      pt-BR: /comunidades
-      en: /communities
     ssr: spa
     states:
       - loading
@@ -176,22 +176,22 @@ routes:
       - populated-dark
   - keep: 2
     path: '/comunidade/:id'
+    paths:
+      pt-BR: '/comunidade/:id'
+      en: '/community/:id'
     screen: community
     nav:
       label: comunidade
     files:
-      html: shell/screens/community.html
-      css: shell/screens/community.css
-      handlers: []
       adapters:
         - shell/handlers/editing-text.js
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/community.html
+      css: shell/screens/community.css
     slug: slug_community
-    paths:
-      pt-BR: '/comunidade/:id'
-      en: '/community/:id'
     ssr: spa
     states:
       - loading
@@ -203,21 +203,21 @@ routes:
       - populated-dark
   - keep: 2
     path: '/comunidade/:community/topico/:id'
+    paths:
+      pt-BR: '/comunidade/:community/topico/:id'
+      en: '/community/:community/topico/:id'
     screen: topic
     nav:
       label: tópico
     files:
-      html: shell/screens/topic.html
-      css: shell/screens/topic.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/topic.html
+      css: shell/screens/topic.css
     slug: slug_community
-    paths:
-      pt-BR: '/comunidade/:community/topico/:id'
-      en: '/community/:community/topico/:id'
     ssr: spa
     states:
       - loading
@@ -230,21 +230,21 @@ routes:
       - populated-dark
   - keep: 2
     path: '/depoimentos/:handle'
+    paths:
+      pt-BR: '/depoimentos/:handle'
+      en: '/testimonials/:handle'
     screen: testimonials
     nav:
       label: depoimentos
     files:
-      html: shell/screens/testimonials.html
-      css: shell/screens/testimonials.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/testimonials.html
+      css: shell/screens/testimonials.css
     slug: slug_testimonials
-    paths:
-      pt-BR: '/depoimentos/:handle'
-      en: '/testimonials/:handle'
     ssr: spa
     states:
       - loading
@@ -256,23 +256,23 @@ routes:
       - empty
       - populated-dark
   - path: /editar-perfil
+    paths:
+      pt-BR: /editar-perfil
+      en: /edit-profile
     screen: edit
     nav:
       label: editar perfil
       strip: false
     files:
-      html: shell/screens/edit.html
-      css: shell/screens/edit.css
-      handlers: []
       adapters:
         - shell/handlers/editing-text.js
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/edit.html
+      css: shell/screens/edit.css
     slug: slug_edit
-    paths:
-      pt-BR: /editar-perfil
-      en: /edit-profile
     ssr: spa
     states:
       - loading
@@ -280,21 +280,21 @@ routes:
       - validation-error
       - populated-dark
   - path: '/membros/:id'
+    paths:
+      pt-BR: '/membros/:id'
+      en: '/members/:id'
     screen: members
     nav:
       label: membros
     files:
-      html: shell/screens/members.html
-      css: shell/screens/members.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/members.html
+      css: shell/screens/members.css
     slug: slug_members
-    paths:
-      pt-BR: '/membros/:id'
-      en: '/members/:id'
     ssr: spa
     states:
       - loading
@@ -303,22 +303,22 @@ routes:
       - empty
       - populated-dark
   - path: /buscar
+    paths:
+      pt-BR: /buscar
+      en: /search
     screen: search
     nav:
       key: nav_search
       label: buscar
     files:
-      html: shell/screens/search.html
-      css: shell/screens/search.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/search.html
+      css: shell/screens/search.css
     slug: slug_search
-    paths:
-      pt-BR: /buscar
-      en: /search
     ssr: spa
     states:
       - loading
@@ -328,21 +328,21 @@ routes:
       - validation-error
       - populated-dark
   - path: '/amigos/:handle'
+    paths:
+      pt-BR: '/amigos/:handle'
+      en: '/friends/:handle'
     screen: friends
     nav:
       label: amigos
     files:
-      html: shell/screens/friends.html
-      css: shell/screens/friends.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/friends.html
+      css: shell/screens/friends.css
     slug: slug_friends
-    paths:
-      pt-BR: '/amigos/:handle'
-      en: '/friends/:handle'
     ssr: spa
     states:
       - loading
@@ -351,43 +351,43 @@ routes:
       - empty
       - populated-dark
   - path: /creditos
+    paths:
+      pt-BR: /creditos
+      en: /credits
     screen: credits
     nav:
       label: créditos
       strip: false
     files:
-      html: shell/screens/credits.html
-      css: shell/screens/credits.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/credits.html
+      css: shell/screens/credits.css
     slug: slug_credits
-    paths:
-      pt-BR: /creditos
-      en: /credits
     ssr: spa
     states:
       - populated
       - populated-dark
   - path: /novidades
+    paths:
+      pt-BR: /novidades
+      en: /news
     screen: news
     nav:
       label: novidades
       strip: false
     files:
-      html: shell/screens/news.html
-      css: shell/screens/news.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/news.html
+      css: shell/screens/news.css
     slug: slug_news
-    paths:
-      pt-BR: /novidades
-      en: /news
     ssr: spa
     states:
       - loading
@@ -395,22 +395,22 @@ routes:
       - empty
       - populated-dark
   - path: '/fas/:handle'
+    paths:
+      pt-BR: '/fas/:handle'
+      en: '/fans/:handle'
     screen: fans
     nav:
       label: fãs
       strip: false
     files:
-      html: shell/screens/fans.html
-      css: shell/screens/fans.css
-      handlers: []
       adapters: []
+      handlers: []
       shared:
         - shell/shared/chrome.css
         - shell/shared/yogurt.css
+      html: shell/screens/fans.html
+      css: shell/screens/fans.css
     slug: slug_fans
-    paths:
-      pt-BR: '/fas/:handle'
-      en: '/fans/:handle'
     ssr: spa
     states:
       - loading

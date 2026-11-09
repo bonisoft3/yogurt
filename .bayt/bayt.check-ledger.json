@@ -5,7 +5,7 @@
     "manual": true,
     "build": {
       "additional_contexts": {
-        "plugins_omnishell-runtime-image": "${MONOREPO_COMPOSE_MODE:-docker-image://bonitao/omnishell:0.21.7@sha256:300583571c8a5434d59c7ada9a3b5c2f6319d5768b3950a9f06504d96237d1a8}${MONOREPO_COMPOSE_MODE:+:plugins_omnishell-runtime-image}"
+        "plugins_omnishell-runtime-image": "${MONOREPO_COMPOSE_MODE:-docker-image://bonitao/omnishell:0.23.0@sha256:9e7861696845c9de63969944d79722fb75810e338d7850a0dcd872806bea1d37}${MONOREPO_COMPOSE_MODE:+:plugins_omnishell-runtime-image}"
       },
       "secrets": [],
       "args": {}
@@ -14,9 +14,9 @@
       "mise",
       "x",
       "--",
-      "sh",
+      "nu",
       "-c",
-      "deno test --config tests/deno.json --no-lock --allow-env --allow-read --allow-net --unsafely-ignore-certificate-errors=caddy tests/ledger.ts"
+      "let omnishell = (^mise where github:bonisoft3/omnishell | str trim); deno test --config ($$omnishell | path join test deno.json) --lock ($$omnishell | path join test deno.lock) --frozen --allow-env --allow-read --allow-net --unsafely-ignore-certificate-errors=caddy tests/ledger.ts"
     ],
     "depends_on": {
       "yogurt-launch": {
@@ -25,6 +25,7 @@
     },
     "environment": {
       "APP_URL": "https://caddy:8443",
+      "DOOR": "http://caddy:8080",
       "ORIGIN": "${ORIGIN:-https://localhost:${CADDY_TLS_HOST_PORT}}"
     },
     "ports": [],
@@ -62,7 +63,47 @@
     "incremental": false,
     "cmd": null
   },
+  "entrypoint": {
+    "do": "let omnishell = (^mise where github:bonisoft3/omnishell | str trim); deno test --config ($omnishell | path join test deno.json) --lock ($omnishell | path join test deno.lock) --frozen --allow-env --allow-read --allow-net --unsafely-ignore-certificate-errors=caddy,localhost,127.0.0.1 tests/ledger.ts",
+    "shell": "nu",
+    "env": {
+      "APP_URL": {
+        "peer": "caddy",
+        "port": "door",
+        "part": "addr",
+        "host": "localhost",
+        "prefix": "https://",
+        "suffix": ""
+      },
+      "DOOR": {
+        "peer": "caddy",
+        "port": "http",
+        "part": "addr",
+        "prefix": "http://",
+        "suffix": ""
+      },
+      "ORIGIN": [
+        "${ORIGIN:-https://",
+        {
+          "peer": "caddy",
+          "port": "door",
+          "part": "addr",
+          "host": "localhost",
+          "prefix": "",
+          "suffix": ""
+        },
+        "}"
+      ]
+    },
+    "after": {
+      "launch": "healthy"
+    },
+    "host": true
+  },
   "name": "check-ledger",
+  "process-compose": {
+    "activate": "mise x --"
+  },
   "project": "yogurt",
   "dir": ".",
   "activate": "mise x --",
@@ -97,7 +138,6 @@
           ".bayt/bayt.check-ledger.json",
           ".bayt/Taskfile.yml",
           ".bayt/Taskfile.bayt.yml",
-          ".bayt/Taskfile.check-ledger.yaml",
           ".bayt/compose.check-ledger.closure.yaml",
           ".bayt/process-compose.yaml",
           ".bayt/compose.*.yaml",
@@ -123,6 +163,8 @@
         "./.bayt/compose.check-ledger.yaml",
         "./.bayt/compose.setup.yaml",
         "./.bayt/compose.launch.yaml",
+        "./.bayt/compose.build.yaml",
+        "./.bayt/compose.generate.yaml",
         "./.bayt/compose.caddy.yaml",
         "./.bayt/compose.crud.yaml",
         "./.bayt/compose.database.yaml",
@@ -159,6 +201,8 @@
         "./.bayt/compose.check-ledger.yaml",
         "./.bayt/compose.setup.yaml",
         "./.bayt/compose.launch.yaml",
+        "./.bayt/compose.build.yaml",
+        "./.bayt/compose.generate.yaml",
         "./.bayt/compose.caddy.yaml",
         "./.bayt/compose.crud.yaml",
         "./.bayt/compose.database.yaml",
@@ -190,8 +234,7 @@
       "visibility": "internal",
       "deps": [],
       "transitiveDeps": [
-        "setup_srcs",
-        "launch_outs_srcs"
+        "setup_srcs"
       ],
       "transitiveCrossDeps": [
         {
@@ -219,6 +262,8 @@
         "./.bayt/compose.check-ledger.yaml",
         "./.bayt/compose.setup.yaml",
         "./.bayt/compose.launch.yaml",
+        "./.bayt/compose.build.yaml",
+        "./.bayt/compose.generate.yaml",
         "./.bayt/compose.caddy.yaml",
         "./.bayt/compose.crud.yaml",
         "./.bayt/compose.database.yaml",
@@ -227,11 +272,6 @@
         "./.bayt/compose.auth.yaml"
       ]
     }
-  },
-  "taskfile": {
-    "run": "once",
-    "incremental": true,
-    "preconditions": []
   },
   "visibility": "internal",
   "emitsSrcs": true,
@@ -252,6 +292,8 @@
     "./.bayt/compose.check-ledger.yaml",
     "./.bayt/compose.setup.yaml",
     "./.bayt/compose.launch.yaml",
+    "./.bayt/compose.build.yaml",
+    "./.bayt/compose.generate.yaml",
     "./.bayt/compose.caddy.yaml",
     "./.bayt/compose.crud.yaml",
     "./.bayt/compose.database.yaml",

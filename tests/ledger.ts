@@ -8,7 +8,7 @@
 // one when run by hand; it only adds rows under guests it creates.
 
 import { assert, assertEquals } from "jsr:@std/assert@1";
-import { baseUrl } from "../../../plugins/omnishell/base-url.ts";
+import { baseUrl } from "@bonisoft3/omnishell/base-url.ts";
 
 const base = await baseUrl(Deno.args[0] ?? ".");
 
