@@ -93,6 +93,11 @@
         },
         {
           "action": "rebuild",
+          "path": "../services/database/migrations/003_rls.sql",
+          "target": "/docker-entrypoint-initdb.d"
+        },
+        {
+          "action": "rebuild",
           "path": "../services/database/migrations/011_owner_writes.sql",
           "target": "/docker-entrypoint-initdb.d"
         },
@@ -177,6 +182,7 @@
           "services/database/migrations/006_policies.sql",
           "services/database/migrations/007_txid.sql",
           "services/database/migrations/008_publication.sql",
+          "services/database/migrations/003_rls.sql",
           "services/database/migrations/011_owner_writes.sql",
           "services/database/migrations/012_me_readonly.sql",
           "services/database/migrations/013_me_provision.sql",
@@ -288,6 +294,7 @@
       "services/database/migrations/006_policies.sql",
       "services/database/migrations/007_txid.sql",
       "services/database/migrations/008_publication.sql",
+      "services/database/migrations/003_rls.sql",
       "services/database/migrations/011_owner_writes.sql",
       "services/database/migrations/012_me_readonly.sql",
       "services/database/migrations/013_me_provision.sql",
@@ -394,6 +401,7 @@
           "services/database/migrations/006_policies.sql",
           "services/database/migrations/007_txid.sql",
           "services/database/migrations/008_publication.sql",
+          "services/database/migrations/003_rls.sql",
           "services/database/migrations/011_owner_writes.sql",
           "services/database/migrations/012_me_readonly.sql",
           "services/database/migrations/013_me_provision.sql",

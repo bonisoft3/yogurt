@@ -204,7 +204,7 @@
     {"path":"shell/shared/chrome.css","token":"--gate-gutter"}
   ],
   "artifact": [
-    {"path":"program.cue","sha256":"dab4c2656a259d6eadf83fe76a74a2a939f64412d3bb09cfaba6a25dd896fb60","derived":false},
+    {"path":"program.cue","sha256":"2d324e1c757c47b3431dd8784eeb57e62ba40dcdf3c6697d65778035ac80f8f1","derived":false},
     {"path":"DESIGN.md","sha256":"8c1f04d44916c49a822dadb213d7dd6dbd98568bc2cf5f669c71e660367ec38f","derived":false},
     {"path":"ir.html","sha256":"4400ce374ebd8b85b66058f9fb513cd8b0b7481237be41fdf1a4a9412b59f7fc","derived":false},
     {"path":"acceptance.md","sha256":"b93a664e222870a947ba5a64d0b12237b0c82cad2e7d97587ef4a2ab5b206abc","derived":false},

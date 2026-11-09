@@ -58,6 +58,7 @@ code: pronto.#App & {
 	// decision-me-row, decision-friendship-mirror, decision-pending-private,
 	// decision-demo-network).
 	state: rawMigrations: [
+		{name: "003_rls.sql", src: "services/database/sql/003_rls.txt"},
 		{name: "011_owner_writes.sql", src: "services/database/sql/011_owner_writes.sql"},
 		{name: "012_me_readonly.sql", src: "services/database/sql/012_me_readonly.sql"},
 		{name: "013_me_provision.sql", src: "services/database/sql/013_me_provision.sql"},
