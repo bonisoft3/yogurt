@@ -1,5 +1,4 @@
 ---
-preset: "press"
 colors:
   primary: "#1C2B4A"
   secondary: "#4F5E7A"
@@ -43,6 +42,7 @@ shell:
   bg: "neutral"
   fg: "primary"
   rule: "border"
+  nav: "topbar"
 ---
 
 # Scrapbook

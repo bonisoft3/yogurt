@@ -311,7 +311,7 @@ _irNotes: {
 _deriving: *false | bool @tag(derive,type=bool)
 
 if !_deriving {
-	code: meta: decisions: [Id=string]: note: _irNotes[Id]
+	code: meta: decisions: [string]~(Id,_): note: _irNotes[Id]
 }
 
 _irAccepts: {
@@ -363,7 +363,7 @@ _irAccepts: {
 }
 
 if !_deriving {
-	code: meta: tests: [Id=string]: accepts: _irAccepts[Id]
+	code: meta: tests: [string]~(Id,_): accepts: _irAccepts[Id]
 }
 
 code: meta: ladder: ["ir/neighbourhood-app.svg","ir/neighbourhood-communities.svg","ir/neighbourhood-community.svg","ir/neighbourhood-edit.svg","ir/neighbourhood-fans.svg","ir/neighbourhood-friends.svg","ir/neighbourhood-home.svg","ir/neighbourhood-members.svg","ir/neighbourhood-news.svg","ir/neighbourhood-profile.svg","ir/neighbourhood-scrapbook.svg","ir/neighbourhood-search.svg","ir/neighbourhood-testimonials.svg","ir/neighbourhood-topic.svg","journal/2026-10-29-s1-porta.jpeg","journal/2026-10-29-t5-perfil-teaser.jpeg","journal/2026-10-29-t5-recados-mine.jpeg","journal/2026-10-29-t5-recados-phone-dark.jpeg","journal/2026-10-29-t5-recados.jpeg","journal/2026-10-29-t6-amigos.jpeg","journal/2026-10-29-t6-inicio-pedido.jpeg","journal/2026-10-29-t6-inicio-phone-dark.jpeg","journal/2026-10-29-t6-perfil-amigos-live.jpeg","journal/2026-10-29-t7-busca.jpeg","journal/2026-10-29-t7-comunidades-phone-dark.jpeg","journal/2026-10-29-t7-comunidades.jpeg","journal/2026-10-29-t8-comunidade-membro.jpeg","journal/2026-10-29-t8-comunidade-phone-dark.jpeg","journal/2026-10-29-t8-comunidade.jpeg","journal/2026-10-29-t9-topico-membro.jpeg","journal/2026-10-29-t9-topico-phone-dark.jpeg","journal/2026-10-29-t9-topico.jpeg","journal/2026-10-30-s3-inicio.jpeg","journal/2026-10-30-t10-depoimentos-aprovado.jpeg","journal/2026-10-30-t10-depoimentos-aprovar.jpeg","journal/2026-10-30-t10-depoimentos-esperando.jpeg","journal/2026-10-30-t10-depoimentos-phone-dark.jpeg","journal/2026-10-30-t10-perfil.jpeg","journal/2026-10-30-t11-comunidade-dona.jpeg","journal/2026-10-30-t11-editar-phone-dark.jpeg","journal/2026-10-30-t11-editar.jpeg","journal/2026-10-30-t11-membros.jpeg","journal/2026-10-30-t12-buscar-phone-dark.jpeg","journal/2026-10-30-t12-buscar.jpeg","journal/2026-10-30-t13-inicio-phone-dark.jpeg","journal/2026-10-30-t13-perfil.jpeg","journal/2026-10-31-t14-fas.jpeg","journal/2026-10-31-t14-inicio-phone-dark.jpeg","journal/2026-10-31-t15-karma.jpeg","journal/2026-10-31-t15-perfil-phone-dark.jpeg","journal/2026-10-31-t16-novidades-phone-dark.jpeg","journal/2026-10-31-t16-novidades.jpeg","journal/2026-10-31-t17-inicio.jpeg","journal/2026-10-31-t17-novidades-phone-dark.jpeg","journal/2026-10-31-t18-creditos.jpeg","journal/2026-10-31-t18-inicio.jpeg","journal/2026-10-31-t18-leticia-phone-dark.jpeg","journal/2026-10-31-t19-karma-rows-phone-dark.jpeg","journal/2026-10-31-t19-karma-rows.jpeg"]

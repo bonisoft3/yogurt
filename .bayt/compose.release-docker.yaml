@@ -6,10 +6,11 @@ services:
         yogurt-database: service:yogurt-database
         yogurt-crud: service:yogurt-crud
         yogurt-caddy: service:yogurt-caddy
+        yogurt-electric: service:yogurt-electric
         yogurt-served-release: service:yogurt-served-release
         yogurt-auth: service:yogurt-auth
         libraries_mecha-extensions-image: >-
-          ${MONOREPO_COMPOSE_MODE:-docker-image://unpublished.invalid/mecha-publishes-no-extensions-image-yet}${MONOREPO_COMPOSE_MODE:+:libraries_mecha-extensions-image}
+          ${MONOREPO_COMPOSE_MODE:-docker-image://bonitao/mecha-extensions:0.23.1@sha256:d3fe4b3869ded07a410579c2928f951bb42c3bdc14ada1122b5cf0a7d7c11c9f}${MONOREPO_COMPOSE_MODE:+:libraries_mecha-extensions-image}
       context: ..
       dockerfile: .bayt/Dockerfile.release-docker
       target: release-docker
@@ -29,6 +30,7 @@ services:
         yogurt-database_bayt: service:yogurt-database_bayt
         yogurt-crud_bayt: service:yogurt-crud_bayt
         yogurt-caddy_bayt: service:yogurt-caddy_bayt
+        yogurt-electric_bayt: service:yogurt-electric_bayt
         yogurt-served-release_bayt: service:yogurt-served-release_bayt
         yogurt-auth_bayt: service:yogurt-auth_bayt
         yogurt-served_bayt: service:yogurt-served_bayt

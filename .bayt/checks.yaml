@@ -124,7 +124,7 @@ say:
         - do: "if ($env.SAY_RELEASE_ARGS_SNAPSHOT? | is-empty) { use semver.nu [tag-on-head]; let tag = (tag-on-head); if ($tag | is-empty) { error make {msg: \"no release tag on HEAD to push\"} }; git push origin $tag; let image_tag = ($tag | path basename); with-env { BAYT_IMAGE_TAG: $image_tag } { docker compose build release-docker; docker compose push release-docker } }"
         platform: docker
   self:
-    version: v0.48.0
+    version: v0.49.1
   doctor:
     do: >-
       use tools.nu [run-mise]; run-mise exec -- cue version; run-mise exec -- deno
@@ -156,8 +156,8 @@ say:
       auto-bayt:
         priority: 2
         cmds:
-        - use: ./auto-bayt.nu
-          do: auto-bayt
+        - do: auto-bayt
+          use: ./auto-bayt.nu
   setup:
     rulemap:
       builtin:
@@ -193,12 +193,12 @@ say:
         - do: >-
             deno test --config tests/deno.json --lock tests/deno.lock --frozen --allow-read
             tests/pictures.test.ts
-      machines:
-        cmds:
-        - do: use tools.nu [run-mise]; run-mise exec -- omnishell check machines .
       i18n:
         cmds:
         - do: use tools.nu [run-mise]; run-mise exec -- omnishell check i18n .
+      machines:
+        cmds:
+        - do: use tools.nu [run-mise]; run-mise exec -- omnishell check machines .
       battery:
         cmds:
         - do: use tools.nu [run-mise]; run-mise exec -- omnishell check battery .
