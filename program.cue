@@ -39,9 +39,6 @@ code: pronto.#App & {
 			route: "profile"
 			name: {table: "app_user", column: "display_name"}
 		}
-		// A guest keeps a strip — their name, sign out, and the offer of a
-		// passkey that keeps this identity (ir decision-terminal-chrome).
-		promote: true
 	}
 	// No blob plane: a reader's picture is a link they paste (decision 14), and the
 	// demo network's pictures are the app's own static files (decision 30).
@@ -59,20 +56,18 @@ code: pronto.#App & {
 	// decision-demo-network).
 	state: rawMigrations: [
 		{name: "003_rls.sql", src: "services/database/sql/003_rls.txt"},
-		// As deployed before atomic RLS DDL (#2444); live directories check its digest.
-		{name: "005_create_tables.sql", src: "services/database/baseline/005_create_tables.sql"},
-		{name: "011_owner_writes.sql", src: "services/database/sql/011_owner_writes.sql"},
-		{name: "012_me_readonly.sql", src: "services/database/sql/012_me_readonly.sql"},
-		{name: "013_me_provision.sql", src: "services/database/sql/013_me_provision.sql"},
-		{name: "014_default_privileges.sql", src: "services/database/sql/014_default_privileges.sql"},
-		{name: "015_mirrors.sql", src: "services/database/sql/015_mirrors.sql"},
-		{name: "017_forum_guards.sql", src: "services/database/sql/017_forum_guards.sql"},
-		{name: "020_demo_network.sql", src: "services/database/sql/020_demo_network.sql"},
-		{name: "021_testimonial_guard.sql", src: "services/database/sql/021_testimonial_guard.sql"},
-		{name: "022_forum_ownership.sql", src: "services/database/sql/022_forum_ownership.sql"},
-		{name: "023_karma_smiley.sql", src: "services/database/sql/023_karma_smiley.sql"},
-		{name: "024_feed.sql", src: "services/database/sql/024_feed.sql"},
-		{name: "025_feed_inbox.sql", src: "services/database/sql/025_feed_inbox.sql"},
+		{name: "041_owner_writes.sql", src: "services/database/sql/041_owner_writes.sql"},
+		{name: "042_me_readonly.sql", src: "services/database/sql/042_me_readonly.sql"},
+		{name: "043_me_provision.sql", src: "services/database/sql/043_me_provision.sql"},
+		{name: "044_default_privileges.sql", src: "services/database/sql/044_default_privileges.sql"},
+		{name: "045_mirrors.sql", src: "services/database/sql/045_mirrors.sql"},
+		{name: "047_forum_guards.sql", src: "services/database/sql/047_forum_guards.sql"},
+		{name: "050_demo_network.sql", src: "services/database/sql/050_demo_network.sql"},
+		{name: "051_testimonial_guard.sql", src: "services/database/sql/051_testimonial_guard.sql"},
+		{name: "052_forum_ownership.sql", src: "services/database/sql/052_forum_ownership.sql"},
+		{name: "053_karma_smiley.sql", src: "services/database/sql/053_karma_smiley.sql"},
+		{name: "054_feed.sql", src: "services/database/sql/054_feed.sql"},
+		{name: "055_feed_inbox.sql", src: "services/database/sql/055_feed_inbox.sql"},
 	]
 
 	surface: design: (pronto.#DesignMd & {text: _designMd}).design
@@ -1158,7 +1153,7 @@ code: pronto.#App & {
 	meta: tests: {
 		"test-signin-home": {
 			of:    "auth"
-			says:  "A passkey or guest click yields a token whose bearer the network can name; the auth service inserts AppUser (id, handle) and the 013 trigger provisions Me in the same transaction, so início draws the reader's own card on its first paint; a passkey holder is named in the strip beside sign out, a guest offered a passkey there."
+			says:  "A passkey or guest click yields a token whose bearer the network can name; the auth service inserts AppUser (id, handle) and the 013 trigger provisions Me in the same transaction, so início draws the reader's own card on its first paint; a passkey holder is named on their chip in the strip, whose panel holds sign out, a guest offered a passkey there."
 			given: {gesture: "guest"}
 			when:  "signin"
 			then:  "output.handle.size() > 0 && output.role == 'app_user' && output.me.id == output.user_id"

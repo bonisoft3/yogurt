@@ -1,6 +1,6 @@
 /* The terminal's strip, dressed by the app: the one blue bar yogurt had across
    the top. The terminal owns the markup and its stable classes (nav, .shell-me,
-   .shell-who, .shell-signout, .shell-signin, .shell-register) and stamps
+   .shell-person, .shell-signin, .shell-auth-choice) and stamps
    aria-current; this file only says what they look like here. Every value is
    a token from shell/design.css. */
 body > nav { --shell-nav-radius: 0; --shell-nav-hover-bg: transparent;
@@ -13,13 +13,12 @@ body > nav > a { color: var(--strip-ink); font-weight: 600; }
 body > nav > a[aria-current="page"] { text-decoration: underline;
   text-underline-offset: var(--size-1); }
 body > nav .shell-me { color: var(--strip-ink); flex: none; }
-body > nav .shell-who { color: var(--strip-ink); }
-body > nav .shell-who .handle { opacity: .8; }
+body > nav .shell-person { color: var(--strip-ink); }
 /* The guest's two buttons keep their words on one line: the identity end of
    the strip is the part that shrinks, and at phone width it shrank them into
    five-line towers. They are not shrunk; the strip scrolls, as the terminal's
    rule says it does. */
-body > nav .shell-signout, body > nav .shell-signin, body > nav .shell-register {
+body > nav .shell-person, body > nav .shell-signin, body > nav .shell-auth-choice {
   background: transparent; color: var(--strip-ink); border: var(--border-size-1) solid var(--strip-ink);
   padding: 2px var(--sp-sm); font-weight: 400; white-space: nowrap; flex: none; }
 

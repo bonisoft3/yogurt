@@ -45,7 +45,7 @@ const home: JourneyItem = {
     if (!response || response.status() !== 200) throw new Error("home: navigation failed");
     await page.locator(".login-guest").click();
     await ready(page, "home");
-    const session = await page.evaluate(() => JSON.parse(sessionStorage.getItem("pronto-token") ?? "null"));
+    const session = await page.evaluate(() => JSON.parse(localStorage.getItem("pronto-token") ?? "null"));
     if (!session?.token || !session.user?.guest) throw new Error("guest sign-in did not establish a session");
     // The oldest member is a demo founder; a guest minted by an earlier journey sorts after every seeded row.
     const person = await readRow(page, base, "app_user?select=handle,display_name&order=created_at,id&limit=1", session.token);
@@ -93,7 +93,7 @@ const phoneStrip: JourneyItem = {
       if (strip.height > strip.line * 2.5) throw new Error(`the guest strip is ${strip.height}px tall for a ${strip.line}px line`);
       // The browser's locale picks the catalogue; the card's count reads the
       // singular at one and the plural otherwise, against the row count itself.
-      const me = await page.evaluate(() => JSON.parse(sessionStorage.getItem("pronto-token") ?? "null"));
+      const me = await page.evaluate(() => JSON.parse(localStorage.getItem("pronto-token") ?? "null"));
       const friends = await (await page.request.get(`${base}/crud/friendship?select=id&user_id=eq.${me.user.id}`, { headers: { Authorization: `Bearer ${me.token}` } })).json();
       const n = friends.length;
       const forms = n === 0 ? [pt.friends_zero, en.friends_zero] : n === 1 ? ["1 amigo", "1 friend"] : [`${n} amigos`, `${n} friends`];
@@ -135,11 +135,11 @@ const karmaRows: JourneyItem = {
     const base = String(ctx?.baseUrl);
     // The sweep may hand this journey a page of its own: sign in as a guest when the home journey's session is not here.
     await page.goto(`${base}/`, { waitUntil: "domcontentloaded" });
-    let me = await page.evaluate(() => JSON.parse(sessionStorage.getItem("pronto-token") ?? "null"));
+    let me = await page.evaluate(() => JSON.parse(localStorage.getItem("pronto-token") ?? "null"));
     if (!me?.token) {
       await page.locator(".login-guest").click();
       await ready(page, "home");
-      me = await page.evaluate(() => JSON.parse(sessionStorage.getItem("pronto-token") ?? "null"));
+      me = await page.evaluate(() => JSON.parse(localStorage.getItem("pronto-token") ?? "null"));
     }
     if (!me?.token) throw new Error("no guest session for the rating journey");
     const other = await (await page.request.post(`${base}/auth/guest`, { headers: { "content-type": "application/json" }, data: "{}" })).json();
@@ -189,11 +189,11 @@ const feed: JourneyItem = {
     if (!seed) throw new Error("home did not resolve the seed");
     const base = String(ctx?.baseUrl);
     await page.goto(`${base}/`, { waitUntil: "domcontentloaded" });
-    let me = await page.evaluate(() => JSON.parse(sessionStorage.getItem("pronto-token") ?? "null"));
+    let me = await page.evaluate(() => JSON.parse(localStorage.getItem("pronto-token") ?? "null"));
     if (!me?.token) {
       await page.locator(".login-guest").click();
       await ready(page, "home");
-      me = await page.evaluate(() => JSON.parse(sessionStorage.getItem("pronto-token") ?? "null"));
+      me = await page.evaluate(() => JSON.parse(localStorage.getItem("pronto-token") ?? "null"));
     }
     if (!me?.token) throw new Error("no guest session for the feed journey");
     const other = await (await page.request.post(`${base}/auth/guest`, { headers: { "content-type": "application/json" }, data: "{}" })).json();

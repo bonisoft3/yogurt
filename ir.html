@@ -4628,8 +4628,8 @@ screen is never empty (<a href="#decision-demo-network">decision&nbsp;8</a>).
     gates every screen. Rejected: a hand-written sign-in with an e-mail field
     (demanding what the runtime does not offer is a compile error), and a
     public browse mode (yogurt never had one). Accepted losses: a crawler sees
-    the door; a guest identity lives in <code>sessionStorage</code> and a
-    passkey is what brings a person back to their friends.
+    the door; a guest identity lives in the browser's <code>localStorage</code>
+    and a passkey is what brings a person back to their friends.
   </li>
   <li id="decision-public-read-owner-writes" data-kind="decision">
     <strong>Public content with owner writes is <code>public</code> plus additive
@@ -4736,10 +4736,9 @@ screen is never empty (<a href="#decision-demo-network">decision&nbsp;8</a>).
     <strong>The strip, the back stack, sign-out, the screen states, row motion,
     the unconfirmed-write badge and the storybook are the terminal's.</strong>
     No screen redraws them; the app dresses the strip in <code>header</code>
-    blue through <code>shell/shared/chrome.css</code> and nothing else, and
-    keeps the guest's strip by offering a passkey (<code>auth.promote</code>):
-    the terminal draws no strip for a guest it offers no way in to, and the
-    brief's name-beside-sign-out needs one.
+    blue through <code>shell/shared/chrome.css</code> and nothing else. A
+    guest's strip holds the terminal's one Sign in, opening in place onto the
+    ways in; a person's holds their name beside sign-out, as the brief asks.
   </li>
   <li id="decision-inert-first-turn" data-kind="decision">
     <strong>The first turn is knowingly inert.</strong> A fresh guest lands on

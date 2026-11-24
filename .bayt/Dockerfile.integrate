@@ -17,7 +17,7 @@ WORKDIR /monorepo/${BAYT_DIR}
 COPY --parents shell/shell.yaml shell/screens/home.html shell/screens/home.css shell/screens/profile.html shell/screens/profile.css shell/screens/scrapbook.html shell/screens/scrapbook.css shell/screens/communities.html shell/screens/communities.css shell/screens/community.html shell/screens/community.css shell/screens/topic.html shell/screens/topic.css shell/screens/testimonials.html shell/screens/testimonials.css shell/screens/edit.html shell/screens/edit.css shell/screens/members.html shell/screens/members.css shell/screens/search.html shell/screens/search.css shell/screens/friends.html shell/screens/friends.css shell/screens/credits.html shell/screens/credits.css shell/screens/news.html shell/screens/news.css shell/screens/fans.html shell/screens/fans.css ./
 ARG SOURCE_DATE_EPOCH
 ARG BAYT_CLAMP=1
-RUN if [ "${BAYT_CLAMP:-1}" != 0 ]; then find /monorepo/${BAYT_DIR} -exec touch -hd @${SOURCE_DATE_EPOCH:-0} {} + && { d=$(dirname /monorepo/${BAYT_DIR}); while [ "$d" != / ]; do touch -hd @${SOURCE_DATE_EPOCH:-0} "$d" || exit; d=$(dirname "$d"); done; }; fi
+RUN if [ "${BAYT_CLAMP:-1}" != 0 ]; then { w=$(pwd); mkdir -p /.bayt-clamp && find "$w" -exec getfattr -dh {} + > /.bayt-clamp/x && if [ ! -s /.bayt-clamp/x ]; then cd / && cp -a "$w" /.bayt-clamp/w && rm -rf "$w" && mv /.bayt-clamp/w "$w"; fi && rm -rf /.bayt-clamp; } && find /monorepo/${BAYT_DIR} -exec touch -hd @${SOURCE_DATE_EPOCH:-0} {} + && { d=$(dirname /monorepo/${BAYT_DIR}); while [ "$d" != / ]; do touch -hd @${SOURCE_DATE_EPOCH:-0} "$d" || exit; d=$(dirname "$d"); done; }; fi
 FROM scratch AS integrate_srcs
 COPY --from=integrate_ctxs /monorepo /monorepo
 
@@ -28,6 +28,6 @@ COPY --parents .bayt/compose.integrate.yaml .bayt/Dockerfile.integrate .bayt/bay
 COPY --from=yogurt-launch_bayt /monorepo /monorepo
 ARG SOURCE_DATE_EPOCH
 ARG BAYT_CLAMP=1
-RUN if [ "${BAYT_CLAMP:-1}" != 0 ]; then find /monorepo/${BAYT_DIR} -exec touch -hd @${SOURCE_DATE_EPOCH:-0} {} + && { d=$(dirname /monorepo/${BAYT_DIR}); while [ "$d" != / ]; do touch -hd @${SOURCE_DATE_EPOCH:-0} "$d" || exit; d=$(dirname "$d"); done; }; fi
+RUN if [ "${BAYT_CLAMP:-1}" != 0 ]; then { w=$(pwd); mkdir -p /.bayt-clamp && find "$w" -exec getfattr -dh {} + > /.bayt-clamp/x && if [ ! -s /.bayt-clamp/x ]; then cd / && cp -a "$w" /.bayt-clamp/w && rm -rf "$w" && mv /.bayt-clamp/w "$w"; fi && rm -rf /.bayt-clamp; } && find /monorepo/${BAYT_DIR} -exec touch -hd @${SOURCE_DATE_EPOCH:-0} {} + && { d=$(dirname /monorepo/${BAYT_DIR}); while [ "$d" != / ]; do touch -hd @${SOURCE_DATE_EPOCH:-0} "$d" || exit; d=$(dirname "$d"); done; }; fi
 FROM scratch AS integrate_bayt
 COPY --from=integrate_bayt_ctxs /monorepo /monorepo

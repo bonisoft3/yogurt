@@ -5,7 +5,7 @@ pairs:
     of: auth
     accepts:
       - accept-signin-home
-    says: 'A passkey or guest click yields a token whose bearer the network can name; the auth service inserts AppUser (id, handle) and the 013 trigger provisions Me in the same transaction, so início draws the reader''s own card on its first paint; a passkey holder is named in the strip beside sign out, a guest offered a passkey there.'
+    says: 'A passkey or guest click yields a token whose bearer the network can name; the auth service inserts AppUser (id, handle) and the 013 trigger provisions Me in the same transaction, so início draws the reader''s own card on its first paint; a passkey holder is named on their chip in the strip, whose panel holds sign out, a guest offered a passkey there.'
     given:
       gesture: guest
     when: signin

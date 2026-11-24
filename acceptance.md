@@ -3,7 +3,7 @@
 What "done" looks like, one check per line. Each id below is cited by the
 invariants in [ir.html](ir.html) that realize it; coverage is a lint, not a hope.
 
-- Coming in takes one gesture — a passkey tap or a guest click — and início opens on the reader's own card; a passkey holder is named in the strip beside sign out, and a guest is offered a passkey there. {#accept-signin-home}
+- Coming in takes one gesture — a passkey tap or a guest click — and início opens on the reader's own card; a passkey holder is named on their chip in the strip, whose panel holds sign out, and a guest is offered a passkey there. {#accept-signin-home}
 - Início shows people of the network to meet, each leading to their profile. {#accept-people}
 - A fresh yogurt already holds a living network: fifteen people who are friends, members, scrappers and fans of one another, with communities and forum threads to walk into. {#accept-demo-network}
 - A person's profile shows their picture, name, handle, where they live, relationship, about and interests, and their friends. {#accept-profile-page}

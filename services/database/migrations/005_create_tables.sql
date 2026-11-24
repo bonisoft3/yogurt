@@ -4,13 +4,14 @@ SET statement_timeout = '60s';
 
 BEGIN;
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS app_user (
   "id" uuid PRIMARY KEY,
   "handle" text NOT NULL UNIQUE CHECK (char_length(handle) > 0),
   "display_name" text CHECK (char_length(display_name) <= 60),
-  "photo_url" text CHECK (photo_url ~ '^(https://|/pictures/[0-9a-f]{64}\.(jpg|png|webp)$)' AND char_length(photo_url) <= 2048),
+  "photo_url" text CHECK (photo_url ~ ''^(https://|/pictures/[0-9a-f]{64}\.(jpg|png|webp)$)'' AND char_length(photo_url) <= 2048),
   "about" text CHECK (char_length(about) <= 1000),
-  "relationship" text DEFAULT 'rel_unsaid' NOT NULL CHECK (relationship IN ('rel_unsaid', 'rel_single', 'rel_dating', 'rel_married', 'rel_open', 'rel_complicated')),
+  "relationship" text DEFAULT ''rel_unsaid'' NOT NULL CHECK (relationship IN (''rel_unsaid'', ''rel_single'', ''rel_dating'', ''rel_married'', ''rel_open'', ''rel_complicated'')),
   "city" text CHECK (char_length(city) <= 80),
   "country" text CHECK (char_length(country) <= 60),
   "birthday" date CONSTRAINT "app_user_birthday_type" CHECK ("birthday" IS NULL OR public.portable_date_valid("birthday") IS TRUE),
@@ -19,28 +20,37 @@ CREATE TABLE IF NOT EXISTS app_user (
   "movies" text CHECK (char_length(movies) <= 300),
   "books" text CHECK (char_length(books) <= 300),
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
-  "search_text" text GENERATED ALWAYS AS (coalesce(display_name, '') || ' ' || handle) STORED,
+  "search_text" text GENERATED ALWAYS AS (coalesce(display_name, '''') || '' '' || handle) STORED,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL
 );
+ALTER TABLE app_user ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS me (
   "id" uuid PRIMARY KEY REFERENCES app_user(id) ON DELETE CASCADE,
   "handle" text NOT NULL CHECK (char_length(handle) > 0),
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('user:' || "id") STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''user:'' || "id") STORED NOT NULL
 );
+ALTER TABLE me ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS friend_request_sent (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "from_id" uuid DEFAULT auth_uid() NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "to_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('user:' || "from_id") STORED NOT NULL,
+  "scope_id" TEXT GENERATED ALWAYS AS (''user:'' || "from_id") STORED NOT NULL,
   CHECK (from_id <> to_id)
 );
+ALTER TABLE friend_request_sent ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS friend_request (
   "id" uuid PRIMARY KEY,
   "from_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
@@ -48,74 +58,95 @@ CREATE TABLE IF NOT EXISTS friend_request (
   "accepted" boolean DEFAULT false NOT NULL,
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('user:' || "to_id") STORED NOT NULL,
+  "scope_id" TEXT GENERATED ALWAYS AS (''user:'' || "to_id") STORED NOT NULL,
   CHECK (from_id <> to_id)
 );
+ALTER TABLE friend_request ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS friendship (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "user_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "friend_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL,
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL,
   CHECK (user_id <> friend_id)
 );
+ALTER TABLE friendship ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS scrap (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "owner_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "author_id" uuid DEFAULT auth_uid() NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
-  "body" text NOT NULL CHECK (char_length(regexp_replace(body, '^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 1000),
+  "body" text NOT NULL CHECK (char_length(regexp_replace(body, ''^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$'', '''', ''g'')) > 0 AND char_length(body) <= 1000),
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL
 );
+ALTER TABLE scrap ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS testimonial_draft (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "subject_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "author_id" uuid DEFAULT auth_uid() NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
-  "body" text NOT NULL CHECK (char_length(regexp_replace(body, '^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 1500),
+  "body" text NOT NULL CHECK (char_length(regexp_replace(body, ''^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$'', '''', ''g'')) > 0 AND char_length(body) <= 1500),
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('user:' || "author_id") STORED NOT NULL,
+  "scope_id" TEXT GENERATED ALWAYS AS (''user:'' || "author_id") STORED NOT NULL,
   CHECK (subject_id <> author_id)
 );
+ALTER TABLE testimonial_draft ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS testimonial_pending (
   "id" uuid PRIMARY KEY,
   "subject_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "author_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
-  "body" text NOT NULL CHECK (char_length(regexp_replace(body, '^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 1500),
+  "body" text NOT NULL CHECK (char_length(regexp_replace(body, ''^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$'', '''', ''g'')) > 0 AND char_length(body) <= 1500),
   "approved" boolean DEFAULT false NOT NULL,
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('user:' || "subject_id") STORED NOT NULL,
+  "scope_id" TEXT GENERATED ALWAYS AS (''user:'' || "subject_id") STORED NOT NULL,
   CHECK (subject_id <> author_id)
 );
+ALTER TABLE testimonial_pending ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS testimonial (
   "id" uuid PRIMARY KEY,
   "subject_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "author_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
-  "body" text NOT NULL CHECK (char_length(regexp_replace(body, '^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 1500),
+  "body" text NOT NULL CHECK (char_length(regexp_replace(body, ''^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$'', '''', ''g'')) > 0 AND char_length(body) <= 1500),
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL,
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL,
   CHECK (subject_id <> author_id)
 );
+ALTER TABLE testimonial ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS fan (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "fan_id" uuid DEFAULT auth_uid() NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "idol_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL,
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL,
   CHECK (fan_id <> idol_id)
 );
+ALTER TABLE fan ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS karma (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "rater_id" uuid DEFAULT auth_uid() NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
@@ -125,10 +156,13 @@ CREATE TABLE IF NOT EXISTS karma (
   "sexy" integer NOT NULL CHECK (sexy >= 0 AND sexy <= 3),
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('user:' || "rater_id") STORED NOT NULL,
+  "scope_id" TEXT GENERATED ALWAYS AS (''user:'' || "rater_id") STORED NOT NULL,
   CHECK (rater_id <> rated_id)
 );
+ALTER TABLE karma ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS karma_smiley (
   "id" uuid PRIMARY KEY,
   "rated_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
@@ -136,84 +170,104 @@ CREATE TABLE IF NOT EXISTS karma_smiley (
   "cool" integer NOT NULL CHECK (cool >= 0 AND cool <= 3),
   "sexy" integer NOT NULL CHECK (sexy >= 0 AND sexy <= 3),
   "raters" integer NOT NULL CHECK (raters >= 3),
-  "trust_key" text GENERATED ALWAYS AS ('trust_' || trust::text) STORED,
-  "cool_key" text GENERATED ALWAYS AS ('cool_' || cool::text) STORED,
-  "sexy_key" text GENERATED ALWAYS AS ('sexy_' || sexy::text) STORED,
+  "trust_key" text GENERATED ALWAYS AS (''trust_'' || trust::text) STORED,
+  "cool_key" text GENERATED ALWAYS AS (''cool_'' || cool::text) STORED,
+  "sexy_key" text GENERATED ALWAYS AS (''sexy_'' || sexy::text) STORED,
   "updated_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL
 );
+ALTER TABLE karma_smiley ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS community (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  "name" text NOT NULL CHECK (char_length(regexp_replace(name, '^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$', '', 'g')) > 0 AND char_length(name) <= 80),
+  "name" text NOT NULL CHECK (char_length(regexp_replace(name, ''^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$'', '''', ''g'')) > 0 AND char_length(name) <= 80),
   "description" text CHECK (char_length(description) <= 1000),
-  "category" text NOT NULL CHECK (category IN ('cat_humor', 'cat_music', 'cat_movies', 'cat_food', 'cat_tech', 'cat_sports', 'cat_travel', 'cat_cities', 'cat_school', 'cat_other')),
+  "category" text NOT NULL CHECK (category IN (''cat_humor'', ''cat_music'', ''cat_movies'', ''cat_food'', ''cat_tech'', ''cat_sports'', ''cat_travel'', ''cat_cities'', ''cat_school'', ''cat_other'')),
   "owner_id" uuid DEFAULT auth_uid() NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
-  "photo_url" text CHECK (photo_url ~ '^(https://|/pictures/[0-9a-f]{64}\.(jpg|png|webp)$)' AND char_length(photo_url) <= 2048),
+  "photo_url" text CHECK (photo_url ~ ''^(https://|/pictures/[0-9a-f]{64}\.(jpg|png|webp)$)'' AND char_length(photo_url) <= 2048),
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL
 );
+ALTER TABLE community ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS membership (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "community_id" uuid NOT NULL REFERENCES community(id) ON DELETE CASCADE,
   "user_id" uuid DEFAULT auth_uid() NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL
 );
+ALTER TABLE membership ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS feed (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "at" portable_timestamp NOT NULL,
   "actor_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
-  "kind" text NOT NULL CHECK (kind IN ('scrap', 'testimonial', 'membership')),
-  "kind_key" text GENERATED ALWAYS AS ('feed_' || kind) STORED,
+  "kind" text NOT NULL CHECK (kind IN (''scrap'', ''testimonial'', ''membership'')),
+  "kind_key" text GENERATED ALWAYS AS (''feed_'' || kind) STORED,
   "about_user_id" uuid REFERENCES app_user(id) ON DELETE CASCADE,
   "about_community_id" uuid REFERENCES community(id) ON DELETE CASCADE,
   "excerpt" text,
   "source_id" uuid NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL
 );
+ALTER TABLE feed ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS feed_item (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "reader_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
   "at" portable_timestamp NOT NULL,
   "actor_id" uuid NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
-  "kind" text NOT NULL CHECK (kind IN ('scrap', 'testimonial', 'membership')),
-  "kind_key" text GENERATED ALWAYS AS ('feed_' || kind) STORED,
+  "kind" text NOT NULL CHECK (kind IN (''scrap'', ''testimonial'', ''membership'')),
+  "kind_key" text GENERATED ALWAYS AS (''feed_'' || kind) STORED,
   "about_user_id" uuid REFERENCES app_user(id) ON DELETE CASCADE,
   "about_community_id" uuid REFERENCES community(id) ON DELETE CASCADE,
   "excerpt" text,
   "source_id" uuid NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('user:' || "reader_id") STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''user:'' || "reader_id") STORED NOT NULL
 );
+ALTER TABLE feed_item ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS topic (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "community_id" uuid NOT NULL REFERENCES community(id) ON DELETE CASCADE,
   "author_id" uuid DEFAULT auth_uid() NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
-  "title" text NOT NULL CHECK (char_length(regexp_replace(title, '^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$', '', 'g')) > 0 AND char_length(title) <= 120),
-  "body" text NOT NULL CHECK (char_length(regexp_replace(body, '^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 4000),
+  "title" text NOT NULL CHECK (char_length(regexp_replace(title, ''^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$'', '''', ''g'')) > 0 AND char_length(title) <= 120),
+  "body" text NOT NULL CHECK (char_length(regexp_replace(body, ''^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$'', '''', ''g'')) > 0 AND char_length(body) <= 4000),
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL
 );
+ALTER TABLE topic ENABLE ROW LEVEL SECURITY;
+END;';
 
+DO 'BEGIN
 CREATE TABLE IF NOT EXISTS post (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "topic_id" uuid NOT NULL REFERENCES topic(id) ON DELETE CASCADE,
   "author_id" uuid DEFAULT auth_uid() NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
-  "body" text NOT NULL CHECK (char_length(regexp_replace(body, '^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$', '', 'g')) > 0 AND char_length(body) <= 4000),
+  "body" text NOT NULL CHECK (char_length(regexp_replace(body, ''^[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+|[\s\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$'', '''', ''g'')) > 0 AND char_length(body) <= 4000),
   "created_at" portable_timestamp DEFAULT now() NOT NULL,
   "txid" BIGINT DEFAULT pg_current_xact_id()::text::bigint,
-  "scope_id" TEXT GENERATED ALWAYS AS ('public:') STORED NOT NULL
+  "scope_id" TEXT GENERATED ALWAYS AS (''public:'') STORED NOT NULL
 );
+ALTER TABLE post ENABLE ROW LEVEL SECURITY;
+END;';
 
 CREATE INDEX IF NOT EXISTS idx_friend_request_sent_to_id ON friend_request_sent USING btree (to_id);
 CREATE INDEX IF NOT EXISTS idx_friend_request_from_id ON friend_request USING btree (from_id);

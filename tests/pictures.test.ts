@@ -12,7 +12,7 @@ async function sha256Hex(bytes: Uint8Array<ArrayBuffer>): Promise<string> {
 }
 
 Deno.test("pictures: every seeded path is a file named by its sha256", async () => {
-  const seed = await read("services/database/sql/020_demo_network.sql");
+  const seed = await read("services/database/sql/050_demo_network.sql");
   const named = [...seed.matchAll(/'\/pictures\/([0-9a-f]{64}\.(?:jpg|png|webp))'/g)].map((m) => m[1]);
   assert(named.length >= 25, `the seed names ${named.length} pictures`);
   for (const file of new Set(named)) {
@@ -22,7 +22,7 @@ Deno.test("pictures: every seeded path is a file named by its sha256", async () 
 });
 
 Deno.test("pictures: every file under pictures/ is named by the seed and the manifest", async () => {
-  const seed = await read("services/database/sql/020_demo_network.sql");
+  const seed = await read("services/database/sql/050_demo_network.sql");
   const manifest = JSON.parse(await read("assets/manifest.json")) as Record<string, { file: string; sha256: string; source: string; license: string }>;
   const files = new Set<string>();
   for await (const entry of Deno.readDir(new URL("pictures/", here))) if (entry.isFile) files.add(entry.name);
@@ -38,7 +38,7 @@ Deno.test("pictures: every file under pictures/ is named by the seed and the man
 });
 
 Deno.test("pictures: the two copies of the seed agree", async () => {
-  assertEquals(await read("services/database/migrations/020_demo_network.sql"), await read("services/database/sql/020_demo_network.sql"));
+  assertEquals(await read("services/database/migrations/050_demo_network.sql"), await read("services/database/sql/050_demo_network.sql"));
 });
 
 Deno.test("pictures: the credits screen and both catalogues name every Commons author, license and page", async () => {
