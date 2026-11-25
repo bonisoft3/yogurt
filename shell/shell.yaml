@@ -52,6 +52,7 @@ auth:
       column: display_name
   providers:
     - google
+    - email
   mode: passkey
 floors:
   touch: 24

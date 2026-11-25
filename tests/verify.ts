@@ -90,7 +90,8 @@ const phoneStrip: JourneyItem = {
       });
       if (strip.items < 3) throw new Error(`the guest strip has ${strip.items} controls`);
       if (strip.offLine > 0) throw new Error(`${strip.offLine} of the guest strip's controls sit on a second line at 390px`);
-      if (strip.height > strip.line * 2.5) throw new Error(`the guest strip is ${strip.height}px tall for a ${strip.line}px line`);
+      // The guest account chip stacks two compact lines inside a single-row bar (~54px at a 21px line height, well under a wrapped two-row bar).
+      if (strip.height > strip.line * 3) throw new Error(`the guest strip is ${strip.height}px tall for a ${strip.line}px line`);
       // The browser's locale picks the catalogue; the card's count reads the
       // singular at one and the plural otherwise, against the row count itself.
       const me = await page.evaluate(() => JSON.parse(localStorage.getItem("pronto-token") ?? "null"));
@@ -125,6 +126,24 @@ const savedWord: JourneyItem = {
   },
 };
 
+// Standalone fetch keeps second-guest calls out of Playwright's cookie jar,
+// where minting a guest would overwrite the browser's httpOnly session cookie.
+async function apiGuest(base: string) {
+  const r = await fetch(`${base}/auth/guest`, { method: "POST", headers: { "content-type": "application/json" }, body: "{}" });
+  if (!r.ok) throw new Error(`POST /auth/guest: ${r.status} ${await r.text()}`);
+  return r.json();
+}
+
+async function apiCrud(base: string, token: string, method: string, path: string, body?: unknown) {
+  const r = await fetch(`${base}/crud/${path}`, {
+    method,
+    headers: { Authorization: `Bearer ${token}`, "content-type": "application/json", Prefer: "return=representation" },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(`${method} ${path}: ${r.status} ${await r.text()}`);
+  return r.json();
+}
+
 // accept-karma-rows, accept-rate-friend: a second guest, minted over the API,
 // befriends the browser's guest; the browser then rates them through the chips,
 // the first time with "avaliar", then with one tap on a level that is the save.
@@ -142,16 +161,11 @@ const karmaRows: JourneyItem = {
       me = await page.evaluate(() => JSON.parse(localStorage.getItem("pronto-token") ?? "null"));
     }
     if (!me?.token) throw new Error("no guest session for the rating journey");
-    const other = await (await page.request.post(`${base}/auth/guest`, { headers: { "content-type": "application/json" }, data: "{}" })).json();
+    const other = await apiGuest(base);
     const otherId = JSON.parse(atob(other.token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))).sub;
-    const crud = async (token: string, method: string, path: string, body?: unknown) => {
-      const r = await page.request.fetch(`${base}/crud/${path}`, { method, headers: { Authorization: `Bearer ${token}`, "content-type": "application/json", Prefer: "return=representation" }, data: body === undefined ? undefined : JSON.stringify(body) });
-      if (!r.ok()) throw new Error(`${method} ${path}: ${r.status()} ${await r.text()}`);
-      return r.json();
-    };
-    const [sent] = await crud(me.token, "POST", "friend_request_sent", { to_id: otherId });
-    await crud(other.token, "PATCH", `friend_request?id=eq.${sent.id}`, { accepted: true });
-    const [friend] = await crud(me.token, "GET", `app_user?select=handle&id=eq.${otherId}`);
+    const [sent] = await apiCrud(base, me.token, "POST", "friend_request_sent", { to_id: otherId });
+    await apiCrud(base, other.token, "PATCH", `friend_request?id=eq.${sent.id}`, { accepted: true });
+    const [friend] = await apiCrud(base, me.token, "GET", `app_user?select=handle&id=eq.${otherId}`);
     await navigate(page, base, `/perfil/${enc(friend.handle)}`, "profile");
     // The edge's live tables learn a row written by another session on a later
     // load, seconds after the write; the friend row is what draws the form.
@@ -174,7 +188,7 @@ const karmaRows: JourneyItem = {
     if (await chosen() !== "trust=3,cool=2,sexy=1") throw new Error(`after the first rating the chips read ${await chosen()}`);
     await again.locator(".level:has(input[name=\"cool\"][value=\"0\"])").click();
     await again.locator(".saved").waitFor({ state: "visible", timeout: 10_000 });
-    const [row] = await crud(me.token, "GET", `karma?select=trust,cool,sexy&rated_id=eq.${otherId}`);
+    const [row] = await apiCrud(base, me.token, "GET", `karma?select=trust,cool,sexy&rated_id=eq.${otherId}`);
     if (!row || row.cool !== 0 || row.trust !== 3) throw new Error(`the tap wrote ${JSON.stringify(row)}`);
   },
 };
@@ -196,18 +210,13 @@ const feed: JourneyItem = {
       me = await page.evaluate(() => JSON.parse(localStorage.getItem("pronto-token") ?? "null"));
     }
     if (!me?.token) throw new Error("no guest session for the feed journey");
-    const other = await (await page.request.post(`${base}/auth/guest`, { headers: { "content-type": "application/json" }, data: "{}" })).json();
+    const other = await apiGuest(base);
     const otherId = JSON.parse(atob(other.token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))).sub;
-    const crud = async (token: string, method: string, path: string, body?: unknown) => {
-      const r = await page.request.fetch(`${base}/crud/${path}`, { method, headers: { Authorization: `Bearer ${token}`, "content-type": "application/json", Prefer: "return=representation" }, data: body === undefined ? undefined : JSON.stringify(body) });
-      if (!r.ok()) throw new Error(`${method} ${path}: ${r.status()} ${await r.text()}`);
-      return r.json();
-    };
-    const [sent] = await crud(me.token, "POST", "friend_request_sent", { to_id: otherId });
-    await crud(other.token, "PATCH", `friend_request?id=eq.${sent.id}`, { accepted: true });
+    const [sent] = await apiCrud(base, me.token, "POST", "friend_request_sent", { to_id: otherId });
+    await apiCrud(base, other.token, "PATCH", `friend_request?id=eq.${sent.id}`, { accepted: true });
     const words = `recado da jornada ${Date.now()}`;
-    await crud(other.token, "POST", "scrap", { owner_id: me.user.id, body: words });
-    const [row] = await crud(me.token, "GET", `feed_item?select=excerpt&actor_id=eq.${otherId}&kind=eq.scrap`);
+    await apiCrud(base, other.token, "POST", "scrap", { owner_id: me.user.id, body: words });
+    const [row] = await apiCrud(base, me.token, "GET", `feed_item?select=excerpt&actor_id=eq.${otherId}&kind=eq.scrap`);
     if (!row || row.excerpt !== words) throw new Error(`the inbox over the API holds ${JSON.stringify(row)}`);
     for (const [path, screen] of [["/", "home"], ["/novidades", "news"]] as [string, string][]) {
       await navigate(page, base, path, screen);
