@@ -240,7 +240,7 @@
     {"path":"shell/screens/topic.css","sha256":"bc4bd2befabc215c157ceb8cfe3f16ccebf165578618acadefad8adc3a053aab","derived":false},
     {"path":"shell/shared/chrome.css","sha256":"79d5e8a023c8f3634a54e2bd31af5bc1c1ed31402a08a63b00abf756faadac83","derived":false},
     {"path":"shell/shared/yogurt.css","sha256":"4469cc10733b3dda3896c0955476ffd87ec6092660eeddb96c96809fa21cb218","derived":false},
-    {"path":"shell/design.css","sha256":"f1a37005b84c2e7df745376dc27be472140bb127576c91e03621c991fafdcdec","derived":true}
+    {"path":"shell/design.css","sha256":"aeb5f41888575869cb2d36b084b2e7aa8d11a4e021b49790d68be5ae81304e2d","derived":true}
   ],
   "cel_ir": [
     {"cel":"this >= 0 && this <= 3"},
@@ -2577,7 +2577,7 @@
     {"locale":"pt-BR","key":"chrome_delete_account","arm":"","value":"Excluir conta"},
     {"locale":"pt-BR","key":"chrome_delete_confirm","arm":"","value":"Excluir de vez"},
     {"locale":"pt-BR","key":"chrome_signin_google","arm":"","value":"Continuar com o Google"},
-    {"locale":"pt-BR","key":"chrome_signin_email","arm":"","value":"Continuar com e-mail"},
+    {"locale":"pt-BR","key":"chrome_signin_email","arm":"","value":"Mais opções"},
     {"locale":"pt-BR","key":"chrome_ways","arm":"","value":"Formas de entrar"},
     {"locale":"pt-BR","key":"chrome_way_add","arm":"","value":"Adicionar uma forma"},
     {"locale":"pt-BR","key":"chrome_way_remove","arm":"","value":"Remover"},
@@ -2909,7 +2909,7 @@
     {"locale":"en","key":"chrome_delete_account","arm":"","value":"Delete account"},
     {"locale":"en","key":"chrome_delete_confirm","arm":"","value":"Delete for good"},
     {"locale":"en","key":"chrome_signin_google","arm":"","value":"Continue with Google"},
-    {"locale":"en","key":"chrome_signin_email","arm":"","value":"Continue with email"},
+    {"locale":"en","key":"chrome_signin_email","arm":"","value":"More options"},
     {"locale":"en","key":"chrome_ways","arm":"","value":"Ways to sign in"},
     {"locale":"en","key":"chrome_way_add","arm":"","value":"Add a way"},
     {"locale":"en","key":"chrome_way_remove","arm":"","value":"Remove"},
